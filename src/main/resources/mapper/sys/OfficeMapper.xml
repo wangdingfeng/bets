@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simple.bets.modular.sys.dao.OfficeMapper">
+	<sql id="officeColumns">
+		a.id,
+		a.parent_id AS "parentId",
+		a.parent_ids AS "parentIds",
+		a.area_id AS "areaId",
+		a.code,
+		a.name,
+		a.sort,
+		a.type,
+		a.grade,
+		a.address,
+		a.zip_code AS "zipCode",
+		a.master,
+		a.phone,
+		a.fax,
+		a.email,
+		a.tree_leaf AS "treeLeaf",
+		a.tree_level AS "treeLevel",
+		a.remarks,
+		a.creator AS "creator",
+		a.create_time AS "createTime",
+		a.operator AS "operator",
+		a.modify_time AS "modifyTime",
+		a.sys_status AS  "sysStatus",
+		a.status AS status,
+		a.primary_person AS "primaryPerson",
+		a.deputy_person AS "deputyPerson"
+	</sql>
+
+	<select id="findAllList" resultType="com.simple.bets.modular.sys.model.Office">
+		SELECT
+		<include refid="officeColumns"/>
+		FROM sys_office a
+		WHERE a.sys_status = '0'
+		<if test="parentId != null">
+			AND a.parent_id = #{parentId}
+		</if>
+		ORDER BY a.tree_level
+	</select>
+</mapper>

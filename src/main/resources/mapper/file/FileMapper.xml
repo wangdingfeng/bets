@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simple.bets.modular.file.dao.FileMapper">
+  <resultMap id="file" type="com.simple.bets.modular.file.model.FileModel">
+    <result column="id" jdbcType="DECIMAL" property="id" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_upload_name" jdbcType="VARCHAR" property="fileUploadName" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="file_size" jdbcType="VARCHAR" property="fileSize" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="sys_status" jdbcType="CHAR" property="sysStatus" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+
+
+</mapper>

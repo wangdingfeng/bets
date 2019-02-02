@@ -1,0 +1,37 @@
+
+<!--ztree-->
+<script src="${ctxPath}/plugins/ztree/jquery.ztree.core.js"></script>
+<!--模板-->
+<script src="${ctxPath}/js/template-web.js"></script>
+<!--checkbox美化-->
+<script src="${ctxPath}/plugins/iCheck/icheck.js"></script>
+<!--adminLTE 框架-->
+<script src="${ctxPath}/plugins/adminLTE/app.js"></script>
+<!--select-->
+<script src="${ctxPath}/plugins/select2/select2.js"></script>
+
+<script src="${ctxPath}/plugins/My97DatePicker/WdatePicker.js"></script>
+<%if(tool.argsIsExitsStr('jqgrid',libs!)){%>
+<!--jqgrid-->
+<script src="${ctxPath}/plugins/jqGrid/4.7/js/jquery.jqGrid.js"></script>
+<script src="${ctxPath}/plugins/jqGrid/jquery.jqGrid.extend.js"></script>
+<script src="${ctxPath}/plugins/jqGrid/4.7/js/i18n/zh_CN.js?"></script>
+<%}%>
+<%if(tool.argsIsExitsStr('pace',libs!)){%>
+<script type="text/javascript" src="${ctxPath}/plugins/chartjs/Chart.js"></script>
+<script type="text/javascript" src="${ctxPath}/plugins/pace-master/pace.min.js"></script>
+<%}%>
+<%if(tool.argsIsExitsStr('validate',libs!)){%>
+<!--jquery validate-->
+<script src="${ctxPath}/plugins/jquery-Validate/1.16/jquery.validate.js"></script>
+<script src="${ctxPath}/plugins/jquery-Validate/1.16/localization/messages_zh_CN.js"></script>
+<script src="${ctxPath}/plugins/jquery-Validate/1.16/jquery.validate.extend.js"></script>
+<%}%>
+<%if(tool.argsIsExitsStr('file',libs!)){%>
+<script src="${ctxPath}/plugins/webuploader/webuploader.js"></script>
+<%}%>
+<%if(tool.argsIsExitsStr('cropper',libs!)){%>
+<script type="text/javascript" src="${ctxPath}/plugins/cropper/cropper.js"></script>
+<%}%>
+<!--自定义js-->
+<script src="${ctxPath}/js/app.js"></script>

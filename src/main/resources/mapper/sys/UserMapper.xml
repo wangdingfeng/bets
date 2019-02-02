@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simple.bets.modular.sys.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.simple.bets.modular.sys.model.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="user_id" jdbcType="DECIMAL" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="dept_id" jdbcType="DECIMAL" property="deptId" />
+	<result column="dept_name" jdbcType="DECIMAL" property="deptName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="crate_time" jdbcType="TIMESTAMP" property="crateTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+  </resultMap>
+  
+  <select id="findUserWithDept" resultType="com.simple.bets.modular.sys.model.User" parameterType="com.simple.bets.modular.sys.model.User">
+  		select u.user_id userId,u.username,u.email,u.mobile,u.status,u.crate_time crateTime,
+  		u.ssex,d.dept_name deptName from t_user u 
+  		left join t_dept d on(u.dept_id = d.dept_id)
+  		where 1=1
+  		<if test="username != null and username != ''">
+        	AND u.username = #{username}
+	    </if>
+	    <if test="deptId != null and deptId != ''">
+	        AND d.dept_id = #{deptId}
+	    </if>
+  		<if test="sex != null and sex != ''">
+	        AND u.sex = #{sex}
+	    </if>
+	    <if test="status != null and status != ''">
+	        AND u.status = #{status}
+	    </if>
+  		order by u.user_id
+  </select>
+  
+    
+  <select id="findUserWithRole" resultType="com.simple.bets.modular.sys.model.UserWithRole">
+		select u.user_id userId,u.username,u.dept_id deptId,u.email,u.mobile,
+		u.status,u.sex,ur.role_id roleId from t_user u
+		left join t_user_role ur on (u.user_id = ur.user_id)
+		where u.user_id = #{userId}
+  </select>
+  
+  <select id="findUserProfile" resultType="com.simple.bets.modular.sys.model.User" parameterType="com.simple.bets.modular.sys.model.User">
+	SELECT
+		U .username,
+		U .user_id userId,
+		D .dept_name deptName,
+		U .mobile,
+		U .email,
+		U .avatar,
+		U .description,
+		U .sex,
+		U .dept_id deptId,
+		group_concat(r.role_name) AS roleName
+	FROM
+		t_user U
+	LEFT JOIN t_dept D ON U .dept_id = D .dept_id
+	LEFT JOIN t_user_role ur ON U .user_id = ur.user_id
+	LEFT JOIN t_role r ON r.role_id = ur.role_id
+	WHERE
+		U .user_id = #{userId}
+	GROUP BY
+		U .username,
+		D .dept_name,
+		U .mobile,
+		U .email,
+		U .avatar,
+		U .description,
+		U .sex,
+		U .user_id,
+		U .dept_id
+  </select>
+  
+</mapper>

@@ -1,0 +1,16 @@
+.area{position:relative;border: 1px solid #d2d6de}
+.btns .webuploader-container{position: relative;display:inline-block;float:left;margin-right:10px;}
+.area .statusBar{padding:0 20px;line-height:45px}
+.area .statusBar .progress-bar{min-width:2em}
+.area .statusBar .info{display:inline-block;font-size:13px;color:#666;vertical-align:middle;}
+.area .statusBar .btns{line-height:33px;margin-top:10px;}
+.area .statusBar .btns .webuploader-container .webuploader-pick {position: relative;background:#fff;border:1px solid #cfcfcf;color:#565656;padding:0 10px;display:inline-block;border-radius:3px;margin-left:10px;cursor:pointer;font-size:13px;float:left}
+.area .statusBar .btns .webuploader-container .webuploader-pick-hover {background:#f0f0f0}
+
+.queueList{margin:3px 18px;border:2px dashed transparent}
+.template-upload .btncancel{width:80px!important;cursor:pointer}
+.template-upload .msg .label{font-size:12px;padding:1px 5px;line-height:1.5;overflow:hidden;display:inline-block;text-overflow:ellipsis;width:100px;margin-bottom:-4px}
+.template-upload .name{width:300px!important;max-width:400px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.template-upload .size{white-space:nowrap;overflow:hidden}
+.template-upload .progress-bar{min-width:2em}
+.area .queueList .template-upload td{border:0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:6px;vertical-align:middle}

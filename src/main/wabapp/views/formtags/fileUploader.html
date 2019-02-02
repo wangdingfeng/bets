@@ -1,0 +1,176 @@
+<%
+	var p = {
+		// 标签参数
+	    id: id!"webuploader", //上传id
+	    url: url!"ctxPath/file/upload",//上传url
+		dirName: dirName!"file",
+	    type: type!"", //上传类型
+		bizId:bizId!"",
+		bizType:bizType!""
+	};
+%>
+
+<div id="${p.id}" class="area">
+	<div class="statusBar">
+		<div class="info">总共0个文件（0.0M）</div>
+		<div class="btns pull-right">
+			<div id="picker" class="webuploader-container">选择文件</div>
+			<button id="ctlBtn" class="btn btn-default" type="button">开始上传</button>
+		</div>
+	</div>
+
+	<div class="queueList">
+		<div class="table-responsive">
+			<table id="upTable" class="table table-striped table-hover">
+			</table>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function () {
+		var totalSize = 0;
+		var fileMap = new Map();
+		var uploader = WebUploader.create({
+			// swf文件路径
+			swf : "${ctxPath}/plugins/webuploader/Uploader.swf",
+			// 文件接收服务端。
+			server : "${p.url}",
+			formData: {
+				"dirName":"${p.dirName}",
+				"param1":"111",
+				"param2":"22"
+			},
+			chunked: true, //分片处理
+			chunkSize: 10 * 1024 * 1024, //每片10M 
+			// 选择文件的按钮。可选。
+			// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+			pick : "#picker",
+			// 文件过滤 
+			accept : {
+			    title: 'Filter',
+			    extensions: 'gif,jpg,jpeg,png,bmp,swf,flv,mp3,wav,wma,wmv,mid,avi,mpga,asf,rm,rmvb,doc,docx,xls,xlsx,ppt,pptx,htm,html,txt,zip,rar,gz,bz,bz2,7z,tar,pdf',
+			    mimeTypes: 'image/gif,image/jpeg,image/png,image/bmp,application/x-shockwave-flash,video/x-flv,audio/x-wav,audio/x-ms-wma,video/x-ms-wmv'+
+			    ',audio/midi,video/x-msvideo,audio/mpeg,video/x-ms-asf,application/vnd.rn-realmedia,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'+
+			    ',application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation'+
+			    ',text/html,text/plain,application/zip,application/x-rar-compressed,application/x-gzip,application/x-bzip2,application/x-7z-compressed,application/x-tar,application/pdf'
+			},
+			// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+			resize : false
+		});
+
+		// 当有文件被添加进队列的时候
+		uploader.on("fileQueued", function(file) {// 当文件被加入队列以后触发
+			totalSize += file.size;
+			fileMap.set(file.id, 0);
+			var $list = $("#upTable");
+			//获取文件类型
+			var row = '<tr id="' + file.id + '" class="template-upload ">\n'
+			//图片显示缩略图
+			row +='<td ><img width="50px" height="64px" src="${ctxPath}/plugins/webuploader/images/file.png"></td>';
+			row += '<td id="' + file.id + '_name' + '" class="name">' + file.name + '</td>\n'
+			+ '<td class="size">' + bet.renderSize(file.size) + '</td>\n'
+			+ '<td >\n'
+			+ '<div class="progress " style="width:200px;">\n'
+			+ '	<div class="progress-bar progress-bar-green" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">\n'
+			+ '		<span  style="font-size:10px;">0%</span>\n'
+			+ '	</div>\n'
+			+ '</div>\n'
+			+ '</td>\n'
+			+ '<td class="msg">等待上传</td>\n'
+			+ '<td class="btncancel"><a class="btn btn-default btn-xs cancel" fileId="' + file.id + '" ><i class="fa fa-ban"></i> 取消 </a></td>\n'
+			+ '</tr>\n';
+
+			$list.append(row);
+			//图片显示缩略图
+			if(file.type == 'image/jpeg'){
+				var $img = $("#"+ file.id).find('img');
+				// 生成缩略图
+				uploader.makeThumb( file, function( error, src ) {
+					if ( error ) {
+						$img.replaceWith('<span>不能预览</span>');
+						return;
+					}
+					$img.attr( 'src', src );
+				}, 200, 200 );
+			}
+
+			$("#"+file.id).find(".btncancel .cancel").click(function () {
+				uploader.removeFile($(this).attr("fileId"), true);
+	            
+	            $(this).parent().parent().fadeOut();//视觉上消失了
+	            $(this).parent().parent().remove();//DOM上删除了
+	            
+	            refreshHeaderInfo();
+	        });
+			
+			refreshHeaderInfo();
+		});
+		// 当文件被移除队列后触发
+		uploader.on("fileDequeued", function(file) {
+			totalSize -= file.size;
+			fileMap.delete(file.id);
+		});
+		
+		$("#ctlBtn").on("click",function() {
+			uploader.upload();  
+		});
+		// 某个文件开始上传前触发，一个文件只会触发一次。
+		uploader.on("uploadStart", function(file) {
+			var $li = $("#"+file.id );
+			$li.find(".msg").text("正在上传");
+		});
+		//上传时的进度条
+		uploader.on("uploadProgress", function(file, percentage) {
+			fileMap.set(file.id, file.size*percentage);
+			
+			var $li = $("#"+file.id);
+			var $percent = $li.find(".progress .progress-bar");
+			var percent = Math.floor(percentage * 100);
+			$percent.css("width",  percent + "%");
+			
+			var $span = $li.find(".progress .progress-bar span");  
+			$span.text(percent + "%");
+			
+			refTotalProgress();
+		});
+		
+		uploader.on("uploadError", function(file, reason) {// 当文件上传成功时触发
+			var $li = $("#"+file.id );
+			$li.find(".msg").text("上传失败");
+			$li.find(".btncancel .cancel").text("删除");
+		});
+		
+		uploader.on("uploadSuccess", function(file, response) {// 当文件上传成功时触发
+			var $li = $("#"+file.id );
+			$li.find(".msg").text('上传成功');
+			$li.find(".btncancel .cancel").text("删除");
+			
+			if(typeof ${p.id}Callback == 'function'){
+				${p.id}Callback(response);
+			}
+		});
+		//刷新文件大小信息
+		function refreshHeaderInfo() {
+			var $header = $("#${p.id}");
+			var $info = $header.find(".statusBar .info")
+			$info.text(("总共"+ uploader.getFiles().length + "个文件（" + bet.renderSize(totalSize) + "）"));
+			
+			refTotalProgress();
+		}
+		//刷新进度条
+		function refTotalProgress() {
+			var uploadedSize = 0;
+			fileMap.forEach(function (value, key, map) {
+				uploadedSize += value;
+			});
+			var $header = $("#${p.id}");
+			var $percent = $header.find(".statusBar .progress .progress-bar")
+			var percent = totalSize==0?0:Math.floor(uploadedSize/totalSize * 100);
+			$percent.css("width",  percent + "%");
+			
+			var $span = $header.find(".statusBar .progress .progress-bar span");  
+			$span.text(percent + '%');
+		}
+	});
+</script>

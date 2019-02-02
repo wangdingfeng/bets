@@ -1,0 +1,77 @@
+<%layout("/layout/body.html",{title:'定时任务管理',libs:['jqgrid']}){%>
+<section class="content-header" style="margin-bottom: 10px">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">系统管理</a></li>
+        <li class="active">定时任务管理</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">定时任务管理</h3>
+            <div class="box-tools pull-right">
+                <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+                <a href="#" class="btn btn-default btn-sm" id="btnS" title="新增" onclick="bet.addTabPage('新增任务','/user/form')"><i class="fa fa-filter"></i> 新增</a>
+            </div>
+        </div>
+        <div class="box-body">
+            <form style="margin: 10px" id="searchForm" action="${ctxPath}/job/list" method="post" class="form-horizontal hide">
+                <input id="pageNo" name="pageNo" type="hidden" value="0">
+                <input id="pageSize" name="pageSize" type="hidden" value="20">
+                <input id="orderBy" name="orderBy" type="hidden" value="">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">方法名称</label>
+                            <div class="col-sm-8">
+                                <input class="form-control width-120" type="text" name="methodName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
+                        <button type="reset" class="btn btn-default btn-sm">重置</button>
+                    </div>
+                </div>
+            </form>
+            <table id="dataGrid"></table>
+            <div id="dataGridPage"></div>
+        </div>
+    </div>
+</section>
+<%}%>
+<script>
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        columnModel: [
+            {header: '任务ID', name: 'jobId', index: 'jobId', width: 100, align: "center"},
+            {header: 'Bean名称', name: 'beanName', index: 'beanName', width: 100, align: "center"},
+            {header: '方法名称', name: 'methodName', index: 'methodName', width: 100, align: "center"},
+            {header: '参数', name: 'params', index: 'params', width: 100, align: "center"},
+            {header: 'cron表达式', name: 'cronExpression', index: 'cronExpression', width: 100, align: "center"},
+            {header: '状态', name: 'status', index: 'status', width: 100, align: "center",formatter: function(val, obj, row, act){
+                    if (val === '1') return '<span style="color: red"><i class="fa fa-pause"></i></span>';
+                    if (val === '0') return '<span style="color: #00a65a"><i class="fa fa-play"></i></span>';
+             }},
+            {header: '创建时间', name: 'createTime', index: 'create_time', width: 100, align: "center"},
+            {
+                header: '操作',
+                name: 'actions',
+                width: 120,
+                sortable: false,
+                title: false,
+                formatter: function (val, obj, row, act) {
+                    var actions = [];
+                    actions.push('<a href="/user/form?userId=' + row.userId + '" class="btnList" title="编辑任务"><i class="fa fa-pencil"></i></a>&nbsp;');
+                    actions.push('<a href="${ctxPath}/user/delete?id=' + row.userId + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    return actions.join('');
+                }
+            }
+        ],
+        // 加载成功后执行事件
+        ajaxSuccess: function (data) {
+
+        }
+    });
+</script>

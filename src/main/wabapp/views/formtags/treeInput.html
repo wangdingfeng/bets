@@ -1,0 +1,91 @@
+
+<%
+    var p ={
+        url:url!'',//url
+        id:id!'inputSel',//id
+        name:name!'',//name
+        value:value!'',//value
+        hiddenName:hiddenName!'',
+        hiddenValue:hiddenValue!''
+    };
+%>
+<input id="${p.id}Hidden" type="hidden" name="${p.hiddenName}" value="${p.hiddenValue}" />
+<input id="${p.id}" type="text" readonly value="${p.value}" name="${p.name}" class="form-control" onclick="showMenu(); return false;" />
+<div id="${p.id}Content" class="treeInputContent" show="false">
+    <ul id="${p.id}Tree" class="ztree" style="margin-top:0; width:160px;"></ul>
+</div>
+<script>
+
+    var setting = {
+        view: {
+            dblClickExpand: false
+        },
+        data: {
+            simpleData: {
+                enable: true,
+                idKey: "id",   //通过id属性指定节点标识
+                pIdKey: "parentId", //通过pId属性指定上节点ID
+            },
+            key : {
+                name : "text"
+            },
+        },
+        callback: {
+            onClick: onClick
+        }
+    };
+    /**
+     * 点击事件
+     */
+    function onClick(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("${p.id}Tree"),
+            nodes = zTree.getSelectedNodes(),
+            text = "";
+            sId = "",
+        nodes.sort(function compare(a, b) {
+            return a.id - b.id;
+        });
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            text += nodes[i].text + ",";
+            sId += nodes[i].id + ",";
+        }
+        if (text.length > 0) text = text.substring(0, text.length - 1);
+        if (sId.length > 0) sId = sId.substring(0, sId.length - 1);
+        $("#${p.id}").attr("value", text);
+        $("#${p.id}Hidden").attr("value", sId);
+        hideMenu();
+    }
+
+    function showMenu() {
+        var cityObj = $("#${p.id}");
+        // var cityOffset = $("#${p.id}").offset();
+        $("#${p.id}Content").css({
+            top:cityObj.outerHeight() + "px",
+            width:cityObj.outerWidth()+'px'
+        }).slideDown("fast");
+
+        $("body").bind("mousedown", onBodyDown);
+    }
+
+    function hideMenu() {
+        $("#${p.id}Content").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+
+    function onBodyDown(event) {
+        if (!(event.target.id == "listContent" || $(event.target).parents("#${p.id}Content").length >
+            0)) {
+            hideMenu();
+        }
+    }
+    var url = "${ctxPath}"+"${p.url}";
+    //请求数据
+    $.ajax({
+        url:url,
+        data:'',
+        success: function(rel){
+            $.fn.zTree.init($("#${p.id}Tree"), setting, rel);
+        }
+    });
+
+</script>

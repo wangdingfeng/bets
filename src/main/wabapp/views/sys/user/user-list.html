@@ -1,0 +1,78 @@
+<%layout("/layout/body.html",{title:'用户管理',libs:['jqgrid']}){%>
+<section class="content-header" style="margin-bottom: 10px">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">系统管理</a></li>
+        <li class="active">用户管理</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">用户管理</h3>
+            <div class="box-tools pull-right">
+                <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+                <a href="#" class="btn btn-default btn-sm" id="btnS" title="新增" onclick="bet.addTabPage('新增用户','/user/form')"><i class="fa fa-filter"></i> 新增</a>
+            </div>
+        </div>
+        <div class="box-body">
+            <form style="margin: 10px" id="searchForm" action="${ctxPath}/user/list" method="post" class="form-horizontal hide">
+                <input id="pageNo" name="pageNo" type="hidden" value="0">
+                <input id="pageSize" name="pageSize" type="hidden" value="">
+                <input id="orderBy" name="orderBy" type="hidden" value="">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">角色名称</label>
+                            <div class="col-sm-8">
+                                <input class="form-control width-120" type="text" name="name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
+                        <button type="reset" class="btn btn-default btn-sm">重置</button>
+                    </div>
+                </div>
+            </form>
+            <table id="dataGrid"></table>
+            <div id="dataGridPage"></div>
+        </div>
+    </div>
+</section>
+<%}%>
+<script>
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        columnModel: [
+            {header: '用户账号', name: 'username', index: 'username', width: 100, align: "center"},
+            {header: '用户名称', name: 'name', index: 'name', width: 100, align: "center"},
+            {header: '性别', name: 'sex', index: 'sex', width: 100, align: "center",formatter: function(val, obj, row, act){
+                    return bet.transDictLabel(${DictUtils.getDictListJson('ssex')}, val, '<font color=#aaa>未设置</font>');
+                }},
+            {header: '电子邮件', name: 'email', index: 'email', width: 100, align: "center"},
+            {header: '电话', name: 'mobile', index: 'mobile', width: 100, align: "center"},
+            {header: '部门', name: 'deptName', index: 'dept_name', width: 100, align: "center"},
+            {header: '备注', name: 'description', index: 'description', width: 100, align: "center"},
+            {header: '状态', name: 'status', index: 'status', width: 100, align: "center"},
+            {header: '创建时间', name: 'crateTime', index: 'crate_time', width: 100, align: "center"},
+            {
+                header: '操作',
+                name: 'actions',
+                width: 120,
+                sortable: false,
+                title: false,
+                formatter: function (val, obj, row, act) {
+                    var actions = [];
+                    actions.push('<a href="/user/form?userId=' + row.userId + '" class="btnList" title="编辑用户"><i class="fa fa-pencil"></i></a>&nbsp;');
+                    actions.push('<a href="${ctxPath}/user/delete?id=' + row.userId + '" class="btnList" title="删除用户" data-confirm="确认要删除用户信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    return actions.join('');
+                }
+            }
+        ],
+        // 加载成功后执行事件
+        ajaxSuccess: function (data) {
+
+        }
+    });
+</script>

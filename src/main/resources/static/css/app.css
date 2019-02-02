@@ -1,0 +1,64 @@
+
+.form-error {
+    float: right;
+    padding-top: 5px;
+    color: #dd4b39;
+    display: none
+}
+#page-loading {
+    position: fixed;
+    top: 48%;
+    left: 48%;
+    z-index: 9999999999;
+    min-width: 125px;
+    margin-left: -50px;
+    margin-top: -30px;
+    padding: 7px 7px 7px 33px;
+    text-align: center;
+    vertical-align: middle;
+    color: #333;
+    font-size: 13px;
+    border: 1px solid #dedede;
+    background: #fbfbfb url("../img/loading/loading-spinner-grey.gif") no-repeat 5px center;
+    border-radius: 3px;
+    -webkit-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1)
+}
+
+#page-loading em {
+    position: absolute;
+    cursor: pointer;
+    right: 1px;
+    top: 2px;
+    line-height: 8px;
+    font-style: normal;
+    color: #666;
+    display: none
+}
+
+#page-loading-top {
+    background: #f3565d;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 5%;
+    height: 2px;
+    z-index: 99999
+}
+.pagination{margin:8px 0;display:block;font-size:13px}
+.pagination>li>a,.pagination>li>span{min-width:37px;text-align:center;padding:6px;border:1px solid #ddd;background:transparent}
+.pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover{background:#eee;color:#333;border-color:#ddd}
+.pagination>.disabled>span,.pagination>.disabled>span:hover,.pagination>.disabled>span:focus,.pagination>.disabled>a,.pagination>.disabled>a:hover,.pagination>.disabled>a:focus{cursor:default!important;color:#ccc}
+.pagination .controls{float:left;border:0;padding:7px 0 0 15px;color:#777}
+.pagination .controls input{border:0;width:22px;padding:0;margin:-3px 0 0 0;text-align:center;font-size:13px;background:transparent;box-shadow:none}
+.form-group .control-label .required {
+    color: #e02222;
+}
+
+.treeInputContent{
+    border: 1px solid #d2d6de;
+    background: #FFFFFF;
+    border-radius: 4px;
+    display: none;position: absolute;z-index: 999999;top: 20px;
+}

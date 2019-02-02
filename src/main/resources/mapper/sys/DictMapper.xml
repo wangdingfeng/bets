@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simple.bets.modular.sys.dao.DictMapper">
+
+  <resultMap id="dict" type="com.simple.bets.modular.sys.model.Dict">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="dict_id" jdbcType="DECIMAL" property="dictId" />
+    <result column="dict_label" jdbcType="DECIMAL" property="dictLabel" />
+    <result column="dict_value" jdbcType="VARCHAR" property="dictValue" />
+    <result column="dict_type" jdbcType="VARCHAR" property="dictType" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="is_parent" jdbcType="VARCHAR" property="isParent" />
+  </resultMap>
+
+  <select id="selectAllChildrenDict" resultMap="dict">
+    SELECT * FROM t_dict WHERE is_parent='1'
+  </select>
+
+</mapper>

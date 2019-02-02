@@ -1,0 +1,7 @@
+
+<select id="${id}" name="${id}" class="${class}" onchange="${onchange}" <% if(!isEmpty(disabled)) {%> disabled="disabled" <%}%> >
+	<%
+		var html = toDocument("select", tagBody, data, name, value, onValue);
+	 	print(html);
+	%>
+</select>  

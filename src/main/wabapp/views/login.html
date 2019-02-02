@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BetTER - 登录</title>
+
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="${ctxPath}/plugins/bootstrap/css/bootstrap.css">
+    <!-- Font Awesome 图标-->
+    <link rel="stylesheet" href="${ctxPath}/css/font-awesome.min.css">
+    <!-- Ionicons 图标-->
+    <link rel="stylesheet" href="${ctxPath}/css/ionicons.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="${ctxPath}/plugins/adminLTE/AdminLTE.css">
+    <!--checkbox美化-->
+    <link rel="stylesheet" href="${ctxPath}/plugins/iCheck/square/blue.css">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+</head>
+
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="#"><b>Admin</b>BTES</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">请登录你的账号</p>
+        <h5>${error!}</h5>
+        <form action="${ctxPath}" method="post">
+            <div class="form-group has-feedback">
+                <input type="text" name="username" class="form-control" placeholder="用户名" required="">
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" name="password" class="form-control" placeholder="密码" required="">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label>
+                            <input type="checkbox"  name="rememberMe"> 记住我
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">登 录</button>
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+    </div>
+    <!-- /.login-box-body -->
+</div>
+<!-- jQuery 3 -->
+<script src="${ctxPath}/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="${ctxPath}/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="${ctxPath}/plugins/iCheck/icheck.js"></script>
+<script>
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' /* optional */
+        });
+    });
+    
+/*    function login() {
+        bet.showErrorMessage("正在登录.....");
+        bet.ajax("${ctxPath}/login",$("#loginForm").serializeArray(),function (data) {
+            if(data.success){
+                location.href = ctx + 'index';
+            }else{
+            }
+        });
+    }*/
+</script>
+
+</body>
+
+</html>

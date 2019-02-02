@@ -1,0 +1,65 @@
+<%layout("../../head.html",{title:'新增用户',libs:['validate','jqgrid']}){%>
+<section class="content-header" style="margin-bottom: 10px">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">系统管理</a></li>
+        <li class="active">分配用户角色</li>
+    </ol>
+</section>
+<div class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">分配用户角色</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <form style="margin: 10px" id="inputForm" class="form-horizontal" action="${ctxPath}/user/add">
+            <div class="form-unit">用户基本信息</div>
+            <div class="box-body no-padding">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <#input id="account" class="form-control required" name="账号" underline="true"/>
+                    </div>
+                    <div class="col-xs-6">
+                        <#input id="name" class="form-control required" name="用户名" underline="true"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-unit">分配角色</div>
+            <table id="dataGrid"></table>
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i>保 存</button>&nbsp;
+                        <button type="button" class="btn btn-sm btn-default" onclick="bet.closeTab()"><i class="fa fa-reply-all"></i> 关 闭</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <%}%>
+<script>
+    $('#dataGrid').dataGrid({
+        data: ,
+        datatype: "local", // 设置本地数据
+        autoGridHeight: function(){return 'auto'}, // 设置自动高度
+        rowNum: 50,
+        showCheckbox:true,
+        columnModel: [
+            {header: '角色名称', name: 'name', index: 'name', width: 150, align: "center"},
+            {header: '所属父类', name: 'pid', index: 'pid', width: 150, align: "center"},
+        ],
+        // 加载成功后执行事件
+        ajaxSuccess: function (data) {
+
+        }
+    });
+    $("#inputForm").validate({
+        submitHandler: function (form) {
+            bet.loading();
+        }
+    });
+</script>
