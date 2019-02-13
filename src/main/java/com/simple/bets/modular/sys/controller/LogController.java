@@ -1,6 +1,5 @@
 package com.simple.bets.modular.sys.controller;
 
-import com.simple.bets.core.common.lang.StringUtils;
 import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.controller.BaseController;
@@ -47,9 +46,6 @@ public class LogController extends BaseController {
     @RequestMapping("/list")
     @ResponseBody
     public Page<SysLog> list(SysLog log, HttpServletRequest request, HttpServletResponse response) {
-        if(StringUtils.isEmpty(log.getUsername())){
-            log.setUsername(null);
-        }
        return logService.queryPage(new Page<SysLog>(request,response),log);
     }
 
@@ -65,17 +61,6 @@ public class LogController extends BaseController {
         }
     }
 
-    @RequestMapping("log/csv")
-    @ResponseBody
-    public ResponseResult logCsv(SysLog log) {
-        try {
-            List<SysLog> list = this.logService.findAllLogs(log);
-            return FileUtil.createCsv("系统日志表", list, SysLog.class);
-        } catch (Exception e) {
-            logger.error("导出系统日志Csv失败", e);
-            return ResponseResult.error("导出Csv失败，请联系网站管理员！");
-        }
-    }
 
     @RequiresPermissions("log:delete")
     @RequestMapping("log/delete")

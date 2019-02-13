@@ -19,7 +19,7 @@
   </resultMap>
 
   <select id="selectAllChildrenDict" resultMap="dict">
-    SELECT * FROM t_dict WHERE is_parent='1'
+    SELECT * FROM t_dict WHERE is_parent='0'
   </select>
 
 </mapper>

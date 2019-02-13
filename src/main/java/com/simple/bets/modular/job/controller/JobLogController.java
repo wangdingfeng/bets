@@ -37,7 +37,7 @@ public class JobLogController extends BaseController {
 	@RequiresPermissions("job:list")
 	@ResponseBody
 	public Page<JobLogModel> jobLogList(HttpServletRequest request, HttpServletResponse response, JobLogModel log) {
-		return jobLogService.queryPage(new Page<JobLogModel>(),log);
+		return jobLogService.queryPage(new Page<JobLogModel>(request,response),log);
 	}
 
 	@Log("删除调度日志")

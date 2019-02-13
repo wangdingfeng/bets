@@ -66,7 +66,8 @@ public class DictUtils {
 		Map<String, Object> dictMap = JedisUtils.getObjectMap(CACHE_DICT_MAP);
 		if (dictMap==null){
 			dictMap = Maps.newHashMap();
-			for (Dict dict : dictDao.selectAllChildrenDict()){
+			List<Dict> dicts = dictDao.selectAllChildrenDict();
+			for (Dict dict : dicts){
 				List<Dict> dictList = (List<Dict>)dictMap.get(dict.getDictType());
 				if (dictList != null){
 					dictList.add(dict);

@@ -21,7 +21,7 @@ public class Office extends TreeModel {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "name")
-	protected String name;	// 名称
+	private String name;	// 名称
 	@Column(name = "code")
 	private String code; 	// 机构编码
 	@Column(name = "type")

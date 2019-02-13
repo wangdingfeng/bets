@@ -2314,7 +2314,7 @@ $(function () {
             }
         },
         {
-            text: "在新窗口打开",
+            text: "新窗口打开",
             action: function (e, $selector, rightClickEvent) {
 
                 var pageId = getPageId(findTabElement(rightClickEvent.target));

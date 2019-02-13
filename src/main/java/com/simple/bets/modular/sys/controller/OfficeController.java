@@ -5,6 +5,7 @@ import com.simple.bets.modular.sys.model.Office;
 import com.simple.bets.modular.sys.service.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -45,12 +46,24 @@ public class OfficeController {
     @RequestMapping("/list")
     @ResponseBody
     public List<Office> list(Office office){
-        office.setName(null);
         if(null == office.getParentId()){
             office.setParentId(0L);
         }
         List<Office> list = officeService.findAllList(office);
         return list;
+    }
+
+    /**
+     * 添加 编辑
+     * @return
+     */
+    @RequestMapping("/form")
+    public String form(Office office, Model model){
+        if(null == office.getId()){
+            office = officeService.findById(office.getId());
+        }
+        model.addAttribute("office",office);
+        return PAGE_SUFFIX+"/office-form";
     }
 
     /**

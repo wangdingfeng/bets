@@ -33,5 +33,10 @@
 <%if(tool.argsIsExitsStr('cropper',libs!)){%>
 <script type="text/javascript" src="${ctxPath}/plugins/cropper/cropper.js"></script>
 <%}%>
+<%if(tool.argsIsExitsStr('highchart',libs!)){%>
+<script src="${ctxPath}/plugins/highchart/highcharts.js"></script>
+<script src="${ctxPath}/plugins/highchart/exporting.js"></script>
+<script src="${ctxPath}/plugins/highchart/highcharts-zh_CN.js"></script>
+<%}%>
 <!--自定义js-->
 <script src="${ctxPath}/js/app.js"></script>

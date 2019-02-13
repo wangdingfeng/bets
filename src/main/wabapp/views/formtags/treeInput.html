@@ -6,12 +6,13 @@
         name:name!'',//name
         value:value!'',//value
         hiddenName:hiddenName!'',
-        hiddenValue:hiddenValue!''
+        hiddenValue:hiddenValue!'',
+        class:class!''
     };
 %>
 <input id="${p.id}Hidden" type="hidden" name="${p.hiddenName}" value="${p.hiddenValue}" />
-<input id="${p.id}" type="text" readonly value="${p.value}" name="${p.name}" class="form-control" onclick="showMenu(); return false;" />
-<div id="${p.id}Content" class="treeInputContent" show="false">
+<input id="${p.id}" type="text" readonly value="${p.value}" name="${p.name}" class="form-control ${p.class}" onclick="showMenu(); return false;" />
+<div id="${p.id}Content" class="treeInputContent ${p.class}" show="false">
     <ul id="${p.id}Tree" class="ztree" style="margin-top:0; width:160px;"></ul>
 </div>
 <script>

@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Set;
+/**
+ * @Author wangdingfeng
+ * @Description //redis
+ * @Date 10:50 2019/2/12
+ **/
 
 @Controller
 @RequestMapping("redis")
@@ -29,7 +34,7 @@ public class RedisController {
     public String getRedisInfo(Model model) {
         List<RedisInfo> infoList = this.redisService.getRedisInfo();
         model.addAttribute("infoList", infoList);
-        return "system/redis/info";
+        return "sys/redis/redis-info";
     }
 
     @RequestMapping("terminal")

@@ -49,9 +49,9 @@ spring:
         url-pattern: /druid/*
         # 是否能够重置数据
         reset-enable: false
-        # 需要账号密码才能访问控制台
-        login-username: druid
-        login-password: druid123
+#        # 需要账号密码才能访问控制台
+#        login-username: druid
+#        login-password: druid123
         # IP白名单
         # allow: 127.0.0.1
         # IP黑名单（共同存在时，deny优先于allow）
@@ -71,7 +71,7 @@ spring:
     # Redis数据库索引（默认为0）
     database: 0
     # Redis服务器地址
-    host: 127.0.0.1
+    host: 39.107.110.75
     # Redis服务器连接端口
     port: 6379
     # Redis 密码
