@@ -21,12 +21,14 @@
         <script src="${ctxPath}/plugins/jQuery/jquery-2.2.3.min.js"></script>
         <!-- Bootstrap 3.3.6 -->
         <script src="${ctxPath}/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="${ctxPath}/js/jquery.blockUI.js"></script>
         <!-- Slimscroll -->
         <script src="${ctxPath}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
         <script src="${ctxPath}/plugins/fastclick/fastclick.js"></script>
 
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini" id="content-body">
         ${layoutContent}
     </body>
     <% include('/layout/js.html', {libs: libs!}){} %>

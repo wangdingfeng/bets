@@ -1,4 +1,18 @@
 (function($, window, undefined) {
+    //格式化日期
+    Date.prototype.Format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
 $(function () {
     if ($.fn.iCheck !== undefined) {
         $("input[type=checkbox].form-control:not(.noicheck),input[type=radio].form-control:not(.noicheck)").each(function() {
@@ -90,19 +104,31 @@ var bet = {
         return null
     }(),
     //加载中
-    loading:function (message, ignoreMessageIfExists) {
-        var App = parent.App;
+    loading:function (message,target) {
+        var App = parent.App || bet;
+        if (message == undefined || message == "") {
+            message = "正在加载.."
+        }
+        if (target == undefined || target == "") {
+            if($("#tab-content").length > 0){
+                target = "#tab-content";
+            }else{
+                target = "#content-body";
+            }
+        }
         App.blockUI({
-            target: '#tab-content',
+            target: target,
             boxed: true,
-            message: '加载中......'//,
-            // animate: true
+            message: message
         });
     },
     //关闭所有的加载层
-    closeLoading:function (timeout, forceClose) {
-        var App = parent.App;
-        App.unblockUI('#tab-content');//解锁界面
+    closeLoading:function (target) {
+        var App = parent.App || bet;
+        if (target == undefined || target == "") {
+            target = "#tab-content"
+        }
+        App.unblockUI(target);//解锁界面
     },
     //询问框
     confirm: function(message, urlOrFun, data, callback, dataType, async, loadingMessage) {
@@ -158,6 +184,72 @@ var bet = {
             bet.layer.close(index)
         });
         return false
+    },
+    // 加载框蒙版..
+    blockUI: function (options) {
+        options = $.extend(true, {}, options);
+        var html = '';
+        if (options.animate) {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
+        } else if (options.iconOnly) {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="/img/loading/loading-spinner-grey.gif" align=""></div>';
+        } else if (options.textOnly) {
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><span>&nbsp;&nbsp;' + (options.message ? options.message : '加载中...') + '</span></div>';
+        } else {
+            html = '<em onclick="bet.closeLoading('+options.target+')">×</em><div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="/img/loading/loading-spinner-grey.gif" align=""><span>&nbsp;&nbsp;' + (options.message ? options.message : '加载中...') + '</span></div>';
+        }
+
+        if (options.target) { // element blocking
+            var el = $(options.target);
+            if (el.height() <= ($(window).height())) {
+                options.cenrerY = true;
+            }
+            el.block({
+                message: html,
+                baseZ: options.zIndex ? options.zIndex : 1000,
+                centerY: options.cenrerY !== undefined ? options.cenrerY : false,
+                css: {
+                    top: '10%',
+                    border: '0',
+                    padding: '0',
+                    backgroundColor: 'none'
+                },
+                overlayCSS: {
+                    backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                    opacity: options.boxed ? 0.05 : 0.1,
+                    cursor: 'wait'
+                }
+            });
+        } else { // page blocking
+            $.blockUI({
+                message: html,
+                baseZ: options.zIndex ? options.zIndex : 1000,
+                css: {
+                    border: '0',
+                    padding: '0',
+                    backgroundColor: 'none'
+                },
+                overlayCSS: {
+                    backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                    opacity: options.boxed ? 0.05 : 0.1,
+                    cursor: 'wait'
+                }
+            });
+        }
+    },
+    //关闭加载框蒙版
+    unblockUI: function (target) {
+        if (target) {
+            $(target).unblock({
+                onUnblock: function () {
+                    $(target).css('position', '');
+                    $(target).css('zoom', '');
+
+                }
+            });
+        } else {
+            $.unblockUI();
+        }
     },
     /**
      * ajax提交
