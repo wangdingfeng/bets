@@ -11,13 +11,13 @@ var App = function () {
 
     var resizeHandlers = [];
 
-    var basePath = '../content/superui/';
+    var basePath = 'bets/';
 
-    var globalImgPath = 'global/img/';
+    var globalImgPath = 'static/img/';
 
-    var globalPluginsPath = 'base/plugins/';
+    var globalPluginsPath = 'static/plugins/';
 
-    var globalCssPath = 'global/css/';
+    var globalCssPath = 'static/css/';
 
     // theme layout color set
 
@@ -230,23 +230,23 @@ var App = function () {
             var url = $(this).attr("data-url");
             var error = $(this).attr("data-error-display");
             if (url) {
-/*                App.blockUI({
+                App.blockUI({
                     target: el,
                     animate: true,
                     overlayColor: 'none'
-                }); */
+                });
                 $.ajax({
                     type: "GET",
                     cache: false,
                     url: url,
                     dataType: "html",
                     success: function (res) {
-                 /*       App.unblockUI(el); */
+                        App.unblockUI(el);
                         el.html(res);
                         App.initAjax() // reinitialize elements & plugins for newly loaded content
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                 /*       App.unblockUI(el); */
+                        App.unblockUI(el);
                         var msg = 'Error on reloading the content. Please check your connection and try again.';
                         if (error == "toastr" && toastr) {
                             toastr.error(msg);
@@ -263,14 +263,14 @@ var App = function () {
                 });
             } else {
                 // for demo purpose
-/*                App.blockUI({
+                App.blockUI({
                     target: el,
                     animate: true,
                     overlayColor: 'none'
                 });
                 window.setTimeout(function () {
                     App.unblockUI(el);
-                }, 1000); */
+                }, 1000);
             }
         });
 
@@ -1957,7 +1957,7 @@ var addTabs = function (options) {
 
         //是否允许关闭
         if (options.close) {
-            var $i = $("<i class='fa fa-times' style='cursor: pointer;margin-left:4px' onclick='closeTab(this);'></i>").attr(pageIdField, pageId).appendTo($title);
+            var $i = $("<i class='fa fa-times fa-remove' style='cursor: pointer;margin-left:4px' onclick='closeTab(this);'></i>").attr(pageIdField, pageId).appendTo($title);
             // title += ' <i class="fa fa-remove page_tab_close" style="cursor: pointer;" data-id="' + pageId + '" onclick="closeTab(this)"></i>';
         }
 
@@ -1973,19 +1973,18 @@ var addTabs = function (options) {
         } else {
             //没有内容，使用IFRAME打开链接
 
-/*            App.blockUI({
+            App.blockUI({
                 target: '#tab-content',
                 boxed: true,
                 message: '加载中......'//,
                 // animate: true
-            }); */
-
+            });
             var $iframe = $("<iframe></iframe>").attr("src", options.url).css("width", "100%").attr("frameborder", "no").attr("id", "iframe_" + pageId).addClass("tab_iframe").attr(pageIdField, pageId);
             //frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes"  allowtransparency="yes"
 
             //iframe 加载完成事件
             $iframe.load(function () {
-      /*          App.unblockUI('#tab-content');//解锁界面 */
+                App.unblockUI('#tab-content');//解锁界面
                 App.fixIframeCotent();//修正高度
             });
 
@@ -2012,11 +2011,6 @@ var closeTab = function (item) {
     //它们都有data-id属性,获取完成之后就没事了
     var pageId = getPageId(item);
     closeTabByPageId(pageId);
-};
-//关闭tab
-var closeChildrenTab = function () {
-  var pageId = parent.getActivePageId();
-	parent.closeTabByPageId(pageId);
 };
 /**
  * 通过title刷新页面
@@ -2087,13 +2081,12 @@ function refreshTabById(pageId) {
     } else {
         $iframe[0].contentWindow.location.reload(true);//带参数刷新
     }
-/* 
     App.blockUI({
         target: '#tab-content',
         boxed: true,
         message: '加载中......'//,
         // animate: true
-    }); */
+    });
 }
 
 var refreshTab = function () {
@@ -2416,7 +2409,7 @@ $(function () {
                     }
                     else if (item.targetType != null && item.targetType === "iframe-tab") {
                         item.urlType = item.urlType ? item.urlType : 'relative';
-                        var href = 'addTabs({id:\'' + item.id + '\',title: \'' + item.text + '\',close: true,url: \'' + item.url + '\',urlType: \'' + item.urlType + '\'});';
+                        var href = ' ({id:\'' + item.id + '\',title: \'' + item.text + '\',close: true,url: \'' + item.url + '\',urlType: \'' + item.urlType + '\'});';
                         $a.attr('onclick', href);
                     }
                     else if (item.targetType != null && item.targetType === "iframe") { //代表单iframe页面

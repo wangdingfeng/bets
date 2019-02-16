@@ -1,6 +1,7 @@
 package com.simple.bets.modular.sys.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.bets.core.common.util.ToolUtils;
 import com.simple.bets.core.model.RedisInfo;
 import com.simple.bets.core.model.ResponseResult;
 import com.simple.bets.core.annotation.Log;
@@ -21,7 +22,7 @@ import java.util.Set;
  **/
 
 @Controller
-@RequestMapping("redis")
+@RequestMapping("/redis")
 public class RedisController {
 
     private static final String INTEGER_PREFIX = "(integer) ";
@@ -29,7 +30,12 @@ public class RedisController {
     @Autowired
     private RedisService redisService;
 
-    @RequestMapping("info")
+    /**
+     * 跳转到redis 详细信息列表
+     * @param model
+     * @return
+     */
+    @RequestMapping("/info")
     @RequiresPermissions("redis:list")
     public String getRedisInfo(Model model) {
         List<RedisInfo> infoList = this.redisService.getRedisInfo();
@@ -37,26 +43,42 @@ public class RedisController {
         return "sys/redis/redis-info";
     }
 
-    @RequestMapping("terminal")
+    /**
+     * 跳转到redis 命令操作界面
+     * @param model
+     * @return
+     */
+    @RequestMapping("/terminal")
     @RequiresPermissions("redis:terminal")
     public String redisTerminal(Model model) {
         String osName = System.getProperty("os.name");
         model.addAttribute("osName", osName);
-        return "system/redis/terminal";
+        return "sys/redis/redis-terminal";
     }
 
+    /**
+     * 获取key数量
+     * @return
+     */
     @RequestMapping("keysSize")
     @ResponseBody
     public String getKeysSize() {
         return JSON.toJSONString(redisService.getKeysSize());
     }
-
+    /**
+     * 获取内存信息
+     * @return
+     */
     @RequestMapping("memoryInfo")
     @ResponseBody
     public String getMemoryInfo() {
         return JSON.toJSONString(redisService.getMemoryInfo());
     }
 
+    /**
+     * 执行redis命令
+     * @return
+     */
     @Log("执行Redis keys命令")
     @RequestMapping("keys")
     @ResponseBody
@@ -69,6 +91,11 @@ public class RedisController {
         }
     }
 
+    /**
+     * 执行Redis get命令
+     * @param arg
+     * @return
+     */
     @Log("执行Redis get命令")
     @RequestMapping("get")
     @ResponseBody
@@ -145,21 +172,12 @@ public class RedisController {
     public ResponseResult pexpire(String arg) {
         try {
             String[] arr = arg.split(",");
-            if (arr.length != 2 || !isValidLong(arr[1])) {
+            if (arr.length != 2 || !ToolUtils.isValidLong(arr[1])) {
                 return ResponseResult.error("(error) ERR wrong number of arguments for 'pexpire' command");
             }
             return ResponseResult.ok(INTEGER_PREFIX + this.redisService.pexpire(arr[0], Long.valueOf(arr[1])));
         } catch (Exception e) {
             return ResponseResult.error(e.getMessage());
-        }
-    }
-
-    private static boolean isValidLong(String str) {
-        try {
-            Long.parseLong(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
         }
     }
 }

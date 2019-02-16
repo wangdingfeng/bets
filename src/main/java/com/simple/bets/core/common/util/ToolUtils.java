@@ -158,5 +158,18 @@ public class ToolUtils {
         return source;
     }
 
+    /**
+     * 判断字符串是否是Long
+     * @param str
+     * @return
+     */
+    public static boolean isValidLong(String str) {
+        try {
+            Long.parseLong(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
 }

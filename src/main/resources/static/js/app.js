@@ -63,8 +63,7 @@ var bet = {
     },
     //关闭当前页面
     closeTab: function () {
-        var pageId = parent.getActivePageId();
-        parent.closeTabByPageId(pageId);
+        parent.closeCurrentTab();
     },
     //刷新页面中
     refreshTabTitle:function(title) {
@@ -92,98 +91,18 @@ var bet = {
     }(),
     //加载中
     loading:function (message, ignoreMessageIfExists) {
-        var topJs;
-        try {
-            top.loadingFlag = true;
-            topJs = top.bet || parent.parent.bet || parent.bet
-        } catch (e) {}
-        if (typeof top.loadingFlag == "undefined" && topJs) {
-            if (typeof topJs.loading == "function") {
-                topJs.loading(message);
-                return
-            }
-        }
-        if (message == undefined || message == "") {
-            message = "正在加载.."
-        }
-        if (message == "none") {
-            return
-        }
-        setTimeout(function() {
-            if (!bet.pageLoadingNum) {
-                bet.pageLoadingNum = 0
-            }
-            if (!bet.pageLoadingStyle) {
-                if ($("body").hasClass("loading-topline")) {
-                    bet.pageLoadingStyle = 2
-                } else {
-                    bet.pageLoadingStyle = 1
-                }
-            }
-            if (bet.pageLoadingStyle == 1) {
-                message += '<em onclick="bet.closeLoading(0, true)">×</em>';
-                if ($("#page-loading").length == 0) {
-                    $("body").append(
-                        '<div id="page-loading" onmouseover="$(this).find(\'em\').show()" onmouseout="$(this).find(\'em\').hide()">' +
-                        message + "</div>")
-                } else {
-                    if (!(ignoreMessageIfExists == true)) {
-                        $("#page-loading").html(message)
-                    }
-                }
-            } else {
-                if (bet.pageLoadingStyle == 2) {
-                    if ($("#page-loading-top").length == 0) {
-                        $("body").append('<div id="page-loading-top" class="page-loading-top"></div>');
-                        $("#page-loading-top").animate({
-                            width: "65%"
-                        }, 2000, function() {
-                            $(this).animate({
-                                width: "85%"
-                            }, 8000)
-                        })
-                    }
-                }
-            }
-            bet.pageLoadingNum++
-        }, 0)
-        // layer.load(2);
+        var App = parent.App;
+        App.blockUI({
+            target: '#tab-content',
+            boxed: true,
+            message: '加载中......'//,
+            // animate: true
+        });
     },
     //关闭所有的加载层
     closeLoading:function (timeout, forceClose) {
-        var topJs;
-        try {
-            top.loadingFlag = true;
-            topJs = top.bet || parent.parent.bet || parent.bet
-        } catch (e) {}
-        if (typeof top.loadingFlag == "undefined" && topJs) {
-            if (typeof topJs.closeLoading == "function") {
-                topJs.closeLoading(timeout, forceClose);
-                return
-            }
-        }
-        setTimeout(function() {
-            if (!bet.pageLoadingNum) {
-                bet.pageLoadingNum = 0
-            }
-            bet.pageLoadingNum--;
-            if (forceClose || bet.pageLoadingNum <= 0) {
-                if (bet.pageLoadingStyle == 1) {
-                    $("#page-loading").remove()
-                } else {
-                    if (bet.pageLoadingStyle == 2) {
-                        $("#page-loading-top").stop().animate({
-                            width: "100%"
-                        }, 200, function() {
-                            $(this).fadeOut(300, function() {
-                                $(this).remove()
-                            })
-                        })
-                    }
-                }
-                bet.pageLoadingNum = 0
-            }
-        }, timeout == undefined ? 0 : timeout)
+        var App = parent.App;
+        App.unblockUI('#tab-content');//解锁界面
     },
     //询问框
     confirm: function(message, urlOrFun, data, callback, dataType, async, loadingMessage) {

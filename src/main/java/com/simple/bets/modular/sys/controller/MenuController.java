@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,7 @@ public class MenuController extends BaseController {
     public List<Menu> list(Menu menu) {
         return menuService.findAllMenus(menu);
     }
+
     /**
      * @Author wangdingfeng
      * @Description //TODO
@@ -72,50 +74,17 @@ public class MenuController extends BaseController {
     @RequestMapping("/form")
     public String form(Menu menu, Model model) {
         if (null != menu.getId()) {
-            menuService.findById(menu.getId());
-            model.addAttribute("menu", menu);
+            menu = menuService.findById(menu.getId());
         }
+        model.addAttribute("menu", menu);
         return PAGE_SUFFIX + "/menu-form";
     }
 
-
-    @RequestMapping("menu/menu")
-    @ResponseBody
-    public ResponseResult getMenu(String userName) {
-        try {
-            List<Menu> menus = this.menuService.findUserMenus(userName);
-            return ResponseResult.ok(menus);
-        } catch (Exception e) {
-            logger.error("获取菜单失败", e);
-            return ResponseResult.error("获取菜单失败！");
-        }
-    }
-
-    @RequestMapping("menu/getMenu")
-    @ResponseBody
-    public ResponseResult getMenu(Long menuId) {
-        try {
-            Menu menu = this.menuService.findById(menuId);
-            return ResponseResult.ok(menu);
-        } catch (Exception e) {
-            logger.error("获取菜单信息失败", e);
-            return ResponseResult.error("获取信息失败，请联系网站管理员！");
-        }
-    }
-
-    @RequestMapping("menu/menuButtonTree")
-    @ResponseBody
-    public ResponseResult getMenuButtonTree() {
-        try {
-            Tree<Menu> tree = this.menuService.getMenuButtonTree();
-            return ResponseResult.ok(tree);
-        } catch (Exception e) {
-            logger.error("获取菜单列表失败", e);
-            return ResponseResult.error("获取菜单列表失败！");
-        }
-    }
-
-    @RequestMapping("menu/tree")
+    /**
+     * 获取菜单树
+     * @return
+     */
+    @RequestMapping("/tree")
     @ResponseBody
     public ResponseResult getMenuTree() {
         try {
@@ -129,7 +98,7 @@ public class MenuController extends BaseController {
 
     /**
      * 获取当前用户的菜单
-     * @param userName
+     * @param userName 账户名
      * @return
      */
     @RequestMapping("/getUserMenu")
@@ -144,42 +113,23 @@ public class MenuController extends BaseController {
         }
     }
 
-    @RequestMapping("menu/list")
-    @RequiresPermissions("menu:list")
-    @ResponseBody
-    public List<Menu> menuList(Menu menu) {
-        try {
-            return this.menuService.findAllMenus(menu);
-        } catch (Exception e) {
-            logger.error("获取菜单集合失败", e);
-            return new ArrayList<>();
-        }
+    /**
+     * 选择图标
+     * @return
+     */
+    @RequestMapping("/iconselect")
+    public String iconselect(HttpServletRequest request, Model model) {
+        model.addAttribute("value", request.getParameter("value"));
+        return PAGE_SUFFIX+"/tagIconselect";
     }
 
-    @RequestMapping("menu/excel")
-    @ResponseBody
-    public ResponseResult menuExcel(Menu menu) {
-        try {
-            List<Menu> list = this.menuService.findAllMenus(menu);
-            return FileUtil.createExcelByPOIKit("菜单表", list, Menu.class);
-        } catch (Exception e) {
-            logger.error("带出菜单列表Excel失败", e);
-            return ResponseResult.error("导出Excel失败，请联系网站管理员！");
-        }
-    }
-
-    @RequestMapping("menu/csv")
-    @ResponseBody
-    public ResponseResult menuCsv(Menu menu) {
-        try {
-            List<Menu> list = this.menuService.findAllMenus(menu);
-            return FileUtil.createCsv("菜单表", list, Menu.class);
-        } catch (Exception e) {
-            logger.error("导出菜单列表Csv失败", e);
-            return ResponseResult.error("导出Csv失败，请联系网站管理员！");
-        }
-    }
-
+    /**
+     * 校验单签菜单名称
+     * @param menuName
+     * @param type
+     * @param oldMenuName
+     * @return
+     */
     @RequestMapping("menu/checkMenuName")
     @ResponseBody
     public boolean checkMenuName(String menuName, String type, String oldMenuName) {

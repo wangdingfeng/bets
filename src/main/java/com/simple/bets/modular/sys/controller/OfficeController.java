@@ -1,8 +1,11 @@
 package com.simple.bets.modular.sys.controller;
 
+import com.simple.bets.core.model.ResponseResult;
 import com.simple.bets.core.model.Tree;
 import com.simple.bets.modular.sys.model.Office;
 import com.simple.bets.modular.sys.service.OfficeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +26,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/office")
 public class OfficeController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     private static final String PAGE_SUFFIX = "sys/office";
 
@@ -72,8 +77,13 @@ public class OfficeController {
      */
     @RequestMapping("/getOfficeTree")
     @ResponseBody
-    public Tree<Office> getOfficeTree(){
-        Tree<Office> tree = officeService.getAllOfficeTree(new Office());
-        return tree;
+    public ResponseResult getOfficeTree(){
+        try {
+            Tree<Office> tree = officeService.getAllOfficeTree(new Office());
+            return ResponseResult.ok(tree);
+        } catch (Exception e) {
+            logger.error("获取菜单树失败", e);
+            return ResponseResult.error("获取菜单树失败！");
+        }
     }
 }

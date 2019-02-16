@@ -85,7 +85,11 @@
         url:url,
         data:'',
         success: function(rel){
-            $.fn.zTree.init($("#${p.id}Tree"), setting, rel);
+            if(rel.success){
+                $.fn.zTree.init($("#${p.id}Tree"), setting, rel.data);
+            }else{
+                bet.showErrorMessage("请求树节点失败");
+            }
         }
     });
 
