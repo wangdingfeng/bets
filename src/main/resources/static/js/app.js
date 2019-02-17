@@ -110,7 +110,7 @@ var bet = {
             message = "正在加载.."
         }
         if (target == undefined || target == "") {
-            if($("#tab-content").length > 0){
+            if(parent.App){
                 target = "#tab-content";
             }else{
                 target = "#content-body";
@@ -126,7 +126,11 @@ var bet = {
     closeLoading:function (target) {
         var App = parent.App || bet;
         if (target == undefined || target == "") {
-            target = "#tab-content"
+            if(parent.App){
+                target = "#tab-content";
+            }else{
+                target = "#content-body";
+            }
         }
         App.unblockUI(target);//解锁界面
     },
@@ -196,7 +200,7 @@ var bet = {
         } else if (options.textOnly) {
             html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><span>&nbsp;&nbsp;' + (options.message ? options.message : '加载中...') + '</span></div>';
         } else {
-            html = '<em onclick="bet.closeLoading('+options.target+')">×</em><div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="/img/loading/loading-spinner-grey.gif" align=""><span>&nbsp;&nbsp;' + (options.message ? options.message : '加载中...') + '</span></div>';
+            html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="/img/loading/loading-spinner-grey.gif" align=""><span>&nbsp;&nbsp;' + (options.message ? options.message : '加载中...') + '</span></div>';
         }
 
         if (options.target) { // element blocking
@@ -278,7 +282,7 @@ var bet = {
             error: function(data) {
                 $(".btn").attr("disabled", false);
                 bet.showErrorMessage(data.message);
-                bet.closeLoading(0, true)
+                bet.closeLoading()
             },
             success: function(data, status, xhr) {
                 $(".btn").attr("disabled", false);

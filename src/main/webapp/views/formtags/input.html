@@ -5,29 +5,7 @@
 				<i class="${inputIcon}"></i>
 			</div>
 			<%}%>
-			<input class="${class!''}" id="${id !''}" name="${id !''}"
-			<%if(isNotEmpty(value)){%>
-			value="${value}"
-			<%}%>
-			<%if(isNotEmpty(type)){%>
-			type="${type}"
-			<%}else{%>
-			type="text"
-			<%}%>
-			<%if(isNotEmpty(readonly)){%>
-			readonly="${readonly}"
-			<%}%>
-			<%if(isNotEmpty(clickFun)){%>
-			onclick="${clickFun}"
-			<%}%>
-			<%if(isNotEmpty(style)){%>
-			style="${style}"
-			<%}%>
-			<%if(isNotEmpty(disabled)){%>
-			disabled="${disabled}"
-			<%}%>
-			autocomplete="${autocomplete!}"
-			>
+			<input type="${type!'text'}" class="${class!''}" id="${id !''}" name="${id !''}" value="${value!''}" ${isNotEmpty(readonly) ? 'readonly':''} onclick="${clickFun!''}" style="${style!''}" autocomplete="${autocomplete!}" >
 			<%if(isNotEmpty(hidden)){%>
 			<input class="form-control" type="hidden" id="${hidden}" value="${hiddenValue!}">
 			<%}%>

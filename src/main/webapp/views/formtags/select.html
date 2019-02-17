@@ -1,7 +1,21 @@
 
-<select id="${id}" name="${id}" class="${class}" onchange="${onchange}" <% if(!isEmpty(disabled)) {%> disabled="disabled" <%}%> >
 	<%
-		var html = toDocument("select", tagBody, data, name, value, onValue);
+		var p = {
+		// 标签参数
+		id: id!name,
+		class:class!"",
+		data:data!,
+		name:name!'',
+		value:value!"",
+		onchange:onchange!"",
+		disabled:disabled!"",
+		onValue:onValue!""
+	};
+	%>
+
+<select id="${p.id}" name="${p.name}" class="${p.class}" onchange="${p.onchange}" <% if(!isEmpty(p.disabled)) {%> disabled="disabled" <%}%> >
+	<%
+		var html = toDocument("select", tagBody, p.data, p.name, p.value, p.onValue);
 	 	print(html);
 	%>
 </select>  

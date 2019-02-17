@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>${title}</title>
         <meta name="renderer" content="webkit"/><!-- 让360浏览器默认选择webkit内核 -->
+        <link rel="shortcut icon" type="image/png" href="${ctxPath}/img/favicon.ico"/>
         <link rel="stylesheet" href="${ctxPath}/plugins/bootstrap/css/bootstrap.css">
         <!-- Font Awesome 图标-->
         <link rel="stylesheet" href="${ctxPath}/css/font-awesome.min.css">
@@ -27,6 +28,11 @@
         <script src="${ctxPath}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
         <script src="${ctxPath}/plugins/fastclick/fastclick.js"></script>
+        <style>
+            .content{
+                padding-bottom: 0px;
+            }
+        </style>
 
     <body class="hold-transition skin-blue sidebar-mini" id="content-body">
         ${layoutContent}

@@ -18,8 +18,6 @@ public interface MenuService extends IService<Menu> {
 
     List<Menu> findAllMenus(Menu menu);
 
-    Tree<Menu> getMenuButtonTree();
-
     Tree<Menu> getMenuTree();
 
     List<Tree<Menu>> getUserMenu(String userName);
@@ -36,4 +34,10 @@ public interface MenuService extends IService<Menu> {
 
     @Cacheable(key = "'url_'+ #p0")
     List<Map<String, String>> getAllUrl(String p1);
+
+    /**
+     * 保存更新菜单
+     * @param menu
+     */
+    void saveOrUpdate(Menu menu);
 }

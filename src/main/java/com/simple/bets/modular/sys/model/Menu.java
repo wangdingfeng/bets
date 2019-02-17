@@ -1,6 +1,7 @@
 package com.simple.bets.modular.sys.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.simple.bets.core.annotation.ExportConfig;
 import com.simple.bets.core.model.TreeModel;
 
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "t_menu")
 public class Menu extends TreeModel {
@@ -45,6 +47,10 @@ public class Menu extends TreeModel {
 	@Column(name = "type")
 	@ExportConfig(value = "类型", convert = "s:0=菜单,1=按钮")
 	private String type;
+
+
+	@Column(name = "target_type")
+	private String targetType;
 
 
 	public Menu(){
@@ -131,5 +137,40 @@ public class Menu extends TreeModel {
 	 */
 	public void setType(String type) {
 		this.type = type == null ? "" : type.trim();
+	}
+
+	public String getTargetType() {
+		return targetType;
+	}
+
+	public void setTargetType(String targetType) {
+		this.targetType = targetType;
+	}
+
+	/**
+	 *排序
+	 * @param list
+	 * @param sourcelist
+	 * @param parentId
+	 * @param cascade
+	 */
+	@JsonIgnore
+	public static void sortList(List<Menu> list, List<Menu> sourcelist, Long parentId, boolean cascade){
+		for (int i=0; i<sourcelist.size(); i++){
+			Menu e = sourcelist.get(i);
+			if (null != e.getParentId() && e.getParentId().equals(parentId)){
+				list.add(e);
+				if (cascade){
+					// 判断是否还有子节点, 有则继续获取子节点
+					for (int j=0; j<sourcelist.size(); j++){
+						Menu child = sourcelist.get(j);
+						if (null != child.getParentId() && child.getParentId().equals(e.getId())){
+							sortList(list, sourcelist, e.getId(), true);
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 }

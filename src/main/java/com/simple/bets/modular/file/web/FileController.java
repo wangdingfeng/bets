@@ -62,7 +62,7 @@ public class FileController extends BaseController {
                     model.setFileName(uploadResult.fileName);
                     model.setFilePath(uploadResult.fileRltvPath);
                     model.setFileSize(ToolUtils.readableFileSize(uploadResult.fields.get("size")));
-                    model.setBaseData(true,getCurrentUser().getUsername());
+                    model.setBaseData(true);
                     model.setStatus("1");
                     fileService.save(model);
                     return ResponseResult.ok("上传成功").toString();

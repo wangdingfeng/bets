@@ -54,6 +54,8 @@ public class Tree<T> {
 	 */
 	private boolean hasChildren = false;
 
+	private String targetType;
+
 	public String getId() {
 		return id;
 	}
@@ -152,4 +154,11 @@ public class Tree<T> {
 		return JSON.toJSONString(this);
 	}
 
+	public String getTargetType() {
+		return targetType;
+	}
+
+	public void setTargetType(String targetType) {
+		this.targetType = targetType;
+	}
 }

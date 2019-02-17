@@ -1,20 +1,6 @@
 <%layout("/layout/body.html",{title:'新增菜单',libs:['validate']}){%>
-<section class="content-header" style="margin-bottom: 10px">
-    <ol class="breadcrumb">
-        <li>
-            <a href="#">
-                <i class="fa fa-dashboard"></i>
-                Home
-            </a>
-        </li>
-        <li>
-            <a href="#">系统管理</a>
-        </li>
-        <li class="active">添加菜单</li>
-    </ol>
-</section>
-<div class="content">
-    <div class="box">
+<section class="content">
+    <div class="box" style="margin-bottom: 0px">
         <div class="box-header with-border">
             <h3 class="box-title">添加菜单</h3>
             <div class="box-tools pull-right">
@@ -27,6 +13,7 @@
             </div>
         </div>
         <form style="margin: 10px" id="inputForm" class="form-horizontal">
+            <input type="hidden" name="id" value="${menu.Id}">
             <div class="box-body">
                 <div class="form-unit">基本信息</div>
                 <div class="row">
@@ -34,8 +21,8 @@
                         <div class="form-group">
                             <label class="control-label col-sm-4" title="">上级菜单:</label>
                             <div class="col-sm-8">
-                                <#treeInput id="parentMenuId" name="parentId" url='/menu/tree' hiddenName="parentId"
-                                class="required" />
+                                <#treeInput id="parentMenuId" name="" url='/menu/tree' hiddenName="parentId"
+                                class="required"  value="${menu.parentId!}"/>
                             </div>
                         </div>
                     </div>
@@ -48,7 +35,7 @@
                                 <i class="fa icon-question hide"></i>
                             </label>
                             <div class="col-sm-8">
-                                <#input id="name" maxlength="64" class="form-control required " />
+                                <#input id="menuName" maxlength="64" class="form-control required " value="${menu.menuName!}" />
                             </div>
                         </div>
                     </div>
@@ -61,17 +48,17 @@
                                 <i class="fa icon-question"></i>
                             </label>
                             <div class="col-sm-8">
-                                <#input id="href" maxlength="64" class="form-control required" />
+                                <#input id="url" name="url" maxlength="64" class="form-control required" value="${menu.url!}"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-6">
                         <div class="form-group">
-                            <label class="control-label col-sm-4" title="链接地址打开的目标窗口，默认：mainFrame">目标:
+                            <label class="control-label col-sm-4" title="链接地址打开的目标窗口，默认：iframe-tabs">目标:
                                 <i class="fa icon-question"></i>
                             </label>
                             <div class="col-sm-8">
-                                <#input id="target" maxlength="64" class="form-control " />
+                                <#select id="targetType" name='targetType' class="form-control required " data="getDictList:menu_target" onValue="${menu.targetType!}" />
                             </div>
                         </div>
                     </div>
@@ -95,7 +82,7 @@
                                 <i class="fa icon-question"></i>
                             </label>
                             <div class="col-sm-8">
-                                <#input id="sort" maxlength="64" class="form-control required " />
+                                <#input id="sort" name="sort" maxlength="64" class="form-control required " value='${menu.sort!}' />
                             </div>
                         </div>
                     </div>
@@ -111,7 +98,7 @@
                                 <i class="fa icon-question"></i>
                             </label>
                             <div class="col-sm-8">
-                                <#radio id="type" dictType="menu_type" class="form-control required" value=""/>
+                                <#radio id="type"  dictType="menu_type" class="form-control required" value="${menu.type}"/>
                             </div>
                         </div>
                     </div>
@@ -157,15 +144,15 @@
             </div>
         </form>
     </div>
-</div>
+</section>
 <%}%>
 <script>
     //提交用户表单
     $("#inputForm").validate({
         submitHandler: function (form) {
-            bet.ajax("${ctxPath}/user/saveOrUpdate", $(form).serializeArray(), function (data) {
+            bet.ajax("${ctxPath}/menu/saveOrUpdate", $(form).serializeArray(), function (data) {
                 if (data.success) {
-                    parent.refreshTabByTitle("用户管理");
+                    parent.refreshTabByTitle("菜单管理");
                     bet.closeTab();
                 } else {
                     bet.showErrorMessage("保存失败，请查看日志");

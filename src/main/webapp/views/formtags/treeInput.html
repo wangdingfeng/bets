@@ -11,7 +11,7 @@
     };
 %>
 <input id="${p.id}Hidden" type="hidden" name="${p.hiddenName}" value="${p.hiddenValue}" />
-<input id="${p.id}" type="text" readonly value="${p.value}" name="${p.name}" class="form-control ${p.class}" onclick="showMenu(); return false;" />
+<input id="${p.id}" type="text" readonly value="" name="${p.name}" class="form-control ${p.class}" onclick="showMenu(); return false;" />
 <div id="${p.id}Content" class="treeInputContent ${p.class}" show="false">
     <ul id="${p.id}Tree" class="ztree" style="margin-top:0; width:160px;"></ul>
 </div>
@@ -59,7 +59,6 @@
 
     function showMenu() {
         var cityObj = $("#${p.id}");
-        // var cityOffset = $("#${p.id}").offset();
         $("#${p.id}Content").css({
             top:cityObj.outerHeight() + "px",
             width:cityObj.outerWidth()+'px'
@@ -87,6 +86,24 @@
         success: function(rel){
             if(rel.success){
                 $.fn.zTree.init($("#${p.id}Tree"), setting, rel.data);
+                //获取ztree对象
+                var value = "${p.value}";
+                if("" != value){
+                    var children = rel.data.children;
+                    $.each(children,function (i,e) {
+                        if(value == '0'){
+                            $("#${p.id}").val("根目录");
+                            $("#${p.id}Hidden").val(0);
+                            return;
+                        }
+                        if(value == e.id){
+                            $("#${p.id}").val(e.text);
+                            $("#${p.id}Hidden").val(value);
+                            return;
+                        }
+                    });
+                }
+
             }else{
                 bet.showErrorMessage("请求树节点失败");
             }

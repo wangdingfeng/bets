@@ -1,5 +1,6 @@
 package com.simple.bets.modular.sys.controller;
 
+import cn.hutool.core.util.NumberUtil;
 import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.controller.BaseController;
 import com.simple.bets.core.model.ResponseResult;
@@ -68,7 +69,6 @@ public class MenuController extends BaseController {
      * @Author wangdingfeng
      * @Description //TODO
      * @Date 9:43 2019/1/14
-     * @Param 
      * @return 
      **/
     @RequestMapping("/form")
@@ -76,10 +76,41 @@ public class MenuController extends BaseController {
         if (null != menu.getId()) {
             menu = menuService.findById(menu.getId());
         }
+        // 获取排序号，最末节点排序号+30
+        if (null != menu.getId()){
+            List<Menu> list = new ArrayList<>();
+            List<Menu> sourcelist = menuService.findAllMenus(new Menu());
+            Menu.sortList(list, sourcelist, menu.getParentId(), false);
+            if (list.size() > 0){
+                menu.setSort(list.get(list.size()-1).getSort() + 30);
+            }
+        }
         model.addAttribute("menu", menu);
         return PAGE_SUFFIX + "/menu-form";
     }
 
+    /**
+     * 保存or更新
+     * @param menu
+     * @return
+     */
+    @RequestMapping("/saveOrUpdate")
+    @ResponseBody
+    public ResponseResult saveOrUpdate(Menu menu){
+        String name;
+        if (Menu.TYPE_MENU.equals(menu.getType())) {
+            name = "菜单";
+        } else {
+            name = "按钮";
+        }
+        try {
+            menuService.saveOrUpdate(menu);
+            return ResponseResult.ok("新增" + name + "成功！");
+        } catch (Exception e) {
+            logger.error("新增" + name + "失败", e);
+            return ResponseResult.error("新增" + name + "失败，请联系网站管理员！");
+        }
+    }
     /**
      * 获取菜单树
      * @return

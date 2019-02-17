@@ -69,7 +69,7 @@ public class ToDocument implements Function {
 					List<Dict> opData = DictUtils.getDictList(opStr.split(":")[1]);
 					data = objectMapper.readValue(JsonMapper.toJsonString(opData), JsonNode.class);
 					
-					idKey = "value";
+					idKey = "dictValue";
 				}
 				
 				Iterator<JsonNode> it = data.elements();
@@ -82,7 +82,7 @@ public class ToDocument implements Function {
                         sb.append("selected=\"selected\" ");
                     }
                     sb.append(">");
-					sb.append(node.get(name).asText(""));
+					sb.append(node.get("dictLabel").asText(""));
 					sb.append("</option>\n");
 				}
 				

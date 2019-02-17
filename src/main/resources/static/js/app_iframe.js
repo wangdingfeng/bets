@@ -1323,16 +1323,16 @@ $(function () {
                         $a.addClass("ajaxify");
                     } else if (item.targetType != null && item.targetType === "iframe-tab") {
                         item.urlType = item.urlType ? item.urlType : 'relative';
-                        var href = ' ({id:\'' + item.id + '\',title: \'' + item.text + '\',close: true,url: \'' + item.url + '\',urlType: \'' + item.urlType + '\'});';
+                        var href = 'addTabs({id:\'' + item.id + '\',title: \'' + item.text + '\',close: true,url: \'' + item.url + '\',urlType: \'' + item.urlType + '\'});';
                         $a.attr('onclick', href);
                     } else if (item.targetType != null && item.targetType === "iframe") { //代表单iframe页面
                         $a.attr("href", item.url);
                         $a.addClass("iframeOpen");
                         $("#iframe-main").addClass("tab_iframe");
                     } else {
-                        item.urlType = item.urlType ? item.urlType : 'relative';
-                        var href = 'addTabs({id:\'' + item.id + '\',title: \'' + item.text + '\',close: true,url: \'' + item.url + '\',urlType: \'' + item.urlType + '\'});';
-                        $a.attr('onclick', href);
+                        $a.attr("href", item.url);
+                        $a.addClass("iframeOpen");
+                        $("#iframe-main").addClass("tab_iframe");
                     }
                     $a.addClass("nav-link");
                     var badge = $("<span></span>");

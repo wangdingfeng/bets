@@ -1,13 +1,6 @@
 <%layout("/layout/body.html",{title:'日志管理',libs:['jqgrid']}){%>
-<section class="content-header" style="margin-bottom: 10px">
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">系统管理</a></li>
-        <li class="active">系统监控</li>
-    </ol>
-</section>
 <section class="content">
-    <div class="box">
+    <div class="box" style="margin-bottom: 0px">
         <div class="box-header with-border">
             <h3 class="box-title">日志管理</h3>
             <div class="box-tools pull-right">
@@ -15,20 +8,16 @@
             </div>
         </div>
         <div class="box-body">
-            <form style="margin: 10px" id="searchForm" action="${ctxPath}/log/list" method="post" class="form-horizontal hide">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">操作用户</label>
-                            <div class="col-sm-8">
-                                <input class="form-control" type="text" name="username">
-                            </div>
-                        </div>
+            <form style="margin: 10px" id="searchForm" action="${ctxPath}/log/list" method="post" class="form-inline hide">
+                <div class="form-group">
+                    <label class="control-label col-sm-4">角色名称：</label>
+                    <div class="control-inline col-sm-8">
+                        <input class="form-control" type="text" name="name">
                     </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-small btn-default" style="width: 60px">查询</button>
-                        <button type="button" class="btn btn-small btn-default" style="width: 60px" onclick="bet.addTabPage('新增用户','/user/form')">新增</button>
-                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
                 </div>
             </form>
             <table id="dataGrid"></table>
