@@ -82,8 +82,7 @@
                 bet.ajax("${ctxPath}/role/saveOrUpdate",$(form).serializeArray(),function (data) {
                     if(data.success){
                         bet.showMessage(data.message);
-                        parent.refreshTabByTitle("角色管理");
-                        bet.closeTab();
+                        bet.closeTabRefreshTable();
                     }else{
                         bet.showErrorMessage(data.message);
                     }

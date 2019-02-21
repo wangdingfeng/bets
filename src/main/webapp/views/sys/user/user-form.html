@@ -166,8 +166,7 @@
                 bet.ajax("${ctxPath}/user/saveOrUpdate",$(form).serializeArray(),function (data) {
                     if(data.success){
                         bet.showMessage(data.message);
-                        parent.refreshTabByTitle("用户管理");
-                        bet.closeTab();
+                        bet.closeTabRefreshTable();
                     }else{
                         bet.showErrorMessage(data.message);
                     }

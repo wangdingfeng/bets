@@ -9,6 +9,7 @@
                 <a href="#" class="btn btn-sm btn-default" id="btnCollapseTreeNode" title="折叠全部"><i class="fa fa-angle-double-up"></i> 折叠</a>
                 <a href="#" class="btn btn-sm btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
                 <button type="button" class="btn btn-sm btn-default" style="width: 60px" onclick="bet.addTabPage('新增菜单','/menu/form')">新增</button>
+                <a href="#" class="btn btn-sm btn-default" id="btnUpdateSort" title="保存排序"><i class="fa fa-sort-amount-asc"></i> 保存排序</a>
             </div>
         </div>
         <div class="box-body">
@@ -24,7 +25,7 @@
                     <button type="reset" class="btn btn-default btn-sm">重置</button>
                 </div>
             </form>
-            <form id="dataGridForm" action="${ctxPath}/sys/menu/updateSort" method="post" class="form-inline" >
+            <form id="dataGridForm" action="${ctxPath}/menu/updateSort" method="post" class="form-inline" >
                 <table id="dataGrid"></table>
             </form>
         </div>
@@ -42,7 +43,7 @@
                 }},
             {header:'链接', name:'url', width:150},
             {header:'是否是按钮', name:'type', width:150, formatter: function(val, obj, row, act){
-                    return bet.transDictLabel(${DictUtils.getDictListJson('sys_if')}, val, '<font color=#aaa>未设置</font>');
+                    return bet.transDictLabel(${DictUtils.getDictListJson('menu_type')}, val, '<font color=#aaa>未设置</font>');
             }},
             {header:'创建时间', name:'createTime', width:150,align:"center"},
             {header:'排序', name:'sort', width:63, align:"center", formatter: function(val, obj, row, act){
@@ -71,7 +72,7 @@
 
     //绑定更新排序按钮
     $('#btnUpdateSort').click(function(){
-        bet.ajax("${ctxPath}/user/saveOrUpdate",$("#dataGridForm").serializeArray(),function (data) {
+        bet.ajax("${ctxPath}/menu/updateSort",$("#dataGridForm").serializeArray(),function (data) {
             if(data.success){
                 $('#btnRefreshTree').click();
             }

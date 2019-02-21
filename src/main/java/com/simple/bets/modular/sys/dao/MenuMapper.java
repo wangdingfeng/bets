@@ -23,4 +23,10 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	 * @return
 	 */
 	List<Menu> findSubMenuListByPid(@Param("parentId") Long parentId);
+
+	/**
+	 * 保存排序
+	 * @param menu
+	 */
+	void updateSort(Menu menu);
 }

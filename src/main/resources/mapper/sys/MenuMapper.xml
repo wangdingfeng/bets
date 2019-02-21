@@ -45,7 +45,7 @@
 
     <select id="findSubMenuListByPid" resultType="com.simple.bets.modular.sys.model.Menu">
 
-		SELECT * FROM sys_menu WHERE parent_id = #{parentId} AND sys_status = '0'
+		SELECT * FROM t_menu WHERE parent_id = #{parentId} AND sys_status = '0'
 
 	</select>
   
@@ -57,4 +57,10 @@
   	</foreach>
   	) ) a )
   </update>
+
+    <update id="updateSort">
+		UPDATE t_menu SET
+			sort = #{sort}
+		WHERE id = #{id}
+	</update>
 </mapper>

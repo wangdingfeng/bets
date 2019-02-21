@@ -79,35 +79,45 @@
         }
     }
     var url = "${ctxPath}"+"${p.url}";
-    //请求数据
-    $.ajax({
-        url:url,
-        data:'',
-        success: function(rel){
-            if(rel.success){
-                $.fn.zTree.init($("#${p.id}Tree"), setting, rel.data);
-                //获取ztree对象
-                var value = "${p.value}";
-                if("" != value){
-                    var children = rel.data.children;
-                    $.each(children,function (i,e) {
-                        if(value == '0'){
-                            $("#${p.id}").val("根目录");
-                            $("#${p.id}Hidden").val(0);
-                            return;
-                        }
-                        if(value == e.id){
-                            $("#${p.id}").val(e.text);
-                            $("#${p.id}Hidden").val(value);
-                            return;
-                        }
-                    });
-                }
+    $(function () {
+        //请求数据
+        $.ajax({
+            url:url,
+            data:'',
+            success: function(rel){
+                if(rel.success){
+                    $.fn.zTree.init($("#${p.id}Tree"), setting, rel.data);
+                    //获取ztree对象
+                    var value = "${p.value}";
+                    if("" != value){
+                        var children = rel.data.children;
+                        $.each(children,function (i,e) {
+                            if(value == '0'){
+                                $("#${p.id}").val("根目录");
+                                $("#${p.id}Hidden").val(0);
+                                return;
+                            }
+                            if(value == e.id){
+                                $("#${p.id}").val(e.text);
+                                $("#${p.id}Hidden").val(value);
+                                return;
+                            }
+                            $.each(children[i].children,function (j,a) {
+                                if(value == a.id){
+                                    $("#${p.id}").val(a.text);
+                                    $("#${p.id}Hidden").val(value);
+                                    return;
+                                }
+                            });
+                        });
+                    }
 
-            }else{
-                bet.showErrorMessage("请求树节点失败");
+                }else{
+                    bet.showErrorMessage("请求树节点失败");
+                }
             }
-        }
+        });
     });
+
 
 </script>

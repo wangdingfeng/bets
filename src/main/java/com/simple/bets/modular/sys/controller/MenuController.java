@@ -153,74 +153,36 @@ public class MenuController extends BaseController {
         model.addAttribute("value", request.getParameter("value"));
         return PAGE_SUFFIX+"/tagIconselect";
     }
+    /**
+     * 批量修改菜单排序
+     */
+    @RequestMapping(value = "updateSort")
+    @ResponseBody
+    public ResponseResult updateSort(Long[] ids, Integer[] sorts) {
+        for (int i = 0; i < ids.length; i++) {
+            Menu menu = new Menu(ids[i]);
+            menu.setSort(sorts[i]);
+            menuService.updateMenuSort(menu);
+        }
+        return ResponseResult.ok("保存菜单排序成功");
+    }
 
     /**
-     * 校验单签菜单名称
-     * @param menuName
-     * @param type
-     * @param oldMenuName
+     * 删除菜单
+     * @param id
      * @return
      */
-    @RequestMapping("menu/checkMenuName")
-    @ResponseBody
-    public boolean checkMenuName(String menuName, String type, String oldMenuName) {
-        if (StringUtils.isNotBlank(oldMenuName) && menuName.equalsIgnoreCase(oldMenuName)) {
-            return true;
-        }
-        Menu result = this.menuService.findByNameAndType(menuName, type);
-        return result == null;
-    }
-
-    @Log("新增菜单/按钮")
-    @RequiresPermissions("menu:add")
-    @RequestMapping("menu/add")
-    @ResponseBody
-    public ResponseResult addMenu(Menu menu) {
-        String name;
-        if (Menu.TYPE_MENU.equals(menu.getType())) {
-            name = "菜单";
-        } else {
-            name = "按钮";
-        }
-        try {
-            this.menuService.addMenu(menu);
-            return ResponseResult.ok("新增" + name + "成功！");
-        } catch (Exception e) {
-            logger.error("新增{}失败", name, e);
-            return ResponseResult.error("新增" + name + "失败，请联系网站管理员！");
-        }
-    }
-
     @Log("删除菜单")
     @RequiresPermissions("menu:delete")
-    @RequestMapping("menu/delete")
+    @RequestMapping("/delete")
     @ResponseBody
-    public ResponseResult deleteMenus(String ids) {
+    public ResponseResult deleteMenus(Long id) {
         try {
-            this.menuService.deleteMeuns(ids);
+            menuService.deleteMenu(id);
             return ResponseResult.ok("删除成功！");
         } catch (Exception e) {
             logger.error("获取菜单失败", e);
             return ResponseResult.error("删除失败，请联系网站管理员！");
-        }
-    }
-
-    @Log("修改菜单/按钮")
-    @RequiresPermissions("menu:update")
-    @RequestMapping("menu/update")
-    @ResponseBody
-    public ResponseResult updateMenu(Menu menu) {
-        String name;
-        if (Menu.TYPE_MENU.equals(menu.getType()))
-            name = "菜单";
-        else
-            name = "按钮";
-        try {
-            this.menuService.updateMenu(menu);
-            return ResponseResult.ok("修改" + name + "成功！");
-        } catch (Exception e) {
-            logger.error("修改{}失败", name, e);
-            return ResponseResult.error("修改" + name + "失败，请联系网站管理员！");
         }
     }
 

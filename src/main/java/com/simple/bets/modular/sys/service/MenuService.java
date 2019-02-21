@@ -26,18 +26,23 @@ public interface MenuService extends IService<Menu> {
 
     Menu findByNameAndType(String menuName, String type);
 
-    void addMenu(Menu menu);
-
-    void updateMenu(Menu menu);
-
-    void deleteMeuns(String menuIds);
-
     @Cacheable(key = "'url_'+ #p0")
     List<Map<String, String>> getAllUrl(String p1);
-
     /**
      * 保存更新菜单
      * @param menu
      */
     void saveOrUpdate(Menu menu);
+
+    /**
+     * 更新排序
+     * @param menu
+     */
+    void updateMenuSort(Menu menu);
+
+    /**
+     * 删除菜单
+     * @param id
+     */
+    void deleteMenu(Long id);
 }

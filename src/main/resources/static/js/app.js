@@ -70,6 +70,10 @@ var bet = {
     },
     //添加页面
     addTabPage: function (title, url,id,close) {
+        var opinion={title:title,url:url};
+        if(id != ''){
+            opinion.id=id;
+        }
         if(undefined == close){
             close=true;
         }
@@ -78,6 +82,10 @@ var bet = {
     //关闭当前页面
     closeTab: function () {
         parent.closeCurrentTab();
+    },
+    //关闭当前页面 并刷新表格
+    closeTabRefreshTable: function () {
+        parent.closeCurrentTabTable();
     },
     //刷新页面中
     refreshTabTitle:function(title) {

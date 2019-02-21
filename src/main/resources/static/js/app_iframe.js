@@ -883,10 +883,8 @@ var addTabs = function (options) {
         title: "新页面"
     };
     options = $.extend(true, defaultTabOptions, options);
-
     if (options.urlType === "relative") {
-        var basePath = window.location.pathname + "/../";
-        options.url = basePath + options.url;
+        options.url = App.getbasePath() + options.url;
     }
 
     var pageId = options.id;
@@ -1007,6 +1005,17 @@ var closeCurrentTab = function () {
     var pageId = getActivePageId();
     if (canRemoveTab(pageId)) {
         closeTabByPageId(pageId);
+    }
+};
+//关闭页面 并刷新表格
+var closeCurrentTabTable = function () {
+    var pageId = getActivePageId();
+    //获取上一个pageId
+    var lastPageId =  $('.page-tabs-content').find('.active').prev().attr(pageIdField);
+    if (canRemoveTab(pageId)) {
+        closeTabByPageId(pageId);
+        //刷新上个页面table
+        $("#iframe_" + lastPageId)[0].contentWindow.dataGrid.refresh();
     }
 };
 
@@ -1245,8 +1254,6 @@ $(function () {
         options = $.extend({}, $.fn.sidebarMenu.defaults, options || {});
         var $menu_ul = $(this);
         var level = 0;
-        //  target.addClass('nav');
-        // target.addClass('nav-list');
         if (options.data) {
             init($menu_ul, options.data, level);
         } else {
@@ -1258,14 +1265,6 @@ $(function () {
 
         function init($menu_ul, data, level) {
             $.each(data, function (i, item) {
-                /*                //如果标签是isHeader
-                                var $header = $('<li class="header"></li>');
-                                if (undefined = item.isHeader && item.isHeader !== null && item.isHeader === true) {
-                                    $header.append(item.text);
-                                    $menu_ul.append($header);
-                                    return;
-                                }*/
-
                 //如果不是header
                 var li = $('<li class="treeview " data-level="' + level + '"></li>');
 
@@ -1276,7 +1275,6 @@ $(function () {
                 } else {
                     $a = $('<a></a>');
                 }
-
                 //图标
                 var $icon = $('<i></i>');
                 $icon.addClass(item.icon);
@@ -1287,7 +1285,6 @@ $(function () {
 
                 $a.append($icon);
                 $a.append($title);
-                // $a.addClass("nav-link");
                 $a.attr("href", "javascript:void(0)");
 
                 var isOpen = item.isOpen;

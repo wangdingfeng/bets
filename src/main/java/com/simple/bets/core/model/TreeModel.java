@@ -17,6 +17,10 @@ public abstract class TreeModel extends BaseModel {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final String TREE_LEAF_YES = "0";
+
+	public static final String TREE_LEAF_NO = "1";
+
 	@Column(name = "parent_id")
 	protected Long parentId;
 	@Column(name = "parent_ids")

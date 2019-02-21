@@ -1,5 +1,6 @@
 package com.simple.bets.modular.sys.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.simple.bets.core.common.util.TreeUtils;
 import com.simple.bets.core.model.Tree;
 import com.simple.bets.modular.sys.dao.MenuMapper;
@@ -118,28 +119,6 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
     }
 
     @Override
-    @Transactional
-    public void addMenu(Menu menu) {
-        menu.setCreateTime(new Date());
-        if (menu.getParentId() == null)
-            menu.setParentId(0L);
-        if (Menu.TYPE_BUTTON.equals(menu.getType())) {
-            menu.setUrl(null);
-            menu.setIcon(null);
-        }
-        this.save(menu);
-    }
-
-    @Override
-    @Transactional
-    public void deleteMeuns(String menuIds) {
-        List<String> list = Arrays.asList(menuIds.split(","));
-        this.batchDelete(list, "menuId", Menu.class);
-        this.roleMenuService.deleteRoleMenusByMenuId(menuIds);
-        this.menuMapper.changeToTop(list);
-    }
-
-    @Override
     public List<Map<String, String>> getAllUrl(String p1) {
         RequestMappingHandlerMapping mapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
         //获取 url与类和方法的对应信息
@@ -177,13 +156,13 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
         if(null == menu.getId()){
             //新增根节点
             if(null == parent){
-                menu.setTreeLeaf("1");
+                menu.setTreeLeaf(Menu.TREE_LEAF_NO);
                 menu.setTreeLevel(0);
             }else{
-                menu.setTreeLeaf("1");
+                menu.setTreeLeaf(Menu.TREE_LEAF_NO);
                 menu.setTreeLevel(parent.getTreeLevel() + 1);
                 if (parent.getIsTreeLeaf()) {
-                    parent.setTreeLeaf("0");
+                    parent.setTreeLeaf(Menu.TREE_LEAF_YES);
                     super.updateNotNull(parent);
                 }
             }
@@ -217,7 +196,7 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
                     List<Menu> list1 = this.menuMapper.findSubMenuListByPid(oldParent.getParentId());
                     // 原来的父节点下没有子节点了，并且节点treeleaf属性不等于1
                     if (list1.size() <= 0 && !oldParent.getIsTreeLeaf()) {
-                        oldParent.setTreeLeaf("1");
+                        oldParent.setTreeLeaf(Menu.TREE_LEAF_NO);
                         super.updateNotNull(oldParent);
                     }
                 }
@@ -244,16 +223,13 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
 
                 // 第三步：新父节点如果treeLeaf==1，则需要更新treeLeaf==0
                 if (newParent.getIsTreeLeaf()) {
-                    newParent.setTreeLeaf("0");
+                    newParent.setTreeLeaf(Menu.TREE_LEAF_YES);
                     this.updateNotNull(newParent);
                 }
             }
 
 
         }
-
-
-
 
     }
 
@@ -262,22 +238,38 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
         return this.selectByKey(menuId);
     }
 
+
+    /**
+     * 更新排序
+     * @param menu
+     */
+    @Transactional(readOnly = false)
+    public void updateMenuSort(Menu menu) {
+        menuMapper.updateSort(menu);
+    }
+
     @Override
-    @Transactional
-    public void updateMenu(Menu menu) {
-        menu.setModifyTime(new Date());
-        if (menu.getParentId() == null)
-            menu.setParentId(0L);
-        if (Menu.TYPE_BUTTON.equals(menu.getType())) {
-            menu.setUrl(null);
-            menu.setIcon(null);
+    public void deleteMenu(Long id) {
+        //查询父类是无此节点
+        Menu menu = findById(id);
+        //查询父类
+        Menu menuParent = findById(menu.getParentId());
+        if(null != menuParent){
+            //查询所有的子类
+            Menu menuChild = new Menu();
+            menuChild.setParentId(menu.getParentId());
+            List<Menu> list = super.queryObjectForList(menuChild);
+            if(list.size() == 1){
+                menuParent.setTreeLeaf(Menu.TREE_LEAF_NO);
+                this.updateNotNull(menuParent);
+            }
         }
-        this.updateNotNull(menu);
+        this.delete(id);
     }
 
     private List<Menu> findSubMenuListByPid(Long menuId){
         Example example = new Example(Menu.class);
-        example.createCriteria().andLike("parent_ids",","+menuId+",");
+        example.createCriteria().andLike("parentIds",","+menuId+",");
         List<Menu> list = this.selectByExample(example);
         return list;
     }
