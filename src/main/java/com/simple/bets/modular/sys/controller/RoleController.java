@@ -1,11 +1,17 @@
 package com.simple.bets.modular.sys.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.controller.BaseController;
 import com.simple.bets.core.model.ResponseResult;
+import com.simple.bets.core.model.Tree;
+import com.simple.bets.modular.sys.model.Menu;
 import com.simple.bets.modular.sys.model.Role;
 import com.simple.bets.core.annotation.Log;
+import com.simple.bets.modular.sys.model.RoleMenu;
+import com.simple.bets.modular.sys.service.MenuService;
+import com.simple.bets.modular.sys.service.RoleMenuService;
 import com.simple.bets.modular.sys.service.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -37,6 +43,10 @@ public class RoleController extends BaseController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private RoleMenuService roleMenuService;
+    @Autowired
+    private MenuService menuService;
 
 
     /**
@@ -78,7 +88,12 @@ public class RoleController extends BaseController {
     public String form(Role role, Model model){
         if(null != role.getRoleId()){
             role = roleService.findById(role.getRoleId());
+            List<Long> menuIds = roleMenuService.findRoleMenu(role.getRoleId());
+            role.setMenuIds(StringUtils.join(menuIds,","));
         }
+        Tree<Menu> tree = this.menuService.getMenuTree(true);
+        String treeJson =JSONObject.toJSONString(tree);
+        model.addAttribute("treeJson",treeJson);
         model.addAttribute("role",role);
         return PAGE_SUFFIX+"/role-form";
     }

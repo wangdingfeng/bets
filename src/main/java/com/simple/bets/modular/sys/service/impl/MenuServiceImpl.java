@@ -72,10 +72,12 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
     }
 
     @Override
-    public Tree<Menu> getMenuTree() {
+    public Tree<Menu> getMenuTree(boolean isAll) {
         List<Tree<Menu>> trees = new ArrayList<>();
         Example example = new Example(Menu.class);
-        example.createCriteria().andCondition("type =", 0);
+        if(!isAll){
+            example.createCriteria().andCondition("type =", 0);
+        }
         example.setOrderByClause("create_time");
         List<Menu> menus = this.selectByExample(example);
         buildTrees(trees, menus);
@@ -145,55 +147,59 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void saveOrUpdate(Menu menu) {
 
         // 获取父节点实体
-        Menu parent = super.findById(menu.getParentId());
+        Menu newParent = super.findById(menu.getParentId());
         Long oldParentId = null;
         String oldParentIds = "";
         int oldParentTLevel = 0;
 
         if(null == menu.getId()){
             //新增根节点
-            if(null == parent){
+            if(null == newParent){
                 menu.setTreeLeaf(Menu.TREE_LEAF_NO);
                 menu.setTreeLevel(0);
             }else{
                 menu.setTreeLeaf(Menu.TREE_LEAF_NO);
-                menu.setTreeLevel(parent.getTreeLevel() + 1);
-                if (parent.getIsTreeLeaf()) {
-                    parent.setTreeLeaf(Menu.TREE_LEAF_YES);
-                    super.updateNotNull(parent);
+                menu.setTreeLevel(newParent.getTreeLevel() + 1);
+                if (newParent.getIsTreeLeaf()) {
+                    newParent.setTreeLeaf(Menu.TREE_LEAF_YES);
+                    super.updateNotNull(newParent);
                 }
             }
 
             // 设置新的父节点串
-            menu.setParentIds(parent == null ? "0," : (parent.getParentIds() + menu.getParentId() + ","));
+            menu.setParentIds(newParent == null ? "0" : (newParent.getParentIds()+","+ menu.getParentId()));
             menu.setBaseData(true);
             super.save(menu);
 
         }else{
             // 数据库中当前的menu的ParentId，还未更新
-            oldParentId = findById(menu.getId()).getParentId();
+            Menu copyMenu =  findById(menu.getId());
+            oldParentId = copyMenu.getParentId();
             // 获取修改前的parentIds，用于更新子节点的parentIds
-            oldParentIds = menu.getParentIds();
+            oldParentIds = copyMenu.getParentIds();
+
 
             Menu oldParent = findById(oldParentId);
             oldParentTLevel = oldParent == null ? -1 : oldParent.getTreeLevel();
 
             // 设置新的父节点串
-            menu.setParentIds(parent == null ? "0," : (parent.getParentIds() + menu.getParentId() + ","));
+            if(!oldParentId.equals(menu.getParentId())){
+                menu.setParentIds(newParent == null ? "0" : (newParent.getParentIds() +","+ menu.getParentId() ));
+                //获取新的父类层级
+                menu.setTreeLevel(newParent.getTreeLevel()+1);
+            }
             menu.setBaseData(false);
             super.updateNotNull(menu);
 
             // 判断menu父节点是否发生了改变
-            // 1.menu修改父节点的情况： 如果原来的父节点只有一个子节点，menu修改了父节点之后，
-            //   原来的父节点没有子节点了，对应的需要修改原来的父节点的treeLeaf属性为1
-            // 2.如果menu父节点发生了改变，menu的所有子节点的parentIds、treeLevel都需要更新
             if (!oldParentId.equals(menu.getParentId())) {
                 // 第一步：判断原来的父节点下还有没有子菜单
                 if (oldParent != null) {
-                    List<Menu> list1 = this.menuMapper.findSubMenuListByPid(oldParent.getParentId());
+                    List<Menu> list1 = this.menuMapper.findSubMenuListByPid(oldParentId);
                     // 原来的父节点下没有子节点了，并且节点treeleaf属性不等于1
                     if (list1.size() <= 0 && !oldParent.getIsTreeLeaf()) {
                         oldParent.setTreeLeaf(Menu.TREE_LEAF_NO);
@@ -202,16 +208,9 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
                 }
 
                 // 第二步：1.更新子节点 parentIds
-                // 2.menu修改了父节点，则需要根据修改后的父节点treeLevel，
-                //   更新menu及menu子节点的treelevel值，这样才能保证树结构的层级
                 List<Menu> list2 = findSubMenuListByPid(menu.getId());
 
-                Menu newParent = findById(menu.getParentId());
                 int diffValue = newParent.getTreeLevel() - oldParentTLevel;
-
-                // 更新menu的treelevel值
-                menu.setTreeLevel(menu.getTreeLevel() + diffValue);
-                this.updateAll(menu);
 
                 for (Menu e : list2) {
                     // 更新子节点 parentIds

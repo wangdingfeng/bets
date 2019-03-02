@@ -19,11 +19,4 @@
 	where u.username = #{userName}
   </select>
   
-  <select id="findById" resultType="com.simple.bets.modular.sys.model.RoleWithMenu">
-  	select r.role_id roleId,r.role_name roleName,r.remark,
-  	rm.menu_id menuId from t_role r
-	left join t_role_menu rm on(r.role_id = rm.role_id)
-	where r.role_id = #{roleId}
-  </select>
-  
 </mapper>

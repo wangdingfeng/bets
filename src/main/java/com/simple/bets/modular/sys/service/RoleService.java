@@ -2,7 +2,6 @@ package com.simple.bets.modular.sys.service;
 
 
 import com.simple.bets.modular.sys.model.Role;
-import com.simple.bets.modular.sys.model.RoleWithMenu;
 import com.simple.bets.core.service.IService;
 
 import java.util.List;
@@ -29,14 +28,8 @@ public interface RoleService extends IService<Role> {
 	Role saveOrUpdate(Role role);
 
 	List<Role> findAllRole(Role role);
-	
-	RoleWithMenu findRoleWithMenus(Long roleId);
 
 	Role findByName(String roleName);
-
-	void addRole(Role role, Long[] menuIds);
-	
-	void updateRole(Role role, Long[] menuIds);
 	/**
 	 * 批量删除角色
 	 * @param roleIds

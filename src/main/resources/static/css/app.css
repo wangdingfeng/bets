@@ -70,10 +70,50 @@
 .form-group .control-label .required {
     color: #e02222;
 }
+.form-inline {
+    padding-left: 5px;
+    margin: 3px
+}
+
+.form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 10px;
+    vertical-align: middle;
+    margin-right: 6px
+}
+
+.form-inline .control-label {
+    text-align: right;
+    font-size: 13px;
+    vertical-align: baseline
+}
+
+.form-inline .control-inline {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle
+}
+
+.form-inline .form-control {
+    display: inline-block;
+    vertical-align: middle
+}
+
+.form-inline .btn {
+    margin-right: 3px
+}
+
+.form-inline .input-group-btn .btn {
+    margin-right: 0
+}
 
 .treeInputContent{
     border: 1px solid #d2d6de;
     background: #FFFFFF;
     border-radius: 4px;
     display: none;position: absolute;z-index: 999999;top: 20px;
+}
+
+.box{
+    border-top: 0px;
 }

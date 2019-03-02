@@ -1,4 +1,4 @@
-<%layout("/layout/body.html",{title:'新增角色',libs:['validate']}){%>
+<%layout("/layout/body.html",{title:'新增角色',libs:['validate','tree']}){%>
 <div class="content">
     <div class="box" style="margin-bottom: 0px">
         <div class="box-header with-border">
@@ -20,7 +20,8 @@
                                 <span class="required " aria-required="true">*</span>角色名称
                             </label>
                             <div class="col-sm-8">
-                                <#input id="roleName" class="form-control required" underline="true" value="${role.roleName}" inputIcon="fa fa-user-o" />
+                                <#input id="roleName" class="form-control required" underline="true"
+                                value="${role.roleName}" inputIcon="fa fa-user-o" />
                             </div>
                         </div>
                     </div>
@@ -30,7 +31,8 @@
                                 <span class="required " aria-required="true">*</span> 所属部门
                             </label>
                             <div class="col-sm-8">
-                                <#treeInput name="deptName" class="required" value='${role.deptName!}' url='/office/getOfficeTree' hiddenName="deptId" hiddenValue='${role.deptId!}'/>
+                                <#treeInput name="deptName" class="required" value='${role.deptName!}'
+                                url='/office/getOfficeTree' hiddenName="deptId" hiddenValue='${role.deptId!}'/>
                             </div>
                         </div>
                     </div>
@@ -47,12 +49,25 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" title="角色授权"> 角色授权:</label>
+                            <div class="col-sm-10">
+                                <div id="menuTree" class="ztree" style="margin-top:3px;float:left;"></div>
+                                <input type="hidden" id="menuIds" name="menuIds" value="${menuIds!}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="box-footer">
                 <div class="row">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i>保 存</button>&nbsp;
-                        <button type="button" class="btn btn-sm btn-default" onclick="bet.closeTab()"><i class="fa fa-reply-all"></i> 关 闭</button>
+                        <button type="button" class="btn btn-sm btn-default" onclick="bet.closeTab()"><i
+                                class="fa fa-reply-all"></i> 关 闭
+                        </button>
                     </div>
                 </div>
             </div>
@@ -61,29 +76,71 @@
     <%}%>
     <script>
         $(function () {
-            //校验用户名是否合法
-            $("#roleName").blur(function(){
+            //校验角色名是否合法
+            $("#roleName").blur(function () {
                 var oldRoleName = "${role.roleName!''}";
                 var roleName = $(this).val();
-                if(roleName == ''){
+                if (roleName == '') {
                     return;
                 }
-                bet.ajax("${ctxPath}/role/checkRoleName",{roleName:roleName,oldRoleName:oldRoleName},function (res) {
-                    if(res == false){
-                        bet.showErrorMessage("此角色名称数据库中已存在，请换一个账号试试");
+                bet.ajax("${ctxPath}/role/checkRoleName", {
+                    roleName: roleName,
+                    oldRoleName: oldRoleName
+                }, function (res) {
+                    if (res == false) {
+                        bet.showErrorMessage("此角色名称  数据库中已存在，请换一个账号试试");
                         return;
                     }
                 });
             });
         });
+        var setting = {
+            check: {
+                enable: true,
+                chkboxType: {"Y": "ps", "N": "s"},
+                nocheckInherit: true
+            }, view: {selectedMulti: false},
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",   //通过id属性指定节点标识
+                    pIdKey: "parentId", //通过pId属性指定上节点ID
+                },
+                key: {
+                    name: "text"
+                }
+            }, callback: {
+                beforeClick: function (id, node) {
+                    tree.checkNode(node, !node.checked, true, true);
+                    return false;
+                }
+            }
+        };
+        var tree = $.fn.zTree.init($("#menuTree"), setting, ${treeJson});
+        // 默认选择节点
+        var ids = "${role.menuIds!}".split(",");
+        for (var i = 0; i < ids.length; i++) {
+            var node = tree.getNodeByParam("id", ids[i]);
+            try {
+                tree.checkNode(node, true, false);
+            } catch (e) {
+            }
+        }
+        // 默认展开全部节点
+        tree.expandAll(true);
         //提交用户表单
         $("#inputForm").validate({
-            submitHandler: function(form){
-                bet.ajax("${ctxPath}/role/saveOrUpdate",$(form).serializeArray(),function (data) {
-                    if(data.success){
+            submitHandler: function (form) {
+                var ids = [], nodes = tree.getCheckedNodes(true);
+                for (var i = 0; i < nodes.length; i++) {
+                    ids.push(nodes[i].id);
+                }
+                $("#menuIds").val(ids);
+                bet.ajax("${ctxPath}/role/saveOrUpdate", $(form).serializeArray(), function (data) {
+                    if (data.success) {
                         bet.showMessage(data.message);
                         bet.closeTabRefreshTable();
-                    }else{
+                    } else {
                         bet.showErrorMessage(data.message);
                     }
                 });

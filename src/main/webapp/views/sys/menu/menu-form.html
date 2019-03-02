@@ -1,4 +1,4 @@
-<%layout("/layout/body.html",{title:'新增菜单',libs:['validate']}){%>
+<%layout("/layout/body.html",{title:'新增菜单',libs:['validate','tree']}){%>
 <section class="content">
     <div class="box" style="margin-bottom: 0px">
         <div class="box-header with-border">
@@ -21,7 +21,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-4" title="">上级菜单:</label>
                             <div class="col-sm-8">
-                                <#treeInput id="parentMenuId" name="" url='/menu/tree' hiddenName="parentId"
+                                <#treeInput id="parentMenuId" name="" url='/menu/tree?isAll=false' hiddenName="parentId"
                                 class="required"  value="${menu.parentId!}"/>
                             </div>
                         </div>

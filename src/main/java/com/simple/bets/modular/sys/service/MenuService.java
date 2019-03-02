@@ -18,7 +18,12 @@ public interface MenuService extends IService<Menu> {
 
     List<Menu> findAllMenus(Menu menu);
 
-    Tree<Menu> getMenuTree();
+    /**
+     * 查询菜单树
+     * @param isAll 是否全部菜单
+     * @return
+     */
+    Tree<Menu> getMenuTree(boolean isAll);
 
     List<Tree<Menu>> getUserMenu(String userName);
 

@@ -2,7 +2,6 @@ package com.simple.bets.modular.sys.dao;
 
 
 import com.simple.bets.modular.sys.model.Role;
-import com.simple.bets.modular.sys.model.RoleWithMenu;
 import com.simple.bets.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +15,4 @@ import java.util.List;
 public interface RoleMapper extends BaseMapper<Role> {
 	
 	List<Role> findUserRole(String userName);
-	
-	List<RoleWithMenu> findById(Long roleId);
 }

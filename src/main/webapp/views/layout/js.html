@@ -1,6 +1,4 @@
 
-<!--ztree-->
-<script src="${ctxPath}/plugins/ztree/jquery.ztree.core.js"></script>
 <!--模板-->
 <script src="${ctxPath}/js/template-web.js"></script>
 <!--checkbox美化-->
@@ -13,6 +11,13 @@
 <script src="${ctxPath}/plugins/toastr/toastr.min.js"></script>
 
 <script src="${ctxPath}/plugins/My97DatePicker/WdatePicker.js"></script>
+<%if(tool.argsIsExitsStr('tree',libs!)){%>
+<!--ztree-->
+<script src="${ctxPath}/plugins/ztree/jquery.ztree.core.js"></script>
+<script src="${ctxPath}/plugins/ztree/jquery.ztree.excheck.js"></script>
+<script src="${ctxPath}/plugins/ztree/jquery.ztree.exedit.js"></script>
+<%}%>
+
 <%if(tool.argsIsExitsStr('jqgrid',libs!)){%>
 <!--jqgrid-->
 <script src="${ctxPath}/plugins/jqGrid/4.7/js/jquery.jqGrid.js"></script>

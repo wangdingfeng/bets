@@ -4,6 +4,8 @@ package com.simple.bets.modular.sys.service;
 import com.simple.bets.modular.sys.model.RoleMenu;
 import com.simple.bets.core.service.IService;
 
+import java.util.List;
+
 /**
  * @Author wangdingfeng
  * @Description //角色菜单管理
@@ -11,6 +13,13 @@ import com.simple.bets.core.service.IService;
  **/
 
 public interface RoleMenuService extends IService<RoleMenu> {
+	/**
+	 * 获取角色菜单
+	 * @param roleId
+	 * @return
+	 */
+	List<Long> findRoleMenu(Long roleId);
+
 	/**
 	 * 通过角色id批量删除角色菜单
 	 * @param roleIds 角色id

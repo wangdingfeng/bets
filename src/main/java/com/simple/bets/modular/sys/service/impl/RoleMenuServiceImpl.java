@@ -9,10 +9,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("roleMenuService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenu> implements RoleMenuService {
+
+	@Override
+	public List<Long> findRoleMenu(Long roleId) {
+		RoleMenu roleMenuPrams = new RoleMenu();
+		roleMenuPrams.setRoleId(roleId);
+		List<RoleMenu> roleMenuList = super.queryObjectForList(roleMenuPrams);
+		List<Long> menuIds = roleMenuList.stream().map(RoleMenu::getMenuId).collect(Collectors.toList());
+		return menuIds;
+	}
 
 	@Override
 	@Transactional

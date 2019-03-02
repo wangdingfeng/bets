@@ -1,14 +1,11 @@
 package com.simple.bets.modular.sys.controller;
 
-import cn.hutool.core.util.NumberUtil;
-import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.controller.BaseController;
 import com.simple.bets.core.model.ResponseResult;
 import com.simple.bets.core.model.Tree;
 import com.simple.bets.modular.sys.model.Menu;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.modular.sys.service.MenuService;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,9 +114,9 @@ public class MenuController extends BaseController {
      */
     @RequestMapping("/tree")
     @ResponseBody
-    public ResponseResult getMenuTree() {
+    public ResponseResult getMenuTree(boolean isAll) {
         try {
-            Tree<Menu> tree = this.menuService.getMenuTree();
+            Tree<Menu> tree = this.menuService.getMenuTree(isAll);
             return ResponseResult.ok(tree);
         } catch (Exception e) {
             logger.error("获取菜单树失败", e);

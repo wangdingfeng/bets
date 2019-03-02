@@ -3,10 +3,7 @@ package com.simple.bets.modular.sys.model;
 
 import com.simple.bets.core.annotation.ExportConfig;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -40,6 +37,12 @@ public class Role implements Serializable {
 
 	@Column(name = "modify_time")
 	private Date modifyTime;
+
+	/**
+	 * 角色拥有的菜单
+	 */
+	@Transient
+	private String menuIds;
 
 	/**
 	 * @return ROLE_ID
@@ -125,5 +128,13 @@ public class Role implements Serializable {
 
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
+	}
+
+	public String getMenuIds() {
+		return menuIds;
+	}
+
+	public void setMenuIds(String menuIds) {
+		this.menuIds = menuIds;
 	}
 }
