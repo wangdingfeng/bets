@@ -6,6 +6,7 @@ import com.simple.bets.core.annotation.ExportConfig;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "t_role")
 public class Role implements Serializable {
@@ -43,6 +44,11 @@ public class Role implements Serializable {
 	 */
 	@Transient
 	private String menuIds;
+	/**
+	 * 角色下对应的用户
+	 */
+	@Transient
+	private List<Long> userIds;
 
 	/**
 	 * @return ROLE_ID
@@ -136,5 +142,13 @@ public class Role implements Serializable {
 
 	public void setMenuIds(String menuIds) {
 		this.menuIds = menuIds;
+	}
+
+	public List<Long> getUserIds() {
+		return userIds;
+	}
+
+	public void setUserIds(List<Long> userIds) {
+		this.userIds = userIds;
 	}
 }

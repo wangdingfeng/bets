@@ -2,10 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.simple.bets.modular.sys.dao.UserRoleMapper">
   <resultMap id="BaseResultMap" type="com.simple.bets.modular.sys.model.UserRole">
-    <!--
-      WARNING - @mbg.generated
-    -->
     <result column="user_id" jdbcType="DECIMAL" property="userId" />
     <result column="role_id" jdbcType="DECIMAL" property="roleId" />
   </resultMap>
+  <!--用户基本信息映射-->
+  <resultMap id="UserModel" type="com.simple.bets.modular.sys.model.User">
+    <id column="user_id" jdbcType="DECIMAL" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="dept_id" jdbcType="DECIMAL" property="deptId" />
+    <result column="dept_name" jdbcType="DECIMAL" property="deptName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="crate_time" jdbcType="TIMESTAMP" property="crateTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+  </resultMap>
+
+  <select id="findUsersByRole" resultMap="UserModel">
+    SELECT u.* FROM t_user u,t_user_role ur WHERE u.user_id=ur.user_id AND ur.role_id=#{roleId}
+  </select>
+
+  <select id="findNotUsersByRole" resultMap="UserModel">
+    SELECT u.* FROM t_user u WHERE u.user_id not in (SELECT ur.user_id FROM t_user_role ur WHERE ur.role_id =#{roleId})
+  </select>
+
 </mapper>

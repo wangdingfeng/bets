@@ -1,6 +1,5 @@
 package com.simple.bets.core.common.util;
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +22,7 @@ import java.util.Set;
  * @Version: 1.0
  */
 public class ToolUtils {
+
     private static Logger logger = LoggerFactory.getLogger(ToolUtils.class);
     /**
      * 判断数组中是否存在此元素
@@ -140,20 +140,24 @@ public class ToolUtils {
      * @throws IllegalAccessException
      * @throws SecurityException
      */
-    public static <T> T setNullValue(T source) throws IllegalArgumentException, IllegalAccessException, SecurityException {
-        Field[] fields = source.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            if (field.getGenericType().toString().equals(
-                    "class java.lang.String") && !Modifier.isStatic(field.getModifiers()) && !Modifier.isFinal(field.getModifiers())) {
-                field.setAccessible(true);
-                Object obj = field.get(source);
-                if (obj != null && obj.equals("")) {
-                    field.set(source, null);
-                } else if (obj != null) {
-                    String str = obj.toString();
-                    field.set(source, str);
+    public static <T> T setNullValue(T source){
+        try {
+            Field[] fields = source.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if (field.getGenericType().toString().equals(
+                        "class java.lang.String") && !Modifier.isStatic(field.getModifiers()) && !Modifier.isFinal(field.getModifiers())) {
+                    field.setAccessible(true);
+                    Object obj = field.get(source);
+                    if (obj != null && obj.equals("")) {
+                        field.set(source, null);
+                    } else if (obj != null) {
+                        String str = obj.toString();
+                        field.set(source, str);
+                    }
                 }
             }
+        } catch (Exception e) {
+            logger.error(" 过滤空字符串报错",e);
         }
         return source;
     }

@@ -1,11 +1,7 @@
 package com.simple.bets.modular.sys.controller;
 
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
-import com.simple.bets.config.BetsProperties;
-import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.common.util.ImageBase64Util;
-import com.simple.bets.core.common.util.MD5Utils;
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.controller.BaseController;
 import com.simple.bets.core.model.ResponseResult;

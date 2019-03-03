@@ -123,11 +123,7 @@ public abstract class ServiceImpl<T> implements IService<T> {
     public Page<T> queryPage(Page<T> page, T entity){
         PageHelper.startPage(page.getPageNo(),page.getPageSize());
         PageHelper.orderBy(page.getOrderBy());
-        try {
-            entity = ToolUtils.setNullValue(entity);
-        } catch (IllegalAccessException e) {
-            logger.error("实体类空字符串转换null异常!", e);
-        }
+        entity = ToolUtils.setNullValue(entity);
         List<T> entityList = this.mapper.select(entity);
         PageInfo<T> pageInfo = new PageInfo<>(entityList);
         page.setCount(pageInfo.getTotal());

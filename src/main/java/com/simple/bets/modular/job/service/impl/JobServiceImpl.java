@@ -40,7 +40,7 @@ public class JobServiceImpl extends ServiceImpl<JobModel> implements JobService 
     /**
      * 项目启动时，初始化定时器
      */
-    @PostConstruct
+/*    @PostConstruct
     public void init() {
         List<JobModel> scheduleJobList = this.jobMapper.queryList();
         // 如果不存在，则创建
@@ -52,7 +52,7 @@ public class JobServiceImpl extends ServiceImpl<JobModel> implements JobService 
                 ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
             }
         });
-    }
+    }*/
 
     @Override
     public JobModel findJob(Long jobId) {

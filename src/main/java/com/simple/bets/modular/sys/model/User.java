@@ -8,6 +8,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 用户基本信息
+ */
 @Table(name = "t_user")
 public class User implements Serializable {
 
@@ -90,6 +93,9 @@ public class User implements Serializable {
 
 	@Transient
 	private String imageBase64;
+
+	@Transient
+	private Long roleId;
 
 	/**
 	 * @return USER_ID
@@ -323,5 +329,13 @@ public class User implements Serializable {
 	 */
 	public Long getAuthCacheKey() {
 		return userId;
+	}
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 }

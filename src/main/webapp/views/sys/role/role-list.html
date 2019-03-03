@@ -41,8 +41,10 @@
                 width: 120,
                 sortable: false,
                 title: false,
+                align: "center",
                 formatter: function (val, obj, row, act) {
                     var actions = [];
+                    actions.push('<a href="/role/roleUserList?roleId=' + row.roleId + '" class="btnList" title="分配用户"><i class="fa fa-user"></i></a>&nbsp;');
                     actions.push('<a href="/role/form?roleId=' + row.roleId + '" class="btnList" title="编辑角色"><i class="fa fa-pencil"></i></a>&nbsp;');
                     actions.push('<a href="${ctxPath}/role/delete?roleId=' + row.roleId + '" class="btnList" title="删除角色" data-confirm="确认要删除角色信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
                     return actions.join('');

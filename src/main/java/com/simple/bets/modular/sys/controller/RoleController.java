@@ -10,9 +10,11 @@ import com.simple.bets.modular.sys.model.Menu;
 import com.simple.bets.modular.sys.model.Role;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.modular.sys.model.RoleMenu;
+import com.simple.bets.modular.sys.model.User;
 import com.simple.bets.modular.sys.service.MenuService;
 import com.simple.bets.modular.sys.service.RoleMenuService;
 import com.simple.bets.modular.sys.service.RoleService;
+import com.simple.bets.modular.sys.service.UserRoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -37,7 +39,6 @@ import java.util.List;
 @RequestMapping("/role")
 public class RoleController extends BaseController {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static final String PAGE_SUFFIX = "sys/role";
 
@@ -47,6 +48,8 @@ public class RoleController extends BaseController {
     private RoleMenuService roleMenuService;
     @Autowired
     private MenuService menuService;
+    @Autowired
+    private UserRoleService userRoleService;
 
 
     /**
@@ -69,9 +72,6 @@ public class RoleController extends BaseController {
     @RequestMapping("/list")
     @ResponseBody
     public Page<Role> list(Role role, HttpServletRequest request, HttpServletResponse response){
-        if(StringUtils.isEmpty(role.getRoleName())){
-            role.setRoleName(null);
-        }
         Page<Role> page= roleService.queryPage(new Page<Role>(request, response), role);
         return page;
     }
@@ -119,7 +119,7 @@ public class RoleController extends BaseController {
         try {
             roleService.saveOrUpdate(role);
         } catch (Exception e) {
-            log.error("保存or更新-角色信息失败", e);
+            logger.error("保存or更新-角色信息失败", e);
             return ResponseResult.error("操作角色信息失败，请联系网站管理员！");
         }
         return ResponseResult.ok("保存成功");
@@ -132,7 +132,7 @@ public class RoleController extends BaseController {
             List<Role> list = this.roleService.findAllRole(role);
             return FileUtil.createExcelByPOIKit("角色表", list, Role.class);
         } catch (Exception e) {
-            log.error("导出角色信息Excel失败", e);
+            logger.error("导出角色信息Excel失败", e);
             return ResponseResult.error("导出Excel失败，请联系网站管理员！");
         }
     }
@@ -167,8 +167,86 @@ public class RoleController extends BaseController {
             this.roleService.deleteRoles(roleId.toString());
             return ResponseResult.ok("删除角色成功！");
         } catch (Exception e) {
-            log.error("删除角色失败", e);
+            logger.error("删除角色失败", e);
             return ResponseResult.error("删除角色失败，请联系网站管理员！");
         }
     }
+
+    /**
+     * 跳转到 角色对应的用户信息表
+     * @param user
+     * @param model
+     * @return
+     */
+    @RequestMapping("/roleUserList")
+    public String roleUserList(User user,Model model,Boolean exist){
+        model.addAttribute("user",user);
+        model.addAttribute("exist",exist);
+        return PAGE_SUFFIX+"/role-assign";
+    }
+
+    /**
+     * 获取 角色对应的用户信息数据
+     * @param user
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/roleUserListData")
+    @ResponseBody
+    public Page<User> roleUserListData(User user, HttpServletRequest request, HttpServletResponse response,Boolean exist){
+        return userRoleService.queryPage(new Page<User>(request, response), user,exist);
+    }
+
+    /**
+     * 选择用户 dialog
+     * @param role
+     * @param selectData
+     * @param checkbox
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "selectUserToRole")
+    public String selectUserToRole(Role role, String selectData, String checkbox, Model model) {
+        model.addAttribute("selectData", selectData);
+        model.addAttribute("checkbox", checkbox);
+        model.addAttribute("role", role);
+
+        return PAGE_SUFFIX+"/selectUserToRole";
+    }
+
+    /**
+     * 授权用户
+     * @param role
+     * @return
+     */
+    @RequestMapping("/assignRole")
+    @ResponseBody
+    public ResponseResult assignRole(Role role){
+        try {
+            userRoleService.assignRoleUser(role);
+            return ResponseResult.ok("分配角色成功！");
+        } catch (Exception e) {
+            logger.error("分配角色失败",e);
+            return ResponseResult.error("分配角色失败，请联系网站管理员！");
+        }
+    }
+
+    /**
+     * 删除用户角色
+     * @param role
+     * @return
+     */
+    @RequestMapping("/deleteUserRole")
+    @ResponseBody
+    public ResponseResult deleteUserRole(Role role){
+        try {
+            userRoleService.deleteUserRolesByRoleId(role);
+            return ResponseResult.ok("删除角色成功！");
+        } catch (Exception e) {
+            logger.error("删除角色失败",e);
+            return ResponseResult.error("删除角色失败，请联系网站管理员！");
+        }
+    }
+
 }

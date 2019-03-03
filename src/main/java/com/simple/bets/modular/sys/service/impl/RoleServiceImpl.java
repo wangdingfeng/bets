@@ -115,7 +115,7 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
         List<String> list = Arrays.asList(roleIds.split(","));
         this.batchDelete(list, "roleId", Role.class);
         this.roleMenuService.deleteRoleMenusByRoleId(roleIds);
-        this.userRoleService.deleteUserRolesByRoleId(roleIds);
+        this.userRoleService.deleteAllUserRolesByRoleId(roleIds);
 
     }
 

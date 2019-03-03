@@ -48,4 +48,15 @@ public class OfficeServiceImpl extends ServiceImpl<Office> implements OfficeServ
         });
         return TreeUtils.build(treeList);
     }
+
+    @Override
+    public void saveOrUpdate(Office office) {
+        if(null == office.getId()){
+            office.setBaseData(true);
+            super.save(office);
+        }else{
+            office.setBaseData(false);
+            super.updateNotNull(office);
+        }
+    }
 }

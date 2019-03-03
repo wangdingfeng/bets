@@ -75,9 +75,9 @@ var bet = {
             opinion.id=id;
         }
         if(undefined == close){
-            close=true;
+            opinion.close=true;
         }
-        parent.addTabs({title: title,id:id,close: close, url: url})
+        parent.addTabs(opinion)
     },
     //关闭当前页面
     closeTab: function () {
@@ -315,6 +315,7 @@ var bet = {
         }
         return label == "" ? defVal : label;
     },
+    //文件大小翻译
     renderSize: function(value) {
         if (null == value || value == "") {
             return "0 Bytes";
@@ -326,6 +327,17 @@ var bet = {
         //  保留的小数位数
         size = size.toFixed(2);
         return size + unitArr[index];
+    },
+    print: function(message) {
+        if (typeof (console) !== "undefined") {
+            console.log(message);
+        }
+    },
+    encodeURI: function(url) {
+        return encodeURIComponent(url);
+    },
+    decodeURI: function(url) {
+        return decodeURIComponent(url);
     },
 }
     window.bet = bet;

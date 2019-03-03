@@ -27,4 +27,10 @@ public interface OfficeService extends IService<Office> {
      * @return
      */
     Tree<Office> getAllOfficeTree(Office office);
+
+    /**
+     * 保存更新
+     * @param office
+     */
+    void saveOrUpdate(Office office);
 }
