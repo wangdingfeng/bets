@@ -105,7 +105,7 @@ mybatis:
     jdbc-type-for-null: null
 
 mapper:
-  mappers: com.simple.bets.core.mapper.BaseMapper
+  mappers: com.simple.bets.core.base.mapper.BaseMapper
   not-empty: true
   identity: MYSQL
 

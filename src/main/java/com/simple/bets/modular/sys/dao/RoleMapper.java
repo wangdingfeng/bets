@@ -1,8 +1,8 @@
 package com.simple.bets.modular.sys.dao;
 
 
+import com.simple.bets.core.base.mapper.BaseMapper;
 import com.simple.bets.modular.sys.model.Role;
-import com.simple.bets.core.base.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

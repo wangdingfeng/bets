@@ -1,6 +1,6 @@
 package com.simple.bets.modular.sys.dao;
 
-import com.simple.bets.core.base.BaseMapper;
+import com.simple.bets.core.base.mapper.BaseMapper;
 import com.simple.bets.modular.sys.model.Office;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

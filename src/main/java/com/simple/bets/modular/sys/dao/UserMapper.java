@@ -1,7 +1,7 @@
 package com.simple.bets.modular.sys.dao;
 
+import com.simple.bets.core.base.mapper.BaseMapper;
 import com.simple.bets.modular.sys.model.UserWithRole;
-import com.simple.bets.core.base.BaseMapper;
 import com.simple.bets.modular.sys.model.User;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.simple.bets.modular.sys.dao;
 
 
+import com.simple.bets.core.base.mapper.BaseMapper;
 import com.simple.bets.modular.sys.model.Dict;
-import com.simple.bets.core.base.BaseMapper;
 
 import java.util.List;
 /**
