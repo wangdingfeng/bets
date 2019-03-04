@@ -12,10 +12,11 @@
 		onValue:onValue!""
 	};
 	%>
-
-<select id="${p.id}" name="${p.name}" class="${p.class}" onchange="${p.onchange}" <% if(!isEmpty(p.disabled)) {%> disabled="disabled" <%}%> >
-	<%
-		var html = toDocument("select", tagBody, p.data, p.name, p.value, p.onValue);
-	 	print(html);
-	%>
-</select>  
+<div class="input-group" style="width: 100%">
+	<select id="${p.id}" name="${p.name}" class="${p.class} select2" onchange="${p.onchange}" <% if(!isEmpty(p.disabled)) {%> disabled="disabled" <%}%> >
+		<%
+			var html = toDocument("select", tagBody, p.data, p.name, p.value, p.onValue);
+			print(html);
+		%>
+	</select>
+</div>
