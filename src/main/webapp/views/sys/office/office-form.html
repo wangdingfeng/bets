@@ -12,7 +12,7 @@
         <form style="margin: 10px" id="inputForm" class="form-horizontal">
             <div class="form-unit">部门基本信息</div>
             <div class="box-body no-padding">
-                <input type="hidden" value="${role.roleId!}" name="roleId">
+                <input type="hidden" value="${office.id!}" name="id">
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
@@ -20,7 +20,7 @@
                                 <span class="required " aria-required="true">*</span> 上级部门
                             </label>
                             <div class="col-sm-8">
-                                <#treeInput name="parentId" class="required" url='/office/getOfficeTree' hiddenName="parentId" hiddenValue='${office.parentId!}'/>
+                                <#treeInput id="parentOfficeId" name="" class="required" url='/office/getOfficeTree' hiddenName="parentId" hiddenValue='${office.parentId!}'/>
                             </div>
                         </div>
                     </div>
@@ -85,11 +85,10 @@
         //提交用户表单
         $("#inputForm").validate({
             submitHandler: function(form){
-                bet.ajax("${ctxPath}/role/saveOrUpdate",$(form).serializeArray(),function (data) {
+                bet.ajax("${ctxPath}/office/saveOrUpdate",$(form).serializeArray(),function (data) {
                     if(data.success){
                         bet.showMessage(data.message);
-                        parent.refreshTabByTitle("角色管理");
-                        bet.closeTab();
+                        bet.closeTabRefreshTable();
                     }else{
                         bet.showErrorMessage(data.message);
                     }

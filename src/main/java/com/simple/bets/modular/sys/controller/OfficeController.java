@@ -1,5 +1,6 @@
 package com.simple.bets.modular.sys.controller;
 
+import com.simple.bets.core.annotation.Log;
 import com.simple.bets.core.model.ResponseResult;
 import com.simple.bets.core.model.Tree;
 import com.simple.bets.modular.sys.model.Office;
@@ -51,9 +52,6 @@ public class OfficeController {
     @RequestMapping("/list")
     @ResponseBody
     public List<Office> list(Office office){
-        if(null == office.getParentId()){
-            office.setParentId(0L);
-        }
         List<Office> list = officeService.findAllList(office);
         return list;
     }
@@ -64,11 +62,29 @@ public class OfficeController {
      */
     @RequestMapping("/form")
     public String form(Office office, Model model){
-        if(null == office.getId()){
+        if(null != office.getId()){
             office = officeService.findById(office.getId());
         }
         model.addAttribute("office",office);
         return PAGE_SUFFIX+"/office-form";
+    }
+
+    /**
+     * 保存or更新
+     * @param office
+     * @return
+     */
+    @Log("编辑部门")
+    @RequestMapping("/saveOrUpdate")
+    @ResponseBody
+    public ResponseResult saveOrUpdate(Office office){
+        try {
+            officeService.saveOrUpdate(office);
+            return ResponseResult.ok("操作成功！");
+        } catch (Exception e) {
+            logger.error("操作失败", e);
+            return ResponseResult.error("操作失败失败，请联系网站管理员！");
+        }
     }
 
     /**

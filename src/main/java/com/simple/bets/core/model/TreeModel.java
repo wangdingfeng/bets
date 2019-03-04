@@ -22,9 +22,9 @@ public abstract class TreeModel extends BaseModel {
 	public static final String TREE_LEAF_NO = "1";
 
 	@Column(name = "parent_id")
-	protected Long parentId;
+	protected Long parentId = 0L;
 	@Column(name = "parent_ids")
-	protected String parentIds; // 所有父级编号
+	protected String parentIds ; // 所有父级编号
 	@Column(name = "sort")
 	protected Integer sort;		// 排序
 	@Column(name = "tree_leaf")

@@ -113,18 +113,10 @@ var bet = {
     }(),
     //加载中
     loading:function (message,target) {
-        var App = parent.App || bet;
         if (message == undefined || message == "") {
             message = "正在加载.."
         }
-        if (target == undefined || target == "") {
-            if(parent.App){
-                target = "#tab-content";
-            }else{
-                target = "#content-body";
-            }
-        }
-        App.blockUI({
+        bet.blockUI({
             target: target,
             boxed: true,
             message: message
@@ -132,15 +124,7 @@ var bet = {
     },
     //关闭所有的加载层
     closeLoading:function (target) {
-        var App = parent.App || bet;
-        if (target == undefined || target == "") {
-            if(parent.App){
-                target = "#tab-content";
-            }else{
-                target = "#content-body";
-            }
-        }
-        App.unblockUI(target);//解锁界面
+        bet.unblockUI(target);//解锁界面
     },
     //询问框
     confirm: function(message, urlOrFun, data, callback, dataType, async, loadingMessage) {

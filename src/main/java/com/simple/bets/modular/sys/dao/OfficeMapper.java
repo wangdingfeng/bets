@@ -23,4 +23,10 @@ public interface OfficeMapper extends BaseMapper<Office> {
      * @return
      */
     List<Office> findAllList(Office office);
+    /**
+     * 查询是否有子节点
+     * @param parentId
+     * @return
+     */
+    List<Office>  findSubOfficeListByPid(@Param("parentId") Long parentId);
 }

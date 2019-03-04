@@ -3,7 +3,10 @@ package com.simple.bets.modular.sys.controller;
 import com.simple.bets.core.common.util.MD5Utils;
 import com.simple.bets.core.controller.BaseController;
 import com.simple.bets.core.annotation.Log;
+import com.simple.bets.core.model.Tree;
+import com.simple.bets.modular.sys.model.Menu;
 import com.simple.bets.modular.sys.model.User;
+import com.simple.bets.modular.sys.service.MenuService;
 import com.simple.bets.modular.sys.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -16,19 +19,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 public class LoginController extends BaseController {
 
-    private Logger log = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private UserService userService;
+    @Autowired
+    private MenuService menuService;
 
+    /**
+     * 跳转登录页
+     * @return
+     */
     @GetMapping("/login")
     public String login() {
         return "login";
     }
-
+    /**
+     * 登录
+     * @return
+     */
     @PostMapping("/login")
     public String login(String username, String password, String code, Boolean rememberMe,Model model) {
 /*        if (!StringUtils.isNotBlank(code)) {
@@ -61,27 +73,47 @@ public class LoginController extends BaseController {
         }
     }
 
+    /**
+     * 主页
+     * @return
+     */
     @RequestMapping("/")
     public String redirectIndex() {
         return "redirect:/index";
     }
 
+    /**
+     * 欢迎页
+     * @return
+     */
     @RequestMapping("/welcome")
     public String welcome(){
         return "welcome";
     }
 
+    /**
+     * 403页面
+     * @return
+     */
     @GetMapping("/403")
     public String forbid() {
         return "403";
     }
 
+    /**
+     * 登录成功 跳转页面
+     * @param model
+     * @return
+     */
     @Log("访问系统")
     @RequestMapping("/index")
     public String index(Model model) {
         // 登录成后，即可通过 Subject 获取登录的用户信息
         User user = super.getCurrentUser();
         model.addAttribute("user", user);
+        //获取当前用户菜单
+        List<Tree<Menu>> menu = menuService.getUserMenu(user.getUsername());
+        model.addAttribute("menu", menu);
         return "index";
     }
 }

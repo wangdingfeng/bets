@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>bets</title>
+    <title>AdminBets</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" type="image/png" href="${ctxPath}/img/favicon.ico"/>
@@ -83,11 +83,10 @@
     <!-- foot脚 -->
     <% include('/layout/footer.html'){} %>
 
-    <!-- Control Sidebar -->
+    <!-- 右侧菜单栏 -->
     <aside class="control-sidebar control-sidebar-dark">
-        <!-- Create the tabs -->
+        <!-- 皮肤 -->
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -110,9 +109,7 @@
 <!-- AdminLTE App -->
 <script src="${ctxPath}/plugins/adminLTE/app.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="${ctxPath}/js/demo.js"></script>
-
-<script src="${ctxPath}/js/jquery.blockUI.js"></script>
+<script src="${ctxPath}/js/theme.js"></script>
 <!--tabs-->
 <script src="${ctxPath}/js/app_iframe.js"></script>
 
@@ -124,38 +121,10 @@
 
 
 <script type="text/javascript">
-    /**
-     * 本地搜索菜单
-     */
-    function search_menu() {
-        //要搜索的值
-        var text = $('input[name=q]').val();
-
-        var $ul = $('.sidebar-menu');
-        $ul.find("a.nav-link").each(function () {
-            var $a = $(this).css("border", "");
-
-            //判断是否含有要搜索的字符串
-            if ($a.children("span.menu-text").text().indexOf(text) >= 0) {
-
-                //如果a标签的父级是隐藏的就展开
-                $ul = $a.parents("ul");
-
-                if ($ul.is(":hidden")) {
-                    $a.parents("ul").prev().click();
-                }
-                //点击该菜单
-                $a.click().css("border", "1px solid");
-
-//                return false;
-            }
-        });
-    }
-
     $(function () {
         var basePath = "${ctxPath}";
         App.setbasePath(basePath);
-
+        //加载欢迎页
         addTabs({
             id: '10008',
             title: '欢迎页',
@@ -165,24 +134,13 @@
         });
 
         App.fixIframeContent();
-        var userName = "${user.username}";
-        $.ajax({
-            url:"${ctxPath}/menu/getUserMenu",
-            data:{userName:userName},
-            type: "POST",
-            success: function(res){
-                $('.sidebar-menu').sidebarMenu({data: res.data});
-            }
-        });
+        $('.sidebar-menu').sidebarMenu({data: ${menu}});
         // 动态创建菜单后，可以重新计算 SlimScroll
         $.AdminLTE.layout.fixSidebar();
-
         if ($.AdminLTE.options.sidebarSlimScroll) {
             if (typeof $.fn.slimScroll != 'undefined') {
-                //Destroy if it exists
                 var $sidebar = $(".sidebar");
                 $sidebar.slimScroll({destroy: true}).height("auto");
-                //Add slimscroll
                 $sidebar.slimscroll({
                     height: ($(window).height() - $(".main-header").height()) + "px",
                     color: "rgba(0,0,0,0.2)",
@@ -190,7 +148,6 @@
                 });
             }
         }
-
     });
 </script>
 

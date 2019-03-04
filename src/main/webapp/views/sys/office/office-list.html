@@ -1,6 +1,6 @@
 <%layout("/layout/body.html",{title:'部门管理',libs:['jqgrid']}){%>
-<section class="content">
-    <div class="box" style="margin-bottom: 0px">
+<section class="main-content">
+    <div class="box box-main" style="margin-bottom: 0px">
         <div class="box-header with-border">
             <h3 class="box-title">部门管理</h3>
             <div class="box-tools pull-right">
@@ -28,15 +28,15 @@
         searchForm: $("#searchForm"),
         columnModel: [
             {header:'机构名称', name:'name', index:'a.name', width:150, align:"left"},
-            {header:'归属区域', name:'areaName', index:'ar.name', width:80, align:"center"},
+            {header:'负责人', name:'master', index:'a.master', width:80, align:"center"},
             {header:'机构编码', name:'code', index:'a.code', width:80, align:"center"},
-            {header:'机构类型', name:'type', index:'a.type', width:80, align:"center"},
+            {header:'部门电话', name:'phone', index:'a.phone', width:80, align:"center"},
             {header:'备注', name:'remarks', index:'a.remarks', width:80, align:"center"},
             {header:'操作', name:'actions', width:70,align:"center", sortable:false, title:false, formatter: function(val, obj, row, act){
                     var actions = [];
-                    actions.push('<a href="/sys/office/form?id='+row.id+'&area.id='+row.areaId+'" class="btnList" title="修改机构信息"><i class="fa fa-pencil"></i></a>');
-                    actions.push('<a href="/sys/office/delete?id='+row.id+'" class="btnList" title="删除机构" data-confirm="要删除该机构及所有子机构项吗？"><i class="fa fa-trash-o"></i></a>');
-                    actions.push('<a href="/sys/office/form?parentId='+row.id+'" class="btnList" title="添加下级机构"><i class="fa fa-plus-square"></i></a>');
+                    actions.push('<a href="/office/form?id='+row.id+'" class="btnList" title="修改机构信息"><i class="fa fa-pencil"></i></a>');
+                    actions.push('<a href="${ctxPath}/office/delete?id='+row.id+'" class="btnList" title="删除机构" data-confirm="要删除该机构及所有子机构项吗？"><i class="fa fa-trash-o"></i></a>');
+                    actions.push('<a href="/office/form?parentId='+row.id+'" class="btnList" title="添加下级机构"><i class="fa fa-plus-square"></i></a>');
                     return actions.join('');
                 }}
         ],
