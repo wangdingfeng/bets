@@ -1,7 +1,7 @@
 package com.simple.bets.modular.sys.controller;
 
 import com.simple.bets.core.common.util.Page;
-import com.simple.bets.core.model.ResponseResult;
+import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.modular.sys.model.UserOnline;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.modular.sys.service.SessionService;

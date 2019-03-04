@@ -1,10 +1,8 @@
 package com.simple.bets.core.common.util;
 
 
-import com.simple.bets.core.model.BaseModel;
-import com.simple.bets.core.model.Tree;
-import com.simple.bets.modular.file.model.FileModel;
-import com.simple.bets.modular.sys.model.Dict;
+import com.simple.bets.core.base.model.BaseModel;
+import com.simple.bets.core.base.model.Tree;
 
 import java.util.ArrayList;
 import java.util.HashMap;

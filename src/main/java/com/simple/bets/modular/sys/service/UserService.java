@@ -2,11 +2,9 @@ package com.simple.bets.modular.sys.service;
 
 import com.simple.bets.modular.sys.model.User;
 import com.simple.bets.modular.sys.model.UserWithRole;
-import com.simple.bets.core.service.IService;
+import com.simple.bets.core.base.service.IService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-
-import java.util.List;
 
 /**
  * 用户信息Service

@@ -1,17 +1,15 @@
 package com.simple.bets.modular.sys.controller;
 
 import com.simple.bets.core.common.util.MD5Utils;
-import com.simple.bets.core.controller.BaseController;
+import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.annotation.Log;
-import com.simple.bets.core.model.Tree;
+import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.modular.sys.model.Menu;
 import com.simple.bets.modular.sys.model.User;
 import com.simple.bets.modular.sys.service.MenuService;
 import com.simple.bets.modular.sys.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

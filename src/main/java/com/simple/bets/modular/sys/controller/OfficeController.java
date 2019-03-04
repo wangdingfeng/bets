@@ -1,8 +1,8 @@
 package com.simple.bets.modular.sys.controller;
 
 import com.simple.bets.core.annotation.Log;
-import com.simple.bets.core.model.ResponseResult;
-import com.simple.bets.core.model.Tree;
+import com.simple.bets.core.base.model.ResponseResult;
+import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.modular.sys.model.Office;
 import com.simple.bets.modular.sys.service.OfficeService;
 import org.slf4j.Logger;

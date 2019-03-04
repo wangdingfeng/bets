@@ -1,7 +1,7 @@
 package com.simple.bets.modular.file.dao;
 
 
-import com.simple.bets.core.mapper.BaseMapper;
+import com.simple.bets.core.base.BaseMapper;
 import com.simple.bets.modular.file.model.FileModel;
 
 /**

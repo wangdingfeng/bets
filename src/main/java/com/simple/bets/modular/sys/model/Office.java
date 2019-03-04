@@ -1,6 +1,6 @@
 package com.simple.bets.modular.sys.model;
 
-import com.simple.bets.core.model.TreeModel;
+import com.simple.bets.core.base.model.TreeModel;
 import org.hibernate.validator.constraints.Length;
 
 

@@ -1,13 +1,11 @@
 package com.simple.bets.modular.sys.controller;
 
-import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.common.util.Page;
-import com.simple.bets.core.controller.BaseController;
-import com.simple.bets.core.model.ResponseResult;
+import com.simple.bets.core.base.controller.BaseController;
+import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.modular.sys.model.Dict;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.modular.sys.service.DictService;
-import net.sf.saxon.expr.Component;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+
 /**
  * @Author wangdingfeng
  * @Description 字典管理

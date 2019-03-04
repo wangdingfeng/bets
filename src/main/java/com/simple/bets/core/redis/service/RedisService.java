@@ -1,7 +1,7 @@
 package com.simple.bets.core.redis.service;
 
 
-import com.simple.bets.core.model.RedisInfo;
+import com.simple.bets.core.base.model.RedisInfo;
 
 import java.util.List;
 import java.util.Map;

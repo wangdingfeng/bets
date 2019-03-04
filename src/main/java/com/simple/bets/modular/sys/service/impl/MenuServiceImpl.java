@@ -1,15 +1,13 @@
 package com.simple.bets.modular.sys.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.simple.bets.core.common.util.TreeUtils;
-import com.simple.bets.core.model.Tree;
+import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.modular.sys.dao.MenuMapper;
 import com.simple.bets.modular.sys.model.Menu;
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.service.MenuService;
 import com.simple.bets.modular.sys.service.RoleMenuService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

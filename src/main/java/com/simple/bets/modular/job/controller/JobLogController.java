@@ -2,8 +2,8 @@ package com.simple.bets.modular.job.controller;
 
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.core.common.util.Page;
-import com.simple.bets.core.controller.BaseController;
-import com.simple.bets.core.model.ResponseResult;
+import com.simple.bets.core.base.controller.BaseController;
+import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.modular.job.model.JobLogModel;
 import com.simple.bets.modular.job.service.JobLogService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

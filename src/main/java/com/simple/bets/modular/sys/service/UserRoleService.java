@@ -4,7 +4,7 @@ import com.simple.bets.core.common.util.Page;
 import com.simple.bets.modular.sys.model.Role;
 import com.simple.bets.modular.sys.model.User;
 import com.simple.bets.modular.sys.model.UserRole;
-import com.simple.bets.core.service.IService;
+import com.simple.bets.core.base.service.IService;
 
 public interface UserRoleService extends IService<UserRole> {
 

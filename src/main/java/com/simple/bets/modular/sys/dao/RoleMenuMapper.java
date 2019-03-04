@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.dao;
 
 
 import com.simple.bets.modular.sys.model.RoleMenu;
-import com.simple.bets.core.mapper.BaseMapper;
+import com.simple.bets.core.base.BaseMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simple.bets.modular.sys.model.SysLog;
 import com.simple.bets.modular.sys.service.LogService;
 import com.simple.bets.core.annotation.Log;
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;

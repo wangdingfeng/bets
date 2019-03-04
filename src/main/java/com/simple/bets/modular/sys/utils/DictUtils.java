@@ -5,12 +5,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.simple.bets.core.common.util.SpringContextUtils;
 import com.simple.bets.core.common.util.JsonMapper;
-import com.simple.bets.core.model.Tree;
+import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.core.redis.JedisUtils;
 import com.simple.bets.modular.sys.dao.DictMapper;
 import com.simple.bets.modular.sys.model.Dict;
-import com.simple.bets.modular.sys.model.Office;
-import com.simple.bets.modular.sys.service.OfficeService;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

@@ -3,7 +3,7 @@ package com.simple.bets.core.common.aspect;
 import com.google.common.collect.ImmutableList;
 import com.simple.bets.core.common.exception.LimitAccessException;
 import com.simple.bets.core.common.util.IPUtils;
-import com.simple.bets.core.model.LimitType;
+import com.simple.bets.core.base.model.LimitType;
 import com.simple.bets.core.annotation.Limit;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

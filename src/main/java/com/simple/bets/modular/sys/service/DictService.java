@@ -1,7 +1,7 @@
 package com.simple.bets.modular.sys.service;
 
 import com.simple.bets.modular.sys.model.Dict;
-import com.simple.bets.core.service.IService;
+import com.simple.bets.core.base.service.IService;
 
 public interface DictService extends IService<Dict> {
 

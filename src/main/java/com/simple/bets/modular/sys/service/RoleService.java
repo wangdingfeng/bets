@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.service;
 
 
 import com.simple.bets.modular.sys.model.Role;
-import com.simple.bets.core.service.IService;
+import com.simple.bets.core.base.service.IService;
 
 import java.util.List;
 /**

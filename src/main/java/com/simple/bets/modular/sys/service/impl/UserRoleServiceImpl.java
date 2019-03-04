@@ -8,7 +8,7 @@ import com.simple.bets.modular.sys.dao.UserRoleMapper;
 import com.simple.bets.modular.sys.model.Role;
 import com.simple.bets.modular.sys.model.User;
 import com.simple.bets.modular.sys.model.UserRole;
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,6 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static javafx.scene.input.KeyCode.T;
 
 /**
  * 用户角色表

@@ -2,7 +2,7 @@ package com.simple.bets.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simple.bets.core.common.xss.XssFilter;
-import com.simple.bets.core.controller.BetsErrorView;
+import com.simple.bets.core.base.controller.BetsErrorView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,7 @@ import java.util.Map;
  * @Date 10:29 2019/1/11
  **/
 @Configuration
-public class WebConfig implements  WebMvcConfigurer {
+public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
     private BetsProperties betsProperties;
@@ -32,7 +32,7 @@ public class WebConfig implements  WebMvcConfigurer {
      **/
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/file/**").addResourceLocations("file:"+betsProperties.getFilePath());
+        registry.addResourceHandler("/file/**").addResourceLocations("file:" + betsProperties.getFilePath());
     }
 
     /**

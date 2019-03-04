@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.service.impl;
 
 import com.simple.bets.modular.sys.model.Dict;
 import com.simple.bets.modular.sys.service.DictService;
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

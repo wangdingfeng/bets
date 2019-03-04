@@ -4,7 +4,7 @@ import com.simple.bets.modular.sys.dao.RoleMapper;
 import com.simple.bets.modular.sys.dao.RoleMenuMapper;
 import com.simple.bets.modular.sys.model.Role;
 import com.simple.bets.modular.sys.model.RoleMenu;
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.service.RoleMenuService;
 import com.simple.bets.modular.sys.service.RoleService;
 import com.simple.bets.modular.sys.service.UserRoleService;

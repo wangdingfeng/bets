@@ -20,7 +20,7 @@ import java.io.IOException;
  * @Description: beetl配置项 详细配置请参看beetl官网
  * @Date: 2018/11/29 18:12
  * @Version: 1.0
- * */
+ */
 
 @Configuration
 public class BeetlConf {
@@ -29,6 +29,7 @@ public class BeetlConf {
 
     /**
      * beetl配置
+     *
      * @return
      */
     @Bean(initMethod = "init", name = "beetlConfig")
@@ -41,7 +42,7 @@ public class BeetlConf {
                     new WebAppResourceLoader(patternResolver.getResource("classpath:/").getFile().getPath());
             beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
         } catch (IOException e) {
-            logger.error("beetl配置不存在，请查看classpath下是否有此配置",e);
+            logger.error("beetl配置不存在，请查看classpath下是否有此配置", e);
         }
         logger.info("加载beetl.properties配置成功");
         //读取配置文件信息
@@ -50,6 +51,7 @@ public class BeetlConf {
 
     /**
      * 视图层配置
+     *
      * @param beetlGroupUtilConfiguration
      * @return
      */

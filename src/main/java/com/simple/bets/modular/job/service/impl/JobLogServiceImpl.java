@@ -1,6 +1,6 @@
 package com.simple.bets.modular.job.service.impl;
 
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.job.model.JobLogModel;
 import com.simple.bets.modular.job.service.JobLogService;
 import org.apache.commons.lang3.StringUtils;

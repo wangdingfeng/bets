@@ -2,8 +2,8 @@ package com.simple.bets.modular.sys.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.simple.bets.core.common.util.ToolUtils;
-import com.simple.bets.core.model.RedisInfo;
-import com.simple.bets.core.model.ResponseResult;
+import com.simple.bets.core.base.model.RedisInfo;
+import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.core.redis.service.RedisService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

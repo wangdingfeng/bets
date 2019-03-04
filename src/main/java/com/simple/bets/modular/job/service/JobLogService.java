@@ -1,7 +1,7 @@
 package com.simple.bets.modular.job.service;
 
 
-import com.simple.bets.core.service.IService;
+import com.simple.bets.core.base.service.IService;
 import com.simple.bets.modular.job.model.JobLogModel;
 
 import java.util.List;

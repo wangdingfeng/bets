@@ -6,7 +6,7 @@ import com.simple.bets.modular.sys.dao.UserRoleMapper;
 import com.simple.bets.modular.sys.model.User;
 import com.simple.bets.modular.sys.model.UserRole;
 import com.simple.bets.modular.sys.model.UserWithRole;
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.service.UserRoleService;
 import com.simple.bets.modular.sys.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;

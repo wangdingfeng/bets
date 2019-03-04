@@ -1,8 +1,7 @@
 package com.simple.bets.core.common.handler;
 
-import com.simple.bets.core.common.exception.FileDownloadException;
 import com.simple.bets.core.common.exception.LimitAccessException;
-import com.simple.bets.core.model.ResponseResult;
+import com.simple.bets.core.base.model.ResponseResult;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.session.ExpiredSessionException;
 import org.slf4j.Logger;
@@ -24,6 +23,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 权限控制
+     *
      * @param request
      * @return
      */
@@ -41,6 +41,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 全局登录
+     *
      * @return
      */
     @ExceptionHandler(value = ExpiredSessionException.class)
@@ -48,13 +49,14 @@ public class GlobalExceptionHandler {
         return "login";
     }
 
+    /**
+     * 接口限流
+     *
+     * @param e
+     * @return
+     */
     @ExceptionHandler(value = LimitAccessException.class)
     public ResponseResult handleLimitAccessException(LimitAccessException e) {
-        return ResponseResult.error(e.getMessage());
-    }
-
-    @ExceptionHandler(value = FileDownloadException.class)
-    public ResponseResult handleFileDownloadException(FileDownloadException e) {
         return ResponseResult.error(e.getMessage());
     }
 

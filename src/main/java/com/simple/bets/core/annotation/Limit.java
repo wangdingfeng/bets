@@ -1,7 +1,7 @@
 package com.simple.bets.core.annotation;
 
 
-import com.simple.bets.core.model.LimitType;
+import com.simple.bets.core.base.model.LimitType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

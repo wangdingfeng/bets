@@ -1,6 +1,6 @@
 package com.simple.bets.modular.file.model;
 
-import com.simple.bets.core.model.BaseModel;
+import com.simple.bets.core.base.model.BaseModel;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

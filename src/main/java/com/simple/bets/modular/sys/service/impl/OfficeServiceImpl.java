@@ -1,8 +1,8 @@
 package com.simple.bets.modular.sys.service.impl;
 
 import com.simple.bets.core.common.util.TreeUtils;
-import com.simple.bets.core.model.Tree;
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.model.Tree;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.dao.OfficeMapper;
 import com.simple.bets.modular.sys.model.Menu;
 import com.simple.bets.modular.sys.model.Office;

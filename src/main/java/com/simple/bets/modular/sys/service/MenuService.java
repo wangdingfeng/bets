@@ -1,8 +1,8 @@
 package com.simple.bets.modular.sys.service;
 
-import com.simple.bets.core.model.Tree;
+import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.modular.sys.model.Menu;
-import com.simple.bets.core.service.IService;
+import com.simple.bets.core.base.service.IService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 

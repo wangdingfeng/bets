@@ -3,7 +3,7 @@ package com.simple.bets.modular.sys.dao;
 
 import com.simple.bets.modular.sys.model.User;
 import com.simple.bets.modular.sys.model.UserRole;
-import com.simple.bets.core.mapper.BaseMapper;
+import com.simple.bets.core.base.BaseMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.simple.bets.core.redis.service.impl;
 
-import com.simple.bets.core.model.RedisInfo;
+import com.simple.bets.core.base.model.RedisInfo;
 import com.simple.bets.core.redis.service.RedisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

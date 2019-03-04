@@ -3,14 +3,12 @@ package com.simple.bets.modular.sys.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.simple.bets.core.annotation.ExportConfig;
-import com.simple.bets.core.model.TreeModel;
+import com.simple.bets.core.base.model.TreeModel;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 @Table(name = "t_menu")

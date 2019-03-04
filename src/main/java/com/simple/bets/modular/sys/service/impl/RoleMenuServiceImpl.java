@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.service.impl;
 
 import com.simple.bets.modular.sys.model.RoleMenu;
 import com.simple.bets.modular.sys.service.RoleMenuService;
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

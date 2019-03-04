@@ -1,7 +1,7 @@
 package com.simple.bets.modular.file.service.impl;
 
 import com.simple.bets.config.BetsProperties;
-import com.simple.bets.core.service.impl.ServiceImpl;
+import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.file.model.FileModel;
 import com.simple.bets.modular.file.model.UploadResult;
 import com.simple.bets.modular.file.service.FileService;

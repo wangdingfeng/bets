@@ -1,6 +1,6 @@
 package com.simple.bets.modular.job.dao;
 
-import com.simple.bets.core.mapper.BaseMapper;
+import com.simple.bets.core.base.BaseMapper;
 import com.simple.bets.modular.job.model.JobModel;
 
 import java.util.List;

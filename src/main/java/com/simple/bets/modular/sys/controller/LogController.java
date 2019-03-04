@@ -2,8 +2,8 @@ package com.simple.bets.modular.sys.controller;
 
 import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.common.util.Page;
-import com.simple.bets.core.controller.BaseController;
-import com.simple.bets.core.model.ResponseResult;
+import com.simple.bets.core.base.controller.BaseController;
+import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.modular.sys.model.SysLog;
 import com.simple.bets.modular.sys.service.LogService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

@@ -1,6 +1,6 @@
 package com.simple.bets.core.common.util;
 
-import com.simple.bets.core.model.ResponseResult;
+import com.simple.bets.core.base.model.ResponseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
