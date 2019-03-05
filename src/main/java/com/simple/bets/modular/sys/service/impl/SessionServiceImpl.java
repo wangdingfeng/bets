@@ -1,6 +1,8 @@
 package com.simple.bets.modular.sys.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.simple.bets.core.common.util.AddressUtils;
+import com.simple.bets.core.common.util.IPUtils;
 import com.simple.bets.modular.sys.model.User;
 import com.simple.bets.modular.sys.model.UserOnline;
 import com.simple.bets.modular.sys.service.SessionService;
@@ -52,8 +54,8 @@ public class SessionServiceImpl implements SessionService {
             userOnline.setLastAccessTime(session.getLastAccessTime());
             long timeout = session.getTimeout();
             userOnline.setStatus(timeout == 0L ? "0" : "1");
-//            String address = AddressUtils.getCityInfo(userOnline.getHost());
-//            userOnline.setLocation(address);
+            String address = AddressUtils.getCityInfo(userOnline.getHost());
+            userOnline.setLocation(address);
             userOnline.setTimeout(timeout);
             list.add(userOnline);
         }

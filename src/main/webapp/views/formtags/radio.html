@@ -3,7 +3,7 @@
 %>
 <span class="icheck">
 <%for(dict in dictList) {%>
-	<label id="${id}"><input type="radio" name="${id}" class="${class}" value="${dict.dictValue}" ${dict.dictValue == value ? 'checked':''}/> ${dict.dictLabel}</label>
+	<label id="${id}"><input type="radio" name="${name}" class="${class}" value="${dict.dictValue}" ${dict.dictValue == value ? 'checked':''}/> ${dict.dictLabel}</label>
 <%}%>
 </span>
 	

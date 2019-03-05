@@ -94,7 +94,7 @@
                 });
             });
         });
-        var setting = {
+        var menuSetting = {
             check: {
                 enable: true,
                 chkboxType: {"Y": "ps", "N": "s"},
@@ -116,7 +116,7 @@
                 }
             }
         };
-        var tree = $.fn.zTree.init($("#menuTree"), setting, ${treeJson});
+        var tree = $.fn.zTree.init($("#menuTree"), menuSetting, ${treeJson});
         // 默认选择节点
         var ids = "${role.menuIds!}".split(",");
         for (var i = 0; i < ids.length; i++) {

@@ -17,7 +17,7 @@
 </div>
 <script>
 
-    var setting = {
+    var ${p.id}Setting = {
         view: {
             dblClickExpand: false
         },
@@ -86,11 +86,11 @@
             data:'',
             success: function(rel){
                 if(rel.success){
-                    var tree =  $.fn.zTree.init($("#${p.id}Tree"), setting, rel.data);
+                    var ${p.id}Tree =  $.fn.zTree.init($("#${p.id}Tree"), ${p.id}Setting, rel.data);
                     //获取ztree对象
                     var value = "${p.hiddenValue}";
                     if('' != value){
-                        var node = tree.getNodeByParam("id", value);
+                        var node = ${p.id}Tree.getNodeByParam("id", value);
                         $("#${p.id}").val(node.text);
                     }
                 }else{

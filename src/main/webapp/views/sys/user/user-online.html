@@ -16,12 +16,13 @@
     $('#dataGrid').dataGrid({
         searchForm: $("#searchForm"),
         columnModel: [
-            {header: 'SessionId', name: 'id', index: 'id', width: 100, align: "center",hidden:true},
+            // {header: 'SessionId', name: 'id', index: 'id', width: 100, align: "center",hidden:true},
             {header: '用户账号', name: 'userName', index: 'user_name', width: 100, align: "center"},
             {header: '用户主机地址', name: 'host', index: 'host', width: 100, align: "center"},
-            {header: '用户登录时系统IP', name: 'systemHost', index: 'systemHost', width: 100, align: "center"},
+            {header: '位置', name: 'location', index: 'location', width: 100, align: "center"},
             {header: '状态', name: 'status', index: 'status', width: 100, align: "center"},
             {header: '登录时间', name: 'startTimestamp', index: 'start_timestamp', width: 100, align: "center"},
+            {header: '最后访问时间', name: 'lastAccessTime', index: 'lastAccessTime', width: 100, align: "center"},
             {
                 header: '操作',
                 name: 'actions',

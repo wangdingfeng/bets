@@ -20,7 +20,8 @@
                                 <span class="required " aria-required="true">*</span>账号
                             </label>
                             <div class="col-sm-8">
-                                <#input id="username" class="form-control required" underline="true" value="${user.username!}" inputIcon="fa fa-user-o" />
+                                <#input id="username" class="form-control required" underline="true"
+                                value="${user.username!}" inputIcon="fa fa-user-o" />
                             </div>
                         </div>
                     </div>
@@ -30,7 +31,8 @@
                                 <span class="required " aria-required="true">*</span> 用户名
                             </label>
                             <div class="col-sm-8">
-                                <#input id="name" class="form-control required" underline="true" value="${user.name!}" inputIcon="fa fa-user-circle"/>
+                                <#input id="name" class="form-control required" underline="true" value="${user.name!}"
+                                inputIcon="fa fa-user-circle"/>
                             </div>
                         </div>
                     </div>
@@ -38,12 +40,13 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
-                            <label class="control-label col-sm-4" >
+                            <label class="control-label col-sm-4">
                                 <span class="required hide">*</span> 性别:<i class="fa icon-question hide"></i>
                                 <i class="fa icon-question"></i>
                             </label>
                             <div class="col-sm-8">
-                                <#radio id="sex" dictType="sex" class="form-control required" value='${user.sex}'/>
+                                <#radio id="sex" name='sex' dictType="sex" class="form-control required"
+                                value='${user.sex}'/>
                             </div>
                         </div>
                     </div>
@@ -55,35 +58,37 @@
                             <div class="col-sm-8">
                                 <input name="birthday" class="form-control required" underline="true" type="text"
                                        value="${user.birthday,'yyyy-MM-dd'}" inputIcon="fa fa-calendar"
-                                       onclick="WdatePicker({dateFt:'yyyy-MM-dd'})" autocomplete="true" >
+                                       onclick="WdatePicker({dateFt:'yyyy-MM-dd'})" autocomplete="true">
                             </div>
                         </div>
                     </div>
                 </div>
                 <%if(isEmpty(user.userId!)){%>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">
-                                    <span class="required " aria-required="true">*</span> 密码
-                                </label>
-                                <div class="col-sm-8">
-                                    <#input id="password" class="form-control required" underline="true" type="password" inputIcon="fa fa-key"/>
-                                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span> 密码
+                            </label>
+                            <div class="col-sm-8">
+                                <#input id="password" class="form-control required" underline="true" type="password"
+                                inputIcon="fa fa-key"/>
                             </div>
-                        </div>
-                        <div class="col-xs-6">
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">
-                                    <span class="required " aria-required="true">*</span> 再次输入密码
-                                </label>
-                                <div class="col-sm-8">
-                                    <#input id="unpassword" class="form-control required" underline="true" type="password" inputIcon="fa fa-key"/>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span> 再次输入密码
+                            </label>
+                            <div class="col-sm-8">
+                                <#input id="unpassword" class="form-control required" underline="true" type="password"
+                                inputIcon="fa fa-key"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
                 <%}%>
                 <div class="row">
                     <div class="col-xs-6">
@@ -92,7 +97,8 @@
                                 <span class="required " aria-required="true">*</span> 电话
                             </label>
                             <div class="col-sm-8">
-                                <#input id="mobile" class="form-control required" underline="true" value="${user.mobile!}" inputIcon="fa fa-phone" />
+                                <#input id="mobile" class="form-control required" underline="true"
+                                value="${user.mobile!}" inputIcon="fa fa-phone" />
                             </div>
                         </div>
                     </div>
@@ -102,7 +108,8 @@
                                 <span class="required " aria-required="true">*</span> 邮件
                             </label>
                             <div class="col-sm-8">
-                                <#input id="email" class="form-control required" underline="true" value="${user.email!}" inputIcon="fa fa-envelope-o" />
+                                <#input id="email" class="form-control required" underline="true" value="${user.email!}"
+                                inputIcon="fa fa-envelope-o" />
                             </div>
                         </div>
                     </div>
@@ -114,7 +121,8 @@
                                 <span class="required " aria-required="true">*</span> 所属部门
                             </label>
                             <div class="col-sm-8">
-                                <#treeInput name="deptName" value='${user.deptName!}' url='/office/getOfficeTree' hiddenName="deptId" hiddenValue='${user.deptId!}'/>
+                                <#treeInput name="deptName" value='${user.deptName!}' url='/office/getOfficeTree'
+                                hiddenName="deptId" hiddenValue='${user.deptId!}'/>
                             </div>
                         </div>
                     </div>
@@ -136,7 +144,9 @@
                 <div class="row">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i>保 存</button>&nbsp;
-                        <button type="button" class="btn btn-sm btn-default" onclick="bet.closeTab()"><i class="fa fa-reply-all"></i> 关 闭</button>
+                        <button type="button" class="btn btn-sm btn-default" onclick="bet.closeTab()"><i
+                                class="fa fa-reply-all"></i> 关 闭
+                        </button>
                     </div>
                 </div>
             </div>
@@ -146,14 +156,17 @@
     <script>
         $(function () {
             //校验用户名是否合法
-            $("#username").blur(function(){
+            $("#username").blur(function () {
                 var oldusername = "${user.username!''}";
                 var username = $(this).val();
-                if(username == ''){
+                if (username == '') {
                     return;
                 }
-                bet.ajax("${ctxPath}/user/checkUserName",{oldusername:oldusername,username:username},function (res) {
-                    if(res == false){
+                bet.ajax("${ctxPath}/user/checkUserName", {
+                    oldusername: oldusername,
+                    username: username
+                }, function (res) {
+                    if (res == false) {
                         bet.showErrorMessage("此用户名数据库中已存在，请换一个账号试试");
                         return;
                     }
@@ -162,12 +175,12 @@
         });
         //提交用户表单
         $("#inputForm").validate({
-            submitHandler: function(form){
-                bet.ajax("${ctxPath}/user/saveOrUpdate",$(form).serializeArray(),function (data) {
-                    if(data.success){
+            submitHandler: function (form) {
+                bet.ajax("${ctxPath}/user/saveOrUpdate", $(form).serializeArray(), function (data) {
+                    if (data.success) {
                         bet.showMessage(data.message);
                         bet.closeTabRefreshTable();
-                    }else{
+                    } else {
                         bet.showErrorMessage(data.message);
                     }
                 });

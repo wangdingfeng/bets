@@ -39,6 +39,7 @@ public class OfficeServiceImpl extends ServiceImpl<Office> implements OfficeServ
 
     @Override
     public Tree<Office> getAllOfficeTree(Office office) {
+        office.setParentId(null);
         List<Tree<Office>> treeList = new ArrayList<>();
         List<Office> offices = officeMapper.findAllList(office);
         offices.forEach(office1 -> {

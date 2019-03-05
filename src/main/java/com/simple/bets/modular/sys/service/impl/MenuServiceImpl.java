@@ -34,9 +34,6 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
     private MenuMapper menuMapper;
 
     @Autowired
-    private RoleMenuService roleMenuService;
-
-    @Autowired
     private WebApplicationContext applicationContext;
 
     @Override

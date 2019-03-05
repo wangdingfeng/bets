@@ -22,11 +22,25 @@
                             <label class="control-label col-sm-4" title="">上级菜单:</label>
                             <div class="col-sm-8">
                                 <#treeInput id="parentMenuId" name="" url='/menu/tree?isAll=false' hiddenName="parentId"
-                                class="required"  value="${menu.parentId!}"/>
+                                class="required"  hiddenValue="${menu.parentId!}"/>
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">
+                                <span class="required hide">*</span>
+                                类型:
+                                <i class="fa icon-question hide"></i>
+                                <i class="fa icon-question"></i>
+                            </label>
+                            <div class="col-sm-8">
+                                <#radio id="menuType" name='type' dictType="menu_type" class="form-control required" value="${menu.type}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label class="control-label col-sm-4" title="">
@@ -39,9 +53,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label class="control-label col-sm-4" title="点击菜单跳转的页面">链接:
@@ -52,19 +63,18 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label class="control-label col-sm-4" title="链接地址打开的目标窗口，默认：iframe-tabs">目标:
                                 <i class="fa icon-question"></i>
                             </label>
                             <div class="col-sm-8">
-                                <#select id="targetType" name='targetType' class="form-control required" data="getDictList:menu_target" onValue="${menu.targetType!}" />
+                                <#select id="targetType" name='targetType' class="form-control" data="getDictList:menu_target" onValue="${menu.targetType!}" />
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label class="control-label col-sm-4" title="">图标:</label>
@@ -73,6 +83,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label class="control-label col-sm-4" title="排列顺序，升序。">
@@ -86,22 +98,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label class="control-label col-sm-4">
-                                <span class="required hide">*</span>
-                                类型:
-                                <i class="fa icon-question hide"></i>
-                                <i class="fa icon-question"></i>
-                            </label>
-                            <div class="col-sm-8">
-                                <#radio id="type"  dictType="menu_type" class="form-control required" value="${menu.type}"/>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label class="control-label col-sm-4" title="控制器中定义的权限标识，如：@RequiresPermissions(“权限标识”)">
@@ -109,7 +105,7 @@
                                 <i class="fa icon-question"></i>
                             </label>
                             <div class="col-sm-8">
-                                <#input id="permission" maxlength="255" class="form-control " />
+                                <#input id="perms" name="perms" maxlength="255" class="form-control " />
                             </div>
                         </div>
                     </div>

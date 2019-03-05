@@ -5,29 +5,21 @@
             <h3 class="box-title">字典管理</h3>
             <div class="box-tools pull-right">
                 <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
-                <a href="#" class="btn btn-default btn-sm" id="btnS" title="新增" onclick="bet.addTabPage('新增字典','/user/form')"><i class="fa fa-filter"></i> 新增</a>
+                <a href="/dict/form" class="btn btn-default btnTool btn-sm" title="新增字典"><i class="fa fa-plus"></i> 新增字典</a>
             </div>
         </div>
         <div class="box-body">
-            <form style="margin: 10px" id="searchForm" action="${ctxPath}/dict/list" method="post" class="form-horizontal hide">
-                <input id="pageNo" name="pageNo" type="hidden" value="0">
-                <input id="pageSize" name="pageSize" type="hidden" value="50">
-                <input id="orderBy" name="orderBy" type="hidden" value="">
-                <input name="isParent" type="hidden" value="0">
+            <form style="margin: 10px" id="searchForm" action="${ctxPath}/dict/list" method="post" class="form-inline hide">
                 <input name="dictType" type="hidden" value="${dict.dictType}">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">字典类型</label>
-                            <div class="col-sm-8">
-                                <input class="form-control" type="text" name="">
-                            </div>
-                        </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">字典类型</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="text" name="">
                     </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
-                        <button type="reset" class="btn btn-default btn-sm">重置</button>
-                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
                 </div>
             </form>
             <table id="dataGrid"></table>
