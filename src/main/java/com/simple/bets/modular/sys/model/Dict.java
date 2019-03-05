@@ -1,6 +1,7 @@
 package com.simple.bets.modular.sys.model;
 
 import com.simple.bets.core.annotation.ExportConfig;
+import com.simple.bets.core.base.model.BaseModel;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import java.util.Date;
  **/
 
 @Table(name = "t_dict")
-public class Dict implements Serializable{
+public class Dict extends BaseModel implements Serializable{
 
 	private static final long serialVersionUID = 7780820231535870010L;
 
@@ -38,18 +39,6 @@ public class Dict implements Serializable{
 
 	@Column(name = "sort")
 	private Integer sort;
-
-	@Column(name = "description")
-	private String description;
-
-	@Column(name = "status")
-	private String status;
-
-	@Column(name = "create_time")
-	private Date createTime;
-
-	@Column(name = "creator")
-	private String creator;
 
 	@Column(name = "is_parent")
 	private String isParent;
@@ -98,38 +87,6 @@ public class Dict implements Serializable{
 
 	public void setSort(Integer sort) {
 		this.sort = sort;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
 	}
 
 	public String getIsParent() {

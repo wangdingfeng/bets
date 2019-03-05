@@ -1,5 +1,6 @@
 package com.simple.bets.modular.sys.service.impl;
 
+import com.simple.bets.core.shiro.ShiroRealm;
 import com.simple.bets.modular.sys.dao.RoleMapper;
 import com.simple.bets.modular.sys.dao.RoleMenuMapper;
 import com.simple.bets.modular.sys.model.Role;
@@ -45,6 +46,8 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
 
     @Autowired
     private RoleMenuService roleMenuService;
+    @Autowired
+    private ShiroRealm shiroRealm;
 
     @Override
     public List<Role> findUserRole(String userName) {
@@ -67,6 +70,7 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
             super.save(role);
             setRoleMenus(role);
         }
+        shiroRealm.clearCache();
         return role;
     }
     @Override

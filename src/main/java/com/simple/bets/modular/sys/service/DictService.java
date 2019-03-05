@@ -4,10 +4,11 @@ import com.simple.bets.modular.sys.model.Dict;
 import com.simple.bets.core.base.service.IService;
 
 public interface DictService extends IService<Dict> {
-
-    void addDict(Dict dict);
+    /**
+     * 保存or更新字典
+     * @param dict
+     */
+    void saveOrUpdate(Dict dict);
 
     void deleteDicts(String dictIds);
-
-    void updateDict(Dict dicdt);
 }

@@ -68,27 +68,31 @@ public class DictController extends BaseController {
     }
 
     /**
-     * 新增||编辑
+     * 查看编辑
      * @param dict
      * @return
      */
     @RequestMapping("/form")
     public String form(Dict dict, Model model){
-        if(null == dict.getDictId()){
+        if(null != dict.getDictId()){
             dict =  dictService.findById(dict.getDictId());
-            model.addAttribute("dict",dict);
         }
+        model.addAttribute("dict",dict);
         return PAGE_SUFFIX+"/dict-from";
     }
 
-
-    @Log("新增字典 ")
-    @RequiresPermissions("dict:add")
-    @RequestMapping("dict/add")
+    /**
+     * 新增|更新字典数据
+     * @param dict
+     * @return
+     */
+    @Log("新增|更新字典数据")
+    @RequiresPermissions("dict:edit")
+    @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult addDict(Dict dict) {
+    public ResponseResult saveOrUpdate(Dict dict) {
         try {
-            this.dictService.addDict(dict);
+            this.dictService.saveOrUpdate(dict);
             return ResponseResult.ok("新增字典成功！");
         } catch (Exception e) {
             log.error("新增字典失败", e);
@@ -96,6 +100,11 @@ public class DictController extends BaseController {
         }
     }
 
+    /**
+     * 删除菜单
+     * @param ids
+     * @return
+     */
     @Log("删除字典")
     @RequiresPermissions("dict:delete")
     @RequestMapping("dict/delete")

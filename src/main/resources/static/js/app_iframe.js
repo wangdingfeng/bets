@@ -466,7 +466,7 @@ context = (function () {
                 $menu.append('<li class="dynamic-menu-src" data-src="' + funcName + '"></li>');
             } else {
                 if (typeof data[i].href == 'undefined') {
-                    data[i].href = '#';
+                    data[i].href = 'javascript:void(0)';
                 }
                 if (typeof data[i].target !== 'undefined') {
                     linkTarget = ' target="' + data[i].target + '"';

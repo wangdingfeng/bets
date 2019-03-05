@@ -12,25 +12,38 @@
         <form style="margin: 10px" id="inputForm" class="form-horizontal">
             <div class="form-unit">字典基本信息</div>
             <div class="box-body no-padding">
-                <input type="hidden" value="${user.userId!}" name="userId">
+                <input type="hidden" value="${dict.dictId!}" name="dictId">
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">
-                                <span class="required " aria-required="true">*</span>账号
+                                <span class="required " aria-required="true">*</span>字典名称
                             </label>
                             <div class="col-sm-8">
-                                <#input id="username" class="form-control required" underline="true" value="${user.username!}" inputIcon="fa fa-user-o" />
+                                <#input id="dictLabel" name="dictLabel" class="form-control required" underline="true" value="${dict.dictLabel!}"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">
-                                <span class="required " aria-required="true">*</span> 用户名
+                                <span class="required " aria-required="true">*</span> 字典类型
                             </label>
                             <div class="col-sm-8">
-                                <#input id="name" class="form-control required" underline="true" value="${user.name!}" inputIcon="fa fa-user-circle"/>
+                                <#input id="dictType" name="dictType" class="form-control required" underline="true" value="${dict.dictType!}" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-unit">其它信息</div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" title="">备注信息：</label>
+                                <div class="col-sm-10">
+                                    <#textarea id="remarks" rows="4" maxlength="255" class="form-control input-xxlarge "/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -51,12 +64,12 @@
         //提交用户表单
         $("#inputForm").validate({
             submitHandler: function(form){
-                bet.ajax("${ctxPath}/user/saveOrUpdate",$(form).serializeArray(),function (data) {
-                    if(data.success){
-                        parent.refreshTabByTitle("用户管理");
-                        bet.closeTab();
-                    }else{
-                        bet.showErrorMessage("保存失败，请查看日志");
+                bet.ajax("${ctxPath}/dict/saveOrUpdate",$(form).serializeArray(),function (data) {
+                    if (data.success) {
+                        bet.showMessage(data.message);
+                        bet.closeTabRefreshTable();
+                    } else {
+                        bet.showErrorMessage(data.message);
                     }
                 });
             }
