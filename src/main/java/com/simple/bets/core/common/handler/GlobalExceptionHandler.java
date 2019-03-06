@@ -6,7 +6,9 @@ import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.session.ExpiredSessionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,6 +42,38 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 运行时异常
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler({ RuntimeException.class })
+    @ResponseStatus(HttpStatus.OK)
+    public ModelAndView processException(RuntimeException exception) {
+        logger.info("500异常处理-RuntimeException");
+        ModelAndView m = new ModelAndView();
+        m.addObject("exception", exception);
+        m.setViewName("error/500");
+        return m;
+
+    }
+
+    /**
+     * Excepiton异常
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler({ Exception.class })
+    @ResponseStatus(HttpStatus.OK)
+    public ModelAndView processException(Exception exception) {
+        logger.info("500异常处理-Exception");
+        ModelAndView m = new ModelAndView();
+        m.addObject("exception", exception.getMessage());
+        m.setViewName("error/500");
+        return m;
+
+    }
+
+    /**
      * 全局登录
      *
      * @return
@@ -59,6 +93,8 @@ public class GlobalExceptionHandler {
     public ResponseResult handleLimitAccessException(LimitAccessException e) {
         return ResponseResult.error(e.getMessage());
     }
+
+
 
     private static boolean isAjaxRequest(HttpServletRequest request) {
         return (request.getHeader("X-Requested-With") != null

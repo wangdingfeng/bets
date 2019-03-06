@@ -95,8 +95,8 @@ public abstract class ServiceImpl<T> implements IService<T> {
             return this.mapper.selectOne(entity);
         } catch (Exception e) {
             logger.error("错误的查询,检查是否返回多个结果集!", e);
+            throw e;
         }
-        return null;
     }
 
     @Override
