@@ -4,16 +4,16 @@
         <div class="box-header with-border">
             <h3 class="box-title">字典管理</h3>
             <div class="box-tools pull-right">
-                <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
-                <a href="/dict/form" class="btn btn-default btnTool btn-sm" title="新增字典"><i class="fa fa-plus"></i> 新增字典</a>
+                <a href="/dict/form?isParent=0" class="btn btn-default btnTool btn-sm" title="新增字典"><i class="fa fa-plus"></i> 新增</a>
             </div>
         </div>
         <div class="box-body">
-            <form style="margin: 10px" id="searchForm" action="${ctxPath}/dict/list" method="post" class="form-inline hide">
+            <form style="margin: 10px" id="searchForm" action="${ctxPath}/dict/list" method="post" class="form-inline">
+                <input name="isParent" type="hidden" value="0">
                 <input name="dictType" type="hidden" value="${dict.dictType}">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">字典类型</label>
-                    <div class="col-sm-8">
+                    <label class="control-label">字典类型:</label>
+                    <div class="control-inline">
                         <input class="form-control" type="text" name="">
                     </div>
                 </div>

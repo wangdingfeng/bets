@@ -3,12 +3,11 @@ package com.simple.bets.modular.sys.service.impl;
 import com.simple.bets.modular.sys.model.Dict;
 import com.simple.bets.modular.sys.service.DictService;
 import com.simple.bets.core.base.service.impl.ServiceImpl;
+import com.simple.bets.modular.sys.utils.DictUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @Author wangdingfeng
@@ -30,13 +29,8 @@ public class DictServiceImpl extends ServiceImpl<Dict> implements DictService {
 			dict.setBaseData(false);
 			super.updateNotNull(dict);
 		}
-	}
-
-	@Override
-	@Transactional
-	public void deleteDicts(String dictIds) {
-		List<String> list = Arrays.asList(dictIds.split(","));
-		this.batchDelete(list, "dictId", Dict.class);
+		//清除字典缓存
+		DictUtils.clearCacheDict();
 	}
 
 }

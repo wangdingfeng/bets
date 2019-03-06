@@ -84,6 +84,13 @@ public class DictUtils {
 	}
 
 	/**
+	 * 清楚字典缓存
+	 */
+	public static void clearCacheDict(){
+		JedisUtils.del(CACHE_DICT_MAP);
+	}
+
+	/**
 	 * 返回字典列表（JSON）
 	 * @param type
 	 * @return

@@ -5,6 +5,7 @@
     color: #dd4b39;
     display: none
 }
+
 #page-loading {
     position: fixed;
     top: 48%;
@@ -46,6 +47,7 @@
     height: 2px;
     z-index: 99999
 }
+
 ::-webkit-scrollbar {
     width: 10px !important;
     height: 10px !important;
@@ -61,15 +63,54 @@
     background-color: #ccc;
     background-clip: padding-box
 }
-.pagination{margin:8px 0;display:block;font-size:13px}
-.pagination>li>a,.pagination>li>span{min-width:37px;text-align:center;padding:6px;border:1px solid #ddd;background:transparent}
-.pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover{background:#eee;color:#333;border-color:#ddd}
-.pagination>.disabled>span,.pagination>.disabled>span:hover,.pagination>.disabled>span:focus,.pagination>.disabled>a,.pagination>.disabled>a:hover,.pagination>.disabled>a:focus{cursor:default!important;color:#ccc}
-.pagination .controls{float:left;border:0;padding:7px 0 0 15px;color:#777}
-.pagination .controls input{border:0;width:22px;padding:0;margin:-3px 0 0 0;text-align:center;font-size:13px;background:transparent;box-shadow:none}
+
+.pagination {
+    margin: 8px 0;
+    display: block;
+    font-size: 13px
+}
+
+.pagination > li > a, .pagination > li > span {
+    min-width: 37px;
+    text-align: center;
+    padding: 6px;
+    border: 1px solid #ddd;
+    background: transparent
+}
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background: #eee;
+    color: #333;
+    border-color: #ddd
+}
+
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+    cursor: default !important;
+    color: #ccc
+}
+
+.pagination .controls {
+    float: left;
+    border: 0;
+    padding: 7px 0 0 15px;
+    color: #777
+}
+
+.pagination .controls input {
+    border: 0;
+    width: 22px;
+    padding: 0;
+    margin: -3px 0 0 0;
+    text-align: center;
+    font-size: 13px;
+    background: transparent;
+    box-shadow: none
+}
+
 .form-group .control-label .required {
     color: #e02222;
 }
+
 .form-inline {
     padding-left: 5px;
     margin: 3px
@@ -107,20 +148,40 @@
     margin-right: 0
 }
 
-.treeInputContent{
+.treeInputContent {
     border: 1px solid #d2d6de;
     background: #FFFFFF;
     border-radius: 4px;
-    display: none;position: absolute;z-index: 999999;top: 20px;
+    display: none;
+    position: absolute;
+    z-index: 999999;
+    top: 20px;
 }
 
-.box{
+.box {
     border-top: 0px;
 }
+
 .box-main {
     margin: 0;
     border: 0;
     padding-top: 2px;
     border-radius: 0;
     box-shadow: none;
+}
+
+.form-unit {
+    font-size: 15px;
+    font-style: oblique;
+    color: rgb(99, 121, 187);
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(221, 221, 221);
+    margin: 8px 10px 25px;
+}
+
+.form-group .control-label {
+    font-weight: normal;
+    padding-top: 3px;
+    text-align: right;
+    padding-right: 0;
 }

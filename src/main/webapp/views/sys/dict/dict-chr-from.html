@@ -1,8 +1,8 @@
 <%layout("/layout/body.html",{title:'新增字典',libs:['validate','jqgrid']}){%>
 <div class="content">
-    <div class="box box-main">
+    <div class="box" style="margin-bottom: 0px">
         <div class="box-header with-border">
-            <h3 class="box-title"><i class=""></i>添加字典</h3>
+            <h3 class="box-title">添加字典</h3>
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
@@ -13,12 +13,12 @@
             <div class="form-unit">字典基本信息</div>
             <div class="box-body no-padding">
                 <input type="hidden" value="${dict.dictId!}" name="dictId">
-                <input type="hidden" value="${dict.isParent!}" name="isParent">
+                <input type="hidden" value="0" name="isParent">
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label class="col-sm-4 control-label">
-                                <span class="required " aria-required="true">*</span>字典名称：
+                                <span class="required " aria-required="true">*</span>字典名称
                             </label>
                             <div class="col-sm-8">
                                 <#input id="dictLabel" name="dictLabel" class="form-control required" underline="true" value="${dict.dictLabel!}"/>
@@ -26,47 +26,25 @@
                         </div>
                     </div>
                     <div class="col-xs-6">
-                        <%if(dict.isParent == '1' ){%>
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">
-                                    <span class="required " aria-required="true">*</span> 字典类型：
-                                </label>
-                                <div class="col-sm-8">
-                                    <#input id="dictType" name="dictType" class="form-control required" underline="true" value="${dict.dictType!}" />
-                                </div>
-                            </div>
-                        <%}else{%>
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">
-                                    <span class="required " aria-required="true">*</span> 字典值：
-                                </label>
-                                <div class="col-sm-8">
-                                    <#input id="dictValue" name="dictValue" class="form-control required" underline="true" value="${dict.dictValue!}" />
-                                </div>
-                            </div>
-                        <%}%>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6">
                         <div class="form-group">
-                            <label class="control-label col-sm-4">
-                                <span class="required hide">*</span>
-                                    是否可见：
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span> 字典值
                             </label>
                             <div class="col-sm-8">
-                                <#radio id="dictStatus" name='dictStatus' dictType="sys_if" class="form-control required" value="${dict.dictStatus}"/>
+                                <#input id="dictValue" name="dictValue" class="form-control required" underline="true" value="${dict.dictValue!}" />
                             </div>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">
-                                备注：
-                            </label>
-                            <div class="col-sm-10">
-                                <#textarea id="description" class="form-control" rows="4" value="${user.description!}"/>
+
+                    <div class="form-unit">其它信息</div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" title="">备注信息：</label>
+                                <div class="col-sm-10">
+                                    <#textarea id="remarks" rows="4" maxlength="255" class="form-control input-xxlarge "/>
+                                </div>
                             </div>
                         </div>
                     </div>

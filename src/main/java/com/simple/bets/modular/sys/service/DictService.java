@@ -9,6 +9,4 @@ public interface DictService extends IService<Dict> {
      * @param dict
      */
     void saveOrUpdate(Dict dict);
-
-    void deleteDicts(String dictIds);
 }

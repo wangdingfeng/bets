@@ -102,16 +102,16 @@ public class DictController extends BaseController {
 
     /**
      * 删除菜单
-     * @param ids
+     * @param dictId
      * @return
      */
     @Log("删除字典")
     @RequiresPermissions("dict:delete")
-    @RequestMapping("dict/delete")
+    @RequestMapping("/delete")
     @ResponseBody
-    public ResponseResult deleteDicts(String ids) {
+    public ResponseResult deleteDict(Long dictId) {
         try {
-            this.dictService.deleteDicts(ids);
+            this.dictService.delete(dictId);
             return ResponseResult.ok("删除字典成功！");
         } catch (Exception e) {
             log.error("删除字典失败", e);

@@ -31,14 +31,15 @@
 <script>
     $('#dataGrid').dataGrid({
         searchForm: $("#searchForm"),
-        autoGridHeight: true, // 自动表格高度
         columnModel: [
             {header: '字典名称', name: 'dictLabel', index: 'dict_label', width: 100, align: "center"},
             {header: '字典类型', name: 'dictType', index: 'dict_type', width: 100, align: "center"},
             {header: '描述', name: 'remarks', index: 'remarks', width: 100, align: "center"},
-            {header: '状态', name: 'status', index: 'status', width: 100, align: "center"},
             {header: '创建时间', name: 'createTime', index: 'create_time', width: 100, align: "center"},
             {header: '修改时间', name: 'modifyTime', index: 'modify_time', width: 100, align: "center"},
+            {header: '是否可见', name: 'dictStatus', index: 'dict_status', width: 100, align: "center", formatter: function (val, obj, rows, act){
+                    return bet.transDictLabel(${DictUtils.getDictListJson('sys_if')}, val, '<font color=#aaa>未设置</font>');
+             }},
             {
                 header: '操作',
                 name: 'actions',
@@ -46,10 +47,9 @@
                 sortable: false,
                 title: false,
                 formatter: function (val, obj, rows, act) {
-                    console.info(rows);
                     var actions = [];
                     actions.push('<a href="/dict/form?dictId=' + rows.dictId + '" class="btnList" title="编辑字典信息"><i class="fa fa-pencil"></i></a>&nbsp;');
-                    actions.push('<a href="/dict/dictChildren?dictId=' + rows.dictId + '" class="btnList" title="添加子菜单"><i class="fa fa-navicon"></i></a>&nbsp;');
+                    actions.push('<a href="/dict/dictChildren?dictId=' + rows.dictId + '" class="btnList" title="管理子字典"><i class="fa fa-navicon"></i></a>&nbsp;');
                     actions.push('<a href="${ctxPath}/dict/delete?dictId=' + rows.dictId + '" class="btnList" title="删除字典信息" data-confirm="确认要删除字典信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
                     return actions.join('');
                 }

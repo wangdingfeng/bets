@@ -65,7 +65,7 @@ public class SessionController {
     public ResponseResult forceLogout(String id) {
         try {
             sessionService.forceLogout(id);
-            return ResponseResult.ok();
+            return ResponseResult.ok("操作成功");
         } catch (Exception e) {
             log.error("踢出用户失败", e);
             return ResponseResult.error("踢出用户失败");

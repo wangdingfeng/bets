@@ -16,7 +16,7 @@ import java.util.Date;
  **/
 
 @Table(name = "t_dict")
-public class Dict extends BaseModel implements Serializable{
+public class Dict extends BaseModel{
 
 	private static final long serialVersionUID = 7780820231535870010L;
 
@@ -41,7 +41,13 @@ public class Dict extends BaseModel implements Serializable{
 	private Integer sort;
 
 	@Column(name = "is_parent")
-	private String isParent;
+	private String isParent = "1";
+
+	/**
+	 * 字典状态
+	 */
+	@Column(name = "dict_status")
+	private String dictStatus;
 
 	/**
 	 * @return DICT_ID
@@ -95,5 +101,13 @@ public class Dict extends BaseModel implements Serializable{
 
 	public void setIsParent(String isParent) {
 		this.isParent = isParent;
+	}
+
+	public String getDictStatus() {
+		return dictStatus;
+	}
+
+	public void setDictStatus(String dictStatus) {
+		this.dictStatus = dictStatus;
 	}
 }

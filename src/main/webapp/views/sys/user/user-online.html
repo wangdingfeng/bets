@@ -20,7 +20,10 @@
             {header: '用户账号', name: 'userName', index: 'user_name', width: 100, align: "center"},
             {header: '用户主机地址', name: 'host', index: 'host', width: 100, align: "center"},
             {header: '位置', name: 'location', index: 'location', width: 100, align: "center"},
-            {header: '状态', name: 'status', index: 'status', width: 100, align: "center"},
+            {header: '状态', name: 'status', index: 'status', width: 100, align: "center", formatter: function (val, obj, row, act){
+                    if(val == '0') return '<label class="label label-info">下线</label>';
+                    if(val == '1') return '<label class="label label-success">在线</label>';
+                }},
             {header: '登录时间', name: 'startTimestamp', index: 'start_timestamp', width: 100, align: "center"},
             {header: '最后访问时间', name: 'lastAccessTime', index: 'lastAccessTime', width: 100, align: "center"},
             {
@@ -29,6 +32,7 @@
                 width: 40,
                 align:'center',
                 formatter: function (val, obj, row, act) {
+                    console.info(row);
                     var actions = [];
                     actions.push('<a href="${ctxPath}/session/forceLogout?id=' + row.id + '" class="btnList" title="踢出用户" data-confirm="确认要踢出该用户吗？"><i class="fa fa-sign-out"></i></a>&nbsp;');
                     return actions.join('');
