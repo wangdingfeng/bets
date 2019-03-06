@@ -4,14 +4,23 @@ AdminBets是一个简单的脚手架权限管理系统。项目基础框架采�
 
 #### 软件架构:
 Java : Jdk 1.8 
+
 基础框架：Spring Boot 2.0.4.RELEASE
+
 持久层框架：Mybatis 3.4.5
+
 安全框架：Apache Shiro 1.4.0
+
 摸板引擎：beetl 2.8.6
-数据库连接池：阿里巴巴Druid 1.1.10
+
+数据库连接池：Druid 1.1.10
+
 缓存框架：Redis
+
 日志打印：logback
+
 通用mapper：tk.mybatis 2.1.3
+
 hutool工具类：hutool 4.3.1
 
 #### 安装教程
