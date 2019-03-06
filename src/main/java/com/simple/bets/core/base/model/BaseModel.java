@@ -66,7 +66,6 @@ public abstract class BaseModel implements Serializable {
         this.remarks = remarks;
     }
 
-    @JsonIgnore
     public String getCreator() {
         return creator;
     }
@@ -84,7 +83,6 @@ public abstract class BaseModel implements Serializable {
         this.createTime = createTime;
     }
 
-    @JsonIgnore
     public String getOperator() {
         return operator;
     }
@@ -102,7 +100,6 @@ public abstract class BaseModel implements Serializable {
         this.modifyTime = modifyTime;
     }
 
-    @JsonIgnore
     public String getStatus() {
         return status;
     }
@@ -110,7 +107,6 @@ public abstract class BaseModel implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    @JsonIgnore
     public String getSysStatus() {
         return sysStatus;
     }
