@@ -2,17 +2,17 @@ package com.simple.bets.modular.sys.model;
 
 
 import com.simple.bets.core.annotation.ExportConfig;
+import com.simple.bets.core.base.model.BaseModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 用户基本信息
  */
 @Table(name = "t_user")
-public class User implements Serializable {
+public class User extends BaseModel {
 
 	private static final long serialVersionUID = -4852732617765810959L;
 	/**
@@ -25,7 +25,6 @@ public class User implements Serializable {
 	/**
 	 * 性别
 	 */
-
 	public static final String SEX_UNKNOW = "2";
 
 	@Id
@@ -57,16 +56,10 @@ public class User implements Serializable {
 	@ExportConfig(value = "手机")
 	private String mobile;
 
-	@Column(name = "status")
+	@Column(name = "user_status")
 	@ExportConfig(value = "状态", convert = "s:0=锁定,1=有效")
-	private String status = STATUS_VALID;
+	private String userStatus;
 
-	@Column(name = "create_time")
-	@ExportConfig(value = "创建时间")
-	private Date createTime;
-
-	@Column(name = "modify_time")
-	private Date modifyTime;
 
 	@Column(name = "last_login_time")
 	private Date lastLoginTime;
@@ -82,8 +75,6 @@ public class User implements Serializable {
 	@Column(name = "avatar")
 	private String avatar;
 
-	@Column(name = "description")
-	private String description;
 
 	@Transient
 	private String roleName;
@@ -182,42 +173,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @return STATUS
-	 */
-	public String getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status
-	 */
-	public void setStatus(String status) {
-		this.status = status == null ? null : status.trim();
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	/**
-	 * @return MODIFY_TIME
-	 */
-	public Date getModifyTime() {
-		return modifyTime;
-	}
-
-	/**
-	 * @param modifyTime
-	 */
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
-
-	/**
 	 * @return LAST_LOGIN_TIME
 	 */
 	public Date getLastLoginTime() {
@@ -263,14 +218,6 @@ public class User implements Serializable {
 		this.avatar = avatar;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public String getRoleName() {
 		return roleName;
 	}
@@ -303,25 +250,12 @@ public class User implements Serializable {
 		this.imageBase64 = imageBase64;
 	}
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"userId=" + userId +
-				", username='" + username + '\'' +
-				", password='" + password + '\'' +
-				", deptId=" + deptId +
-				", deptName='" + deptName + '\'' +
-				", email='" + email + '\'' +
-				", mobile='" + mobile + '\'' +
-				", status='" + status + '\'' +
-				", crateTime=" + createTime +
-				", modifyTime=" + modifyTime +
-				", lastLoginTime=" + lastLoginTime +
-				", sex='" + sex + '\'' +
-				", avatar='" + avatar + '\'' +
-				", description='" + description + '\'' +
-				", roleName='" + roleName + '\'' +
-				'}';
+	public String getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
 	}
 
 	/**

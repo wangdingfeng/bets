@@ -12,11 +12,16 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +31,7 @@ import java.util.stream.Collectors;
  */
 @Component("shiroRealm")
 public class ShiroRealm extends AuthorizingRealm {
+    private Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
 
     @Autowired
     private UserService userService;
@@ -33,6 +39,15 @@ public class ShiroRealm extends AuthorizingRealm {
     private RoleService roleService;
     @Autowired
     private MenuService menuService;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
+    //用户登录次数计数  redisKey 前缀
+    private String SHIRO_LOGIN_COUNT = "shiro_login_count_";
+
+    //用户登录是否被锁定    一小时 redisKey 前缀
+    private String SHIRO_IS_LOCK = "shiro_is_lock_";
 
     /**
      * 授权模块，获取用户角色和权限
@@ -73,6 +88,19 @@ public class ShiroRealm extends AuthorizingRealm {
         String userName = (String) token.getPrincipal();
         String password = new String((char[]) token.getCredentials());
 
+        //访问一次，计数一次
+        ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
+        opsForValue.increment(SHIRO_LOGIN_COUNT+userName, 1);
+        //计数大于5时，设置用户被锁定一小时
+        if(Integer.parseInt(opsForValue.get(SHIRO_LOGIN_COUNT+userName))>=5){
+            opsForValue.set(SHIRO_IS_LOCK+userName, "LOCK");
+            stringRedisTemplate.expire(SHIRO_IS_LOCK+userName, 1, TimeUnit.HOURS);
+        }
+        if ("LOCK".equals(opsForValue.get(SHIRO_IS_LOCK+userName))){
+            logger.info("由于密码输入错误次数大于5次，帐号已经禁止登录,请一个小时后重试！");
+            throw new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录,请一个小时后重试！请联系管理员");
+        }
+
         // 通过用户名到数据库查询用户信息
         User user = this.userService.findByName(userName);
 
@@ -82,6 +110,8 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new IncorrectCredentialsException("用户名或密码错误！");
         if (User.STATUS_LOCK.equals(user.getStatus()))
             throw new LockedAccountException("账号已被锁定,请联系管理员！");
+        //清空登录计数
+        opsForValue.set(SHIRO_LOGIN_COUNT+userName, "0");
         return new SimpleAuthenticationInfo(user, password, getName());
     }
 

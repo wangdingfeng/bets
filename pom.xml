@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.simple</groupId>
     <artifactId>bets</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>bets</name>
     <description>Bets project for Spring Boot</description>
 
@@ -96,8 +96,6 @@
             <artifactId>beetl</artifactId>
             <version>${beetl.version}</version>
         </dependency>
-
-
 
         <!-- shiro-spring -->
         <dependency>

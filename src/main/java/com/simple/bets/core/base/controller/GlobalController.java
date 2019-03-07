@@ -17,6 +17,7 @@ package com.simple.bets.core.base.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -33,11 +34,18 @@ public class GlobalController {
      *
      * @author fengshuonan
      */
-    @RequestMapping(path = "/error")
+    @RequestMapping(path = "/404")
     public String errorPage() {
         return "error/404";
     }
-
+    /**
+     * 403页面
+     * @return
+     */
+    @GetMapping("/403")
+    public String forbid() {
+        return "403";
+    }
     /**
      * 跳转到session超时页面
      *

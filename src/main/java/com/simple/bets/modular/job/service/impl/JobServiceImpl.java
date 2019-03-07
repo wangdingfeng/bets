@@ -80,19 +80,12 @@ public class JobServiceImpl extends ServiceImpl<JobModel> implements JobService 
     }
 
     @Override
-    @Transactional
-    public void addJob(JobModel job) {
-        job.setCreateTime(new Date());
-        job.setStatus(JobModel.ScheduleStatus.PAUSE.getValue());
-        this.save(job);
-        ScheduleUtils.createScheduleJob(scheduler, job);
-    }
-
-    @Override
-    @Transactional
-    public void updateJob(JobModel job) {
-        ScheduleUtils.updateScheduleJob(scheduler, job);
-        this.updateNotNull(job);
+    public void saveOrUpdate(JobModel jobModel) {
+        if(null != jobModel.getJobId()){
+            super.save(jobModel);
+        }else{
+            super.updateAll(jobModel);
+        }
     }
 
     @Override

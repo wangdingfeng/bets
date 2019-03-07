@@ -55,8 +55,10 @@ public class UserServiceImpl extends ServiceImpl<User> implements UserService {
     public User saveOrUpdateUser(User user) {
         if(null == user.getUserId()) {
             saveUser(user);
+            user.setBaseData(true);
             this.save(user);
         }else{
+            user.setBaseData(false);
             this.updateNotNull(user);
         }
         return user;
@@ -96,8 +98,8 @@ public class UserServiceImpl extends ServiceImpl<User> implements UserService {
      * @return
      */
     private User saveUser(User user){
-        user.setCreateTime(new Date());
-        user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
+        user.setPassword(MD5Utils.encryptBasedDes(user.getUsername()+user.getPassword()));
+        user.setUserStatus(User.STATUS_VALID);
         return user;
     }
 
@@ -139,7 +141,7 @@ public class UserServiceImpl extends ServiceImpl<User> implements UserService {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         Example example = new Example(User.class);
         example.createCriteria().andCondition("username=", user.getUsername());
-        String newPassword = MD5Utils.encrypt(user.getUsername().toLowerCase(), password);
+        String newPassword = MD5Utils.encryptBasedDes(user.getUsername().toLowerCase()+password);
         user.setPassword(newPassword);
         this.userMapper.updateByExampleSelective(user, example);
     }

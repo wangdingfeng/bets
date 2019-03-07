@@ -3,9 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Bets - 登录</title>
-
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="${ctxPath}/plugins/bootstrap/css/bootstrap.css">
     <!-- Font Awesome 图标-->
@@ -24,10 +22,9 @@
     <div class="login-logo">
         <a href="#"><b>Admin</b>Bets</a>
     </div>
-    <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">请登录你的账号</p>
-        <h5>${error!}</h5>
+        <p class="login-box-msg">登录您的账号</p>
+        <p style="color: red">${error!}</p>
         <form action="${ctxPath}" method="post">
             <div class="form-group has-feedback">
                 <input type="text" name="username" class="form-control" placeholder="用户名" required="">
@@ -41,20 +38,16 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input type="checkbox"  name="rememberMe"> 记住我
+                            <input type="checkbox" name="rememberMe"> 记住我
                         </label>
                     </div>
                 </div>
-                <!-- /.col -->
                 <div class="col-xs-4">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">登 录</button>
                 </div>
-                <!-- /.col -->
             </div>
         </form>
-
     </div>
-    <!-- /.login-box-body -->
 </div>
 <!-- jQuery 3 -->
 <script src="${ctxPath}/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -67,19 +60,9 @@
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
-            increaseArea: '20%' /* optional */
+            increaseArea: '20%'
         });
     });
-    
-/*    function login() {
-        bet.showErrorMessage("正在登录.....");
-        bet.ajax("${ctxPath}/login",$("#loginForm").serializeArray(),function (data) {
-            if(data.success){
-                location.href = ctx + 'index';
-            }else{
-            }
-        });
-    }*/
 </script>
 
 </body>

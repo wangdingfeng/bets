@@ -13,15 +13,15 @@
     <result column="type" jdbcType="CHAR" property="type" />
     <result column="sort" jdbcType="DECIMAL" property="sort" />
     <result column="target_type" jdbcType="VARCHAR" property="targetType" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="tree_leaf" jdbcType="CHAR" property="treeLeaf" />
     <result column="tree_level" jdbcType="DECIMAL" property="treeLeaf" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="operator" jdbcType="VARCHAR" property="operator" />
     <result column="creator" jdbcType="VARCHAR" property="creator" />
-    <result column="sys_status" jdbcType="CHAR" property="sysStatus" />
     <result column="remarks" jdbcType="VARCHAR" property="remarks" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
+
   </resultMap>
   
   <select id="findUserPermissions" resultMap="menu">

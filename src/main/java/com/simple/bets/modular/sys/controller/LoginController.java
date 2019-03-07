@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -40,39 +41,30 @@ public class LoginController extends BaseController {
      * @return
      */
     @PostMapping("/login")
-    public String login(String username, String password, String code, Boolean rememberMe,Model model) {
-/*        if (!StringUtils.isNotBlank(code)) {
-            return ResponseBo.warn("验证码不能为空！");
-        }
-        Session session = super.getSession();
-        String sessionCode = (String) session.getAttribute(CODE_KEY);
-        if (!code.equalsIgnoreCase(sessionCode)) {
-            return ResponseBo.warn("验证码错误！");
-        }*/
+    public String login(String username, String password,Boolean rememberMe,Model model) {
         // 密码 MD5 加密
-        password = MD5Utils.encrypt(username.toLowerCase(), password);
-        if(null == rememberMe){
-            rememberMe = false;
-        }
+        password = MD5Utils.encryptBasedDes(username.toLowerCase()+password);
+        if(null == rememberMe) rememberMe = false;
         UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
         try {
             Subject subject = getSubject();
-            if (subject != null)
-                subject.logout();
+            //如果已存在  退出账号重新登录
+            if (subject != null) subject.logout();
             super.login(token);
             this.userService.updateLoginTime(username);
             return "redirect:/index";
-        } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e) {
+        } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e ) {
+            logger.info(e.getMessage());
             model.addAttribute("error",e.getMessage());
             return "login";
         } catch (AuthenticationException e) {
-            model.addAttribute("error","认证失败！");
+            model.addAttribute("error",e.getMessage());
             return "login";
         }
     }
 
     /**
-     * 主页
+     *默认访问 主页
      * @return
      */
     @RequestMapping("/")
@@ -88,16 +80,6 @@ public class LoginController extends BaseController {
     public String welcome(){
         return "welcome";
     }
-
-    /**
-     * 403页面
-     * @return
-     */
-    @GetMapping("/403")
-    public String forbid() {
-        return "403";
-    }
-
     /**
      * 登录成功 跳转页面
      * @param model

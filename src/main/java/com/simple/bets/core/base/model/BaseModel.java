@@ -25,11 +25,11 @@ public abstract class BaseModel implements Serializable {
     /**
      * 正常状态
      */
-    private static final String SYS_STATUS_NORMAL = "0";
+    private static final String STATUS_NORMAL = "0";
     /**
      * 删除状态
      */
-    private static final String SYS_STATUS_delete = "1";
+    private static final String STATUS_DELETE = "1";
 
     @Column(name = "remarks")
     protected String remarks;    // 备注
@@ -47,14 +47,12 @@ public abstract class BaseModel implements Serializable {
     protected Date modifyTime;    // 更新日期
 
     @Column(name = "status")
-    protected String status;    //业务状态
+    protected String status;    //系统
 
-    @Column(name = "sys_status")
-    protected String sysStatus;    // 状态（0：正常；1：删除）
 
     public BaseModel() {
         super();
-        this.sysStatus = SYS_STATUS_NORMAL;
+        this.status = STATUS_NORMAL;
     }
 
     @Length(min = 0, max = 1024)
@@ -107,13 +105,6 @@ public abstract class BaseModel implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    public String getSysStatus() {
-        return sysStatus;
-    }
-
-    public void setSysStatus(String sysStatus) {
-        this.sysStatus = sysStatus;
-    }
 
     /**
      * 保存共有属性
@@ -124,8 +115,7 @@ public abstract class BaseModel implements Serializable {
         if(isAdd){
             this.setCreateTime(new Date());
             this.setCreator(null == user ? "system": user.getUsername());
-            this.setSysStatus(SYS_STATUS_NORMAL);
-            this.setStatus(SYS_STATUS_NORMAL);
+            this.setStatus(STATUS_NORMAL);
         }
         this.setOperator(null == user ? "system": user.getUsername());
         this.setModifyTime(new Date());

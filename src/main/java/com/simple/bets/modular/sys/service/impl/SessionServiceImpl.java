@@ -1,6 +1,5 @@
 package com.simple.bets.modular.sys.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simple.bets.core.common.util.AddressUtils;
 import com.simple.bets.modular.sys.model.User;
 import com.simple.bets.modular.sys.model.UserOnline;
@@ -26,9 +25,6 @@ public class SessionServiceImpl implements SessionService {
 
     @Autowired
     private SessionDAO sessionDAO;
-
-    @Autowired
-    ObjectMapper mapper;
 
     @Override
     public List<UserOnline> list() {

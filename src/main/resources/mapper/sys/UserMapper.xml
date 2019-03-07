@@ -9,19 +9,22 @@
 	<result column="dept_name" jdbcType="DECIMAL" property="deptName" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="status" jdbcType="CHAR" property="status" />
-    <result column="crate_time" jdbcType="TIMESTAMP" property="crateTime" />
-    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
     <result column="sex" jdbcType="CHAR" property="sex" />
     <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-    <result column="description" jdbcType="VARCHAR" property="description"/>
+	  <result column="status" jdbcType="CHAR" property="status" />
+	  <result column="create_time" jdbcType="TIMESTAMP" property="crateTime" />
+	  <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+	  <result column="operator" jdbcType="VARCHAR" property="operator" />
+	  <result column="creator" jdbcType="VARCHAR" property="creator" />
+	  <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+	  <result column="user_status" jdbcType="CHAR" property="userStatus" />
   </resultMap>
   
   <select id="findUserWithDept" resultType="com.simple.bets.modular.sys.model.User" parameterType="com.simple.bets.modular.sys.model.User">
-  		select u.user_id userId,u.username,u.email,u.mobile,u.status,u.crate_time crateTime,
-  		u.ssex,d.dept_name deptName from t_user u 
+  		select u.user_id userId,u.username,u.email,u.mobile,u.status,u.create_time createTime,
+  		u.sex,d.dept_name deptName from t_user u
   		left join t_dept d on(u.dept_id = d.dept_id)
   		where 1=1
   		<if test="username != null and username != ''">
@@ -55,7 +58,7 @@
 		U .mobile,
 		U .email,
 		U .avatar,
-		U .description,
+		U .remarks,
 		U .sex,
 		U .dept_id deptId,
 		group_concat(r.role_name) AS roleName
@@ -72,7 +75,7 @@
 		U .mobile,
 		U .email,
 		U .avatar,
-		U .description,
+		U .remarks,
 		U .sex,
 		U .user_id,
 		U .dept_id

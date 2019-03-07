@@ -13,7 +13,6 @@ import java.util.List;
  * @Date 15:19 2019/2/2
  **/
 
-@CacheConfig(cacheNames = "jobService")
 public interface JobService extends IService<JobModel> {
     /**
      * 查询任务
@@ -29,9 +28,7 @@ public interface JobService extends IService<JobModel> {
      */
     List<JobModel> findAllJobs(JobModel jobModel);
 
-    void addJob(JobModel jobModel);
-
-    void updateJob(JobModel jobModel);
+    void saveOrUpdate(JobModel jobModel);
 
     void deleteBatch(String jobIds);
 
@@ -43,6 +40,5 @@ public interface JobService extends IService<JobModel> {
 
     void resume(String jobIds);
 
-     @Cacheable(key = "#p0")
     List<JobModel> getSysCronClazz(JobModel jobModel);
 }

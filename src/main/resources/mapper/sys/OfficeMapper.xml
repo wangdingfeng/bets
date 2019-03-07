@@ -20,7 +20,6 @@
 		a.create_time AS "createTime",
 		a.operator AS "operator",
 		a.modify_time AS "modifyTime",
-		a.sys_status AS  "sysStatus",
 		a.status AS status
 	</sql>
 
@@ -28,7 +27,7 @@
 		SELECT
 		<include refid="officeColumns"/>
 		FROM sys_office a
-		WHERE a.sys_status = '0'
+		WHERE a.status = '0'
 		<if test="parentId != null">
 			AND a.parent_id = #{parentId}
 		</if>

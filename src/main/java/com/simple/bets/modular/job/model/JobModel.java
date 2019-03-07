@@ -1,5 +1,6 @@
 package com.simple.bets.modular.job.model;
 import com.google.common.base.MoreObjects;
+import com.simple.bets.core.base.model.BaseModel;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import java.util.Date;
  **/
 
 @Table(name = "t_job")
-public class JobModel implements Serializable {
+public class JobModel extends BaseModel {
 
     private static final long serialVersionUID = 400066840871805700L;
 
@@ -61,15 +62,6 @@ public class JobModel implements Serializable {
 
     @Column(name = "cron_expression")
     private String cronExpression;
-
-    @Column(name = "status")
-    private String status;
-
-    @Column(name = "remark")
-    private String remark;
-
-    @Column(name = "create_time")
-    private Date createTime;
 
     /**
      * @return JOB_ID
@@ -156,20 +148,6 @@ public class JobModel implements Serializable {
     }
 
     /**
-     * @return REMARK
-     */
-    public String getRemark() {
-        return remark;
-    }
-
-    /**
-     * @param remark
-     */
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
-    /**
      * @return CREATE_TIME
      */
     public Date getCreateTime() {
@@ -181,19 +159,5 @@ public class JobModel implements Serializable {
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("jobId", jobId)
-                .add("beanName", beanName)
-                .add("methodName", methodName)
-                .add("params", params)
-                .add("cronExpression", cronExpression)
-                .add("status", status)
-                .add("remark", remark)
-                .add("createTime", createTime)
-                .toString();
     }
 }

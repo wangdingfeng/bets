@@ -74,4 +74,19 @@ public class LogController extends BaseController {
             return ResponseResult.error("删除日志失败，请联系网站管理员！");
         }
     }
+
+
+    //踢出用户
+    @RequestMapping(value="kickouting")
+    @ResponseBody
+    public String kickouting() {
+
+        return "kickout";
+    }
+
+    //被踢出后跳转的页面
+    @RequestMapping(value="kickout")
+    public String kickout() {
+        return "error/404";
+    }
 }
