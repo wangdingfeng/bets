@@ -57,7 +57,7 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
     @Override
     public Role saveOrUpdate(Role role) {
         if(null != role.getRoleId() ){
-            role.setModifyTime(new Date());
+            role.setBaseData(false);
             super.updateNotNull(role);
             //删除已有菜单
             Example example = new Example(RoleMenu.class);
@@ -65,8 +65,7 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
             this.roleMenuMapper.deleteByExample(example);
             setRoleMenus(role);
         }else{
-            role.setCreateTime(new Date());
-            role.setModifyTime(new Date());
+            role.setBaseData(true);
             super.save(role);
             setRoleMenus(role);
         }
