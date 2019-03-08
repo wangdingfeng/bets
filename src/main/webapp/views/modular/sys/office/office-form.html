@@ -1,0 +1,104 @@
+<%layout("/layout/body.html",{title:'新增部门',libs:['validate','tree']}){%>
+<div class="content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <h3 class="box-title">添加部门</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <form style="margin: 10px" id="inputForm" class="form-horizontal">
+            <div class="form-unit">部门基本信息</div>
+            <div class="box-body no-padding">
+                <input type="hidden" value="${office.id!}" name="id">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span> 上级部门
+                            </label>
+                            <div class="col-sm-8">
+                                <#treeInput id="parentOfficeId" name="" class="required" url='/office/getOfficeTree'
+                                hiddenName="parentId" hiddenValue='${office.parentId!}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span>机构名称
+                            </label>
+                            <div class="col-sm-8">
+                                <#input id="name" class="form-control required" underline="true" value="${office.name!}"
+                                inputIcon="fa fa-user-o" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span> 负责人
+                            </label>
+                            <div class="col-sm-8">
+                                <#input id="master" class="form-control required" underline="true"
+                                value="${office.master!}" inputIcon="fa fa-user-o" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span>部门电话
+                            </label>
+                            <div class="col-sm-8">
+                                <#input id="phone" class="form-control required" underline="true"
+                                value="${office.phone!}" inputIcon="fa fa-user-o" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                备注
+                            </label>
+                            <div class="col-sm-10">
+                                <#textarea id="description" class="form-control" rows="4" value="${office.remarks!}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i>保 存</button>&nbsp;
+                        <button type="button" class="btn btn-sm btn-default" onclick="bet.closeTab()"><i
+                                class="fa fa-reply-all"></i> 关 闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <%}%>
+    <script>
+        //提交用户表单
+        $("#inputForm").validate({
+            submitHandler: function (form) {
+                bet.ajax("${ctxPath}/sys/office/saveOrUpdate", $(form).serializeArray(), function (data) {
+                    if (data.success) {
+                        bet.showMessage(data.message);
+                        bet.closeTabRefreshTable();
+                    } else {
+                        bet.showErrorMessage(data.message);
+                    }
+                });
+            }
+        });
+    </script>

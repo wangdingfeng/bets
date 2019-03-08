@@ -29,15 +29,14 @@ import java.util.List;
 /**
  * @Author wangdingfeng
  * @Description 角色管理
- * @Date   2019/1/23
+ * @Date 2019/1/23
  **/
 
 @Controller
-@RequestMapping("/role")
+@RequestMapping("/sys/role")
 public class RoleController extends BaseController {
 
-
-    private static final String PAGE_SUFFIX = "sys/role";
+    private static final String PAGE_SUFFIX = "modular/sys/role";
 
     @Autowired
     private RoleService roleService;
@@ -51,30 +50,34 @@ public class RoleController extends BaseController {
 
     /**
      * 角色管理
+     *
      * @return
      */
     @Log("获取角色信息")
-    @RequestMapping("/index")
+    @RequestMapping("/list")
     @RequiresPermissions("role:list")
-    public String index() {
-        return PAGE_SUFFIX+"/role-list";
+    public String list() {
+        return PAGE_SUFFIX + "/role-list";
     }
+
     /**
      * 分页查询数据
+     *
      * @param role
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/listData")
     @ResponseBody
-    public Page<RoleModel> list(RoleModel role, HttpServletRequest request, HttpServletResponse response){
-        Page<RoleModel> page= roleService.queryPage(new Page<RoleModel>(request, response), role);
+    public Page<RoleModel> listData(RoleModel role, HttpServletRequest request, HttpServletResponse response) {
+        Page<RoleModel> page = roleService.queryPage(new Page<RoleModel>(request, response), role);
         return page;
     }
 
     /**
      * 新增 编辑 跳转
+     *
      * @param role
      * @param model
      * @return
@@ -82,34 +85,35 @@ public class RoleController extends BaseController {
     @Log("新增|编辑-角色信息")
     @RequiresPermissions("role:add")
     @RequestMapping("/form")
-    public String form(RoleModel role, Model model){
-        if(null != role.getRoleId()){
+    public String form(RoleModel role, Model model) {
+        if (null != role.getRoleId()) {
             role = roleService.findById(role.getRoleId());
             List<Long> menuIds = roleMenuService.findRoleMenu(role.getRoleId());
-            role.setMenuIds(StringUtils.join(menuIds,","));
+            role.setMenuIds(StringUtils.join(menuIds, ","));
         }
         Tree<MenuModel> tree = this.menuService.getMenuTree(true);
-        String treeJson =JSONObject.toJSONString(tree);
-        model.addAttribute("treeJson",treeJson);
-        model.addAttribute("role",role);
-        return PAGE_SUFFIX+"/role-form";
+        String treeJson = JSONObject.toJSONString(tree);
+        model.addAttribute("treeJson", treeJson);
+        model.addAttribute("role", role);
+        return PAGE_SUFFIX + "/role-form";
     }
 
     /**
      * 保存|编辑
+     *
      * @return
      */
     @Log("保存|更新角色")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult saveOrUpdate(RoleModel role){
-        if(null != role.getRoleId()){
+    public ResponseResult saveOrUpdate(RoleModel role) {
+        if (null != role.getRoleId()) {
             RoleModel oldRole = roleService.findById(role.getRoleId());
-            if(!checkRoleName(role.getRoleName(),oldRole.getRoleName())){
+            if (!checkRoleName(role.getRoleName(), oldRole.getRoleName())) {
                 return ResponseResult.error("当前填写角色名重复，请重新填写");
             }
-        }else{
-            if(!checkRoleName(role.getRoleName(),"")){
+        } else {
+            if (!checkRoleName(role.getRoleName(), "")) {
                 return ResponseResult.error("当前填写角色名重复，请重新填写");
             }
         }
@@ -136,6 +140,7 @@ public class RoleController extends BaseController {
 
     /**
      * 检验角色名称
+     *
      * @param roleName
      * @param oldRoleName
      * @return
@@ -152,6 +157,7 @@ public class RoleController extends BaseController {
 
     /**
      * 删除角色信息
+     *
      * @param roleId 角色id
      * @return
      */
@@ -171,19 +177,21 @@ public class RoleController extends BaseController {
 
     /**
      * 跳转到 角色对应的用户信息表
+     *
      * @param user
      * @param model
      * @return
      */
     @RequestMapping("/roleUserList")
-    public String roleUserList(UserModel user, Model model, Boolean exist){
-        model.addAttribute("user",user);
-        model.addAttribute("exist",exist);
-        return PAGE_SUFFIX+"/role-assign";
+    public String roleUserList(UserModel user, Model model, Boolean exist) {
+        model.addAttribute("user", user);
+        model.addAttribute("exist", exist);
+        return PAGE_SUFFIX + "/role-assign";
     }
 
     /**
      * 获取 角色对应的用户信息数据
+     *
      * @param user
      * @param request
      * @param response
@@ -191,12 +199,13 @@ public class RoleController extends BaseController {
      */
     @RequestMapping("/roleUserListData")
     @ResponseBody
-    public Page<UserModel> roleUserListData(UserModel user, HttpServletRequest request, HttpServletResponse response, Boolean exist){
-        return userRoleService.queryPage(new Page<UserModel>(request, response), user,exist);
+    public Page<UserModel> roleUserListData(UserModel user, HttpServletRequest request, HttpServletResponse response, Boolean exist) {
+        return userRoleService.queryPage(new Page<UserModel>(request, response), user, exist);
     }
 
     /**
      * 选择用户 dialog
+     *
      * @param role
      * @param selectData
      * @param checkbox
@@ -209,39 +218,41 @@ public class RoleController extends BaseController {
         model.addAttribute("checkbox", checkbox);
         model.addAttribute("role", role);
 
-        return PAGE_SUFFIX+"/selectUserToRole";
+        return PAGE_SUFFIX + "/selectUserToRole";
     }
 
     /**
      * 授权用户
+     *
      * @param role
      * @return
      */
     @RequestMapping("/assignRole")
     @ResponseBody
-    public ResponseResult assignRole(RoleModel role){
+    public ResponseResult assignRole(RoleModel role) {
         try {
             userRoleService.assignRoleUser(role);
             return ResponseResult.ok("分配角色成功！");
         } catch (Exception e) {
-            logger.error("分配角色失败",e);
+            logger.error("分配角色失败", e);
             return ResponseResult.error("分配角色失败，请联系网站管理员！");
         }
     }
 
     /**
      * 删除用户角色
+     *
      * @param role
      * @return
      */
     @RequestMapping("/deleteUserRole")
     @ResponseBody
-    public ResponseResult deleteUserRole(RoleModel role){
+    public ResponseResult deleteUserRole(RoleModel role) {
         try {
             userRoleService.deleteUserRolesByRoleId(role);
             return ResponseResult.ok("删除角色成功！");
         } catch (Exception e) {
-            logger.error("删除角色失败",e);
+            logger.error("删除角色失败", e);
             return ResponseResult.error("删除角色失败，请联系网站管理员！");
         }
     }

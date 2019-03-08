@@ -1,0 +1,105 @@
+<%layout("/layout/body.html",{title:'新增定时任务',libs:['validate']}){%>
+<div class="content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <h5 class="box-title"><i class="fa fa-clock-o"></i> 新增定时任务</h5>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <form id="inputForm" class="form-horizontal">
+            <div class="form-unit">定时任务基本信息</div>
+            <div class="box-body no-padding">
+                <input type="hidden" value="${office.id!}" name="id">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span> Bean名称
+                            </label>
+                            <div class="col-sm-8">
+                                <#input id="beanName" class="form-control required" underline="true"
+                                value="${job.beanName!}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span>方法名称
+                            </label>
+                            <div class="col-sm-8">
+                                <#input id="methodName" class="form-control required" underline="true"
+                                value="${job.methodName!}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span> 方法参数
+                            </label>
+                            <div class="col-sm-8">
+                                <#input id="params" class="form-control required" underline="true"
+                                value="${job.params!}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">
+                                <span class="required " aria-required="true">*</span>cron表达式
+                            </label>
+                            <div class="col-sm-8">
+                                <#input id="cronExpression" class="form-control required" underline="true"
+                                value="${job.cronExpression!}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                备注
+                            </label>
+                            <div class="col-sm-10">
+                                <#textarea id="remarks" class="form-control" rows="4" value="${job.remarks!}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i>保 存</button>&nbsp;
+                        <button type="button" class="btn btn-sm btn-default" onclick="bet.closeTab()"><i
+                                class="fa fa-reply-all"></i> 关 闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<%}%>
+<script>
+    //提交用户表单
+    $("#inputForm").validate({
+        submitHandler: function (form) {
+            bet.ajax("${ctxPath}/sys/job/saveOrUpdate", $(form).serializeArray(), function (data) {
+                if (data.success) {
+                    bet.showMessage(data.message);
+                    bet.closeTabRefreshTable();
+                } else {
+                    bet.showErrorMessage(data.message);
+                }
+            });
+        }
+    });
+</script>

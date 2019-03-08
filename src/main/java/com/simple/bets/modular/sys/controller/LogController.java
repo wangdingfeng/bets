@@ -19,34 +19,36 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-@RequestMapping("/log")
+@RequestMapping("/sys/log")
 public class LogController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final String PAGE_SUFFIX = "sys/log";
+    private static final String PAGE_SUFFIX = "modular/sys/log";
 
     @Autowired
     private LogService logService;
 
     /**
      * 跳转到系统日志页面
+     *
      * @return
      */
-    @RequestMapping("/index")
+    @RequestMapping("/list")
     @RequiresPermissions("log:list")
-    public String index() {
-        return PAGE_SUFFIX+"/log-list";
+    public String list() {
+        return PAGE_SUFFIX + "/log-list";
     }
 
     /**
      * 获取日志列表
+     *
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/listData")
     @ResponseBody
-    public Page<LogModel> list(LogModel log, HttpServletRequest request, HttpServletResponse response) {
-       return logService.queryPage(new Page<LogModel>(request,response),log);
+    public Page<LogModel> listData(LogModel log, HttpServletRequest request, HttpServletResponse response) {
+        return logService.queryPage(new Page<LogModel>(request, response), log);
     }
 
     @RequestMapping("log/excel")
@@ -73,20 +75,5 @@ public class LogController extends BaseController {
             logger.error("删除日志失败", e);
             return ResponseResult.error("删除日志失败，请联系网站管理员！");
         }
-    }
-
-
-    //踢出用户
-    @RequestMapping(value="kickouting")
-    @ResponseBody
-    public String kickouting() {
-
-        return "kickout";
-    }
-
-    //被踢出后跳转的页面
-    @RequestMapping(value="kickout")
-    public String kickout() {
-        return "error/404";
     }
 }

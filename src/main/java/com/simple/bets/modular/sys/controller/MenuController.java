@@ -27,12 +27,12 @@ import java.util.Map;
  * @Date 9:40 2019/1/14
  **/
 @Controller
-@RequestMapping("/menu")
+@RequestMapping("/sys/menu")
 public class MenuController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final String PAGE_SUFFIX = "sys/menu";
+    private static final String PAGE_SUFFIX = "modular/sys/menu";
 
     @Autowired
     private MenuService menuService;
@@ -44,9 +44,9 @@ public class MenuController extends BaseController {
      * @return
      */
     @Log("获取菜单信息")
-    @RequestMapping("/index")
+    @RequestMapping("/list")
     @RequiresPermissions("menu:list")
-    public String index() {
+    public String list() {
         return PAGE_SUFFIX + "/menu-list";
     }
 
@@ -56,17 +56,17 @@ public class MenuController extends BaseController {
      * @Description 获取所有的菜单
      * @Date 15:28 2019/1/11
      **/
-    @RequestMapping("/list")
+    @RequestMapping("/listData")
     @ResponseBody
-    public List<MenuModel> list(MenuModel menu) {
+    public List<MenuModel> listData(MenuModel menu) {
         return menuService.findAllMenus(menu);
     }
 
     /**
+     * @return
      * @Author wangdingfeng
      * @Description //TODO
      * @Date 9:43 2019/1/14
-     * @return 
      **/
     @RequestMapping("/form")
     public String form(MenuModel menu, Model model) {
@@ -74,12 +74,12 @@ public class MenuController extends BaseController {
             menu = menuService.findById(menu.getId());
         }
         // 获取排序号，最末节点排序号+30
-        if (null != menu.getId()){
+        if (null != menu.getId()) {
             List<MenuModel> list = new ArrayList<>();
             List<MenuModel> sourcelist = menuService.findAllMenus(new MenuModel());
             MenuModel.sortList(list, sourcelist, menu.getParentId(), false);
-            if (list.size() > 0){
-                menu.setSort(list.get(list.size()-1).getSort() + 30);
+            if (list.size() > 0) {
+                menu.setSort(list.get(list.size() - 1).getSort() + 30);
             }
         }
         model.addAttribute("menu", menu);
@@ -88,12 +88,13 @@ public class MenuController extends BaseController {
 
     /**
      * 保存or更新
+     *
      * @param menu
      * @return
      */
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult saveOrUpdate(MenuModel menu){
+    public ResponseResult saveOrUpdate(MenuModel menu) {
         String name;
         if (MenuModel.TYPE_MENU.equals(menu.getType())) {
             name = "菜单";
@@ -108,8 +109,10 @@ public class MenuController extends BaseController {
             return ResponseResult.error("新增" + name + "失败，请联系网站管理员！");
         }
     }
+
     /**
      * 获取菜单树
+     *
      * @return
      */
     @RequestMapping("/tree")
@@ -126,6 +129,7 @@ public class MenuController extends BaseController {
 
     /**
      * 获取当前用户的菜单
+     *
      * @param userName 账户名
      * @return
      */
@@ -143,13 +147,15 @@ public class MenuController extends BaseController {
 
     /**
      * 选择图标
+     *
      * @return
      */
     @RequestMapping("/iconselect")
     public String iconselect(HttpServletRequest request, Model model) {
         model.addAttribute("value", request.getParameter("value"));
-        return PAGE_SUFFIX+"/tagIconselect";
+        return PAGE_SUFFIX + "/tagIconselect";
     }
+
     /**
      * 批量修改菜单排序
      */
@@ -166,6 +172,7 @@ public class MenuController extends BaseController {
 
     /**
      * 删除菜单
+     *
      * @param id
      * @return
      */

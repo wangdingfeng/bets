@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+/**
+ * 登录
+ */
 @Controller
 public class LoginController extends BaseController {
 
@@ -29,21 +32,24 @@ public class LoginController extends BaseController {
 
     /**
      * 跳转登录页
+     *
      * @return
      */
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+
     /**
      * 登录
+     *
      * @return
      */
     @PostMapping("/login")
-    public String login(String username, String password,Boolean rememberMe,Model model) {
+    public String login(String username, String password, Boolean rememberMe, Model model) {
         // 密码 MD5 加密
-        password = MD5Utils.encryptBasedDes(username.toLowerCase()+password);
-        if(null == rememberMe) rememberMe = false;
+        password = MD5Utils.encryptBasedDes(username.toLowerCase() + password);
+        if (null == rememberMe) rememberMe = false;
         UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
         try {
             Subject subject = getSubject();
@@ -52,18 +58,19 @@ public class LoginController extends BaseController {
             super.login(token);
             this.userService.updateLoginTime(username);
             return "redirect:/index";
-        } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e ) {
+        } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e) {
             logger.info(e.getMessage());
-            model.addAttribute("error",e.getMessage());
+            model.addAttribute("error", e.getMessage());
             return "login";
         } catch (AuthenticationException e) {
-            model.addAttribute("error",e.getMessage());
+            model.addAttribute("error", e.getMessage());
             return "login";
         }
     }
 
     /**
-     *默认访问 主页
+     * 默认访问 主页
+     *
      * @return
      */
     @RequestMapping("/")
@@ -73,14 +80,17 @@ public class LoginController extends BaseController {
 
     /**
      * 欢迎页
+     *
      * @return
      */
     @RequestMapping("/welcome")
-    public String welcome(){
+    public String welcome() {
         return "welcome";
     }
+
     /**
      * 登录成功 跳转页面
+     *
      * @param model
      * @return
      */

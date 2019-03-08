@@ -1,0 +1,48 @@
+<%layout("/layout/body.html",{title:'日志管理',libs:['jqgrid']}){%>
+<section class="content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <h3 class="box-title">日志管理</h3>
+            <div class="box-tools pull-right">
+                <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+            </div>
+        </div>
+        <div class="box-body">
+            <form id="searchForm" action="${ctxPath}/sys/log/listData" method="post" class="form-inline hide">
+                <div class="form-group">
+                    <label class="control-label col-sm-4">角色名称：</label>
+                    <div class="control-inline col-sm-8">
+                        <input class="form-control" type="text" name="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
+                </div>
+            </form>
+            <table id="dataGrid"></table>
+            <div id="dataGridPage"></div>
+        </div>
+    </div>
+</section>
+<%}%>
+<script>
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        autoGridHeight: true, // 自动表格高度
+        columnModel: [
+            {header: '操作用户', name: 'username', index: 'username', width: 100, align: "center"},
+            {header: '描述', name: 'operation', index: 'operation', width: 100, align: "center"},
+            {header: '耗时（毫秒）', name: 'time', index: 'time', width: 100, align: "center"},
+            {header: '操作方法', name: 'method', index: 'method', width: 100, align: "center"},
+            {header: '参数', name: 'params', index: 'params', width: 100, align: "center"},
+            {header: 'IP地址', name: 'ip', index: 'ip', width: 100, align: "center"},
+            {header: '地点', name: 'location', index: 'location', width: 100, align: "center"},
+            {header: '操作时间', name: 'createTime', index: 'create_time', width: 100, align: "center"}
+        ],
+        // 加载成功后执行事件
+        ajaxSuccess: function (data) {
+
+        }
+    });
+</script>

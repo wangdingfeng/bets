@@ -22,32 +22,36 @@ import java.util.List;
  **/
 
 @Controller
+@RequestMapping("/sys/session")
 public class SessionController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
+
 
     @Autowired
     SessionService sessionService;
 
     /**
      * 跳转在线用户列表
+     *
      * @return
      */
     @Log("获取在线用户信息")
-    @RequestMapping("session")
+    @RequestMapping("/list")
     @RequiresPermissions("session:list")
-    public String online() {
-        return "sys/user/user-online";
+    public String list() {
+        return "modular/sys/user/user-online";
     }
 
     /**
      * list
+     *
      * @return
      */
     @ResponseBody
-    @RequestMapping("session/list")
+    @RequestMapping("/listData")
     @RequiresPermissions("session:list")
-    public Page<UserOnlineModel> list() {
+    public Page<UserOnlineModel> listData() {
         List<UserOnlineModel> list = sessionService.list();
         Page<UserOnlineModel> page = new Page<>();
         page.setList(list);
@@ -56,12 +60,13 @@ public class SessionController {
 
     /**
      * 踢出用户
+     *
      * @param id
      * @return
      */
     @ResponseBody
     @RequiresPermissions("user:kickout")
-    @RequestMapping("session/forceLogout")
+    @RequestMapping("/forceLogout")
     public ResponseResult forceLogout(String id) {
         try {
             sessionService.forceLogout(id);

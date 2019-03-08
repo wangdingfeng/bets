@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Set;
+
 /**
  * @Author wangdingfeng
  * @Description //redis
@@ -22,16 +23,19 @@ import java.util.Set;
  **/
 
 @Controller
-@RequestMapping("/redis")
+@RequestMapping("/sys/redis")
 public class RedisController {
 
     private static final String INTEGER_PREFIX = "(integer) ";
+
+    private static final String PAGE_SUFFIX = "modular/sys/redis";
 
     @Autowired
     private RedisService redisService;
 
     /**
      * 跳转到redis 详细信息列表
+     *
      * @param model
      * @return
      */
@@ -40,11 +44,12 @@ public class RedisController {
     public String getRedisInfo(Model model) {
         List<RedisInfo> infoList = this.redisService.getRedisInfo();
         model.addAttribute("infoList", infoList);
-        return "sys/redis/redis-info";
+        return PAGE_SUFFIX + "/redis-info";
     }
 
     /**
      * 跳转到redis 命令操作界面
+     *
      * @param model
      * @return
      */
@@ -53,11 +58,12 @@ public class RedisController {
     public String redisTerminal(Model model) {
         String osName = System.getProperty("os.name");
         model.addAttribute("osName", osName);
-        return "sys/redis/redis-terminal";
+        return PAGE_SUFFIX + "/redis-terminal";
     }
 
     /**
      * 获取key数量
+     *
      * @return
      */
     @RequestMapping("keysSize")
@@ -65,8 +71,10 @@ public class RedisController {
     public String getKeysSize() {
         return JSON.toJSONString(redisService.getKeysSize());
     }
+
     /**
      * 获取内存信息
+     *
      * @return
      */
     @RequestMapping("memoryInfo")
@@ -77,6 +85,7 @@ public class RedisController {
 
     /**
      * 执行redis命令
+     *
      * @return
      */
     @Log("执行Redis keys命令")
@@ -93,6 +102,7 @@ public class RedisController {
 
     /**
      * 执行Redis get命令
+     *
      * @param arg
      * @return
      */

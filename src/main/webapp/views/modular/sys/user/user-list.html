@@ -1,0 +1,80 @@
+<%layout("/layout/body.html",{title:'用户管理',libs:['jqgrid']}){%>
+<section class="content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <h3 class="box-title">用户管理</h3>
+            <div class="box-tools pull-right">
+                <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+                <a href="/sys/user/form" class="btn btn-default btnTool btn-sm" title="新增用户"><i class="fa fa-plus"></i> 新增用户</a>
+            </div>
+        </div>
+        <div class="box-body">
+            <form id="searchForm" action="${ctxPath}/sys/user/listData" method="post" class="form-inline hide">
+                <div class="form-group">
+                    <label class="control-label">用户账号：</label>
+                    <div class="control-inline">
+                        <input class="form-control width-90" type="text" name="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">用户名称：</label>
+                    <div class="control-inline">
+                        <input class="form-control width-90" type="text" name="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
+                </div>
+            </form>
+            <table id="dataGrid"></table>
+            <div id="dataGridPage"></div>
+        </div>
+    </div>
+</section>
+<%}%>
+<script>
+    $(function () {
+        $('#dataGrid').dataGrid({
+            searchForm: $("#searchForm"),
+            columnModel: [
+                {header: '用户账号', name: 'username', index: 'username', width: 100, align: "center"},
+                {header: '用户名称', name: 'name', index: 'name', width: 100, align: "center"},
+                {header: '性别', name: 'sex', index: 'sex', width: 100, align: "center",formatter: function(val, obj, row, act){
+                        return bet.transDictLabel(${DictUtils.getDictListJson('sex')}, val, '<font color=#aaa>未设置</font>');
+                    }},
+                {header: '电子邮件', name: 'email', index: 'email', width: 100, align: "center"},
+                {header: '电话', name: 'mobile', index: 'mobile', width: 100, align: "center"},
+                {header: '部门', name: 'deptName', index: 'dept_name', width: 100, align: "center"},
+                {header: '备注', name: 'remarks', index: 'remarks', width: 100, align: "center"},
+                {header: '用户状态', name: 'userStatus', index: 'user_status', width: 100, align: "center",formatter: function(val, obj, row, act){
+                    var text =  bet.transDictLabel(${DictUtils.getDictListJson('user_status')}, val, '<font color=#aaa>未设置</font>');
+                    if(val == '0'){
+                        return '<span class="label label-warning">'+text+'</span>';
+                    }else{
+                        return '<span class="label label-success">'+text+'</span>';
+                    }
+                 }},
+                {header: '创建时间', name: 'createTime', index: 'create_time', width: 100, align: "center"},
+                {
+                    header: '操作',
+                    name: 'actions',
+                    width: 120,
+                    sortable: false,
+                    title: false,
+                    formatter: function (val, obj, row, act) {
+                        var actions = [];
+                        actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="编辑用户"><i class="fa fa-pencil"></i></a>&nbsp;');
+                        actions.push('<a href="${ctxPath}/sys/user/delete?id=' + row.userId + '" class="btnList" title="删除用户" data-confirm="确认要删除用户信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                        return actions.join('');
+                    }
+                }
+            ],
+            // 加载成功后执行事件
+            ajaxSuccess: function (data) {
+
+            }
+        });
+    });
+
+</script>

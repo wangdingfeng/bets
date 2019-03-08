@@ -26,13 +26,12 @@ import java.util.List;
 
 /**
  * 用户管理
- *
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/sys/user")
 public class UserController extends BaseController {
 
-    private static final String PAGE_SUFFIX = "sys/user";
+    private static final String PAGE_SUFFIX = "modular/sys/user";
 
     @Autowired
     private UserService userService;
@@ -43,42 +42,45 @@ public class UserController extends BaseController {
     @Autowired
     private OfficeService officeService;
 
-    @RequestMapping("/index")
+    @RequestMapping("/list")
     @RequiresPermissions("user:list")
-    public String index(Model model) {
+    public String list(Model model) {
         UserModel user = super.getCurrentUser();
         model.addAttribute("user", user);
-        return PAGE_SUFFIX+"/user-list";
+        return PAGE_SUFFIX + "/user-list";
     }
 
     /**
      * 获取数据
+     *
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/listData")
     @ResponseBody
-    public Page<UserModel> list(UserModel user, HttpServletRequest request, HttpServletResponse response) {
-        Page<UserModel> page= userService.queryPage(new Page<UserModel>(request, response), user);
+    public Page<UserModel> listData(UserModel user, HttpServletRequest request, HttpServletResponse response) {
+        Page<UserModel> page = userService.queryPage(new Page<UserModel>(request, response), user);
         return page;
     }
 
     /**
      * 添加修改页面
+     *
      * @param user 用户
      * @return
      */
     @RequestMapping("/form")
-    public String form(UserModel user, Model model){
-        if(null != user.getUserId()){
+    public String form(UserModel user, Model model) {
+        if (null != user.getUserId()) {
             user = userService.findById(user.getUserId());
-            model.addAttribute("user",user);
+            model.addAttribute("user", user);
         }
-        return PAGE_SUFFIX+"/user-form";
+        return PAGE_SUFFIX + "/user-form";
     }
 
     /**
      * 校验用户名
-     * @param username 新用户名
+     *
+     * @param username    新用户名
      * @param oldUsername 老用户名
      * @return
      */
@@ -94,6 +96,7 @@ public class UserController extends BaseController {
 
     /**
      * 保存更新用户
+     *
      * @param user
      * @return
      */
@@ -101,25 +104,25 @@ public class UserController extends BaseController {
     @RequiresPermissions("user:add")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult saveOrUpdate(UserModel user){
+    public ResponseResult saveOrUpdate(UserModel user) {
         //检验用户名是否重复
-        if(null != user.getUserId()){
+        if (null != user.getUserId()) {
             UserModel oldUser = this.userService.findById(user.getUserId());
-            if(!checkUserName(user.getUsername(),oldUser.getUsername())){
+            if (!checkUserName(user.getUsername(), oldUser.getUsername())) {
                 return ResponseResult.error("当前填写用户名重复，请重新填写");
             }
-        }else{
-            if(!checkUserName(user.getUsername(),"")){
+        } else {
+            if (!checkUserName(user.getUsername(), "")) {
                 return ResponseResult.error("当前填写用户名重复，请重新填写");
             }
-            if(!user.getPassword().equals(user.getUnpassword())){
+            if (!user.getPassword().equals(user.getUnpassword())) {
                 return ResponseResult.error("两次输入的用户名和密码不正确");
             }
         }
         try {
             userService.saveOrUpdateUser(user);
-        } catch (Exception e){
-            logger.error("保存用户异常",e);
+        } catch (Exception e) {
+            logger.error("保存用户异常", e);
             return ResponseResult.error("保存用户异常,请联系管理员");
         }
         return ResponseResult.ok("保存成功");
@@ -127,6 +130,7 @@ public class UserController extends BaseController {
 
     /**
      * 删除用户信息
+     *
      * @param id 用户id
      * @return
      */
@@ -154,6 +158,7 @@ public class UserController extends BaseController {
 
     /**
      * 修改密码
+     *
      * @param newPassword
      * @return
      */
@@ -171,39 +176,43 @@ public class UserController extends BaseController {
 
     /**
      * 跳转到个人信息修改界面
+     *
      * @return
      */
     @RequestMapping("/toUserInfoPage")
-    public String toUserInfoPage(Model model){
+    public String toUserInfoPage(Model model) {
         //查询用户信息
-        UserModel user =  userService.findByName(getCurrentUser().getUsername());;
+        UserModel user = userService.findByName(getCurrentUser().getUsername());
+        ;
         //获取用户部门
         user.setDeptName(officeService.findById(user.getDeptId()).getName());
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         //获取用户角色信息
         List<RoleModel> roleList = roleService.findUserRole(user.getUsername());
-        String roles ="";
-        for(RoleModel role:roleList){
-            roles += role.getRoleName()+",";
+        String roles = "";
+        for (RoleModel role : roleList) {
+            roles += role.getRoleName() + ",";
         }
-        model.addAttribute("roles",roles);
-        return PAGE_SUFFIX+"/user-info";
+        model.addAttribute("roles", roles);
+        return PAGE_SUFFIX + "/user-info";
     }
 
     /**
      * 处理头像
+     *
      * @return
      */
     @RequestMapping("/dealAvatar")
-    public String dealAvatar(Model model){
+    public String dealAvatar(Model model) {
         //查询用户信息
         UserModel user = userService.findByName(getCurrentUser().getUsername());
-        model.addAttribute("user",user);
-        return PAGE_SUFFIX+"/imageclip";
+        model.addAttribute("user", user);
+        return PAGE_SUFFIX + "/imageclip";
     }
 
     /**
      * 更新个人信息
+     *
      * @param user
      * @return
      */
@@ -211,10 +220,10 @@ public class UserController extends BaseController {
     @ResponseBody
     public ResponseResult updateUserProfile(UserModel user) {
         try {
-            if(StringUtils.isNotEmpty(user.getImageBase64())){
-                String fileName =  RandomUtil.randomString(16)+".jpg";
-                String savePath ="avatar"+ File.separator + user.getUsername();
-                user.setAvatar("/file"+File.separator +ImageBase64Util.generateImage(user.getImageBase64(),fileName,savePath));
+            if (StringUtils.isNotEmpty(user.getImageBase64())) {
+                String fileName = RandomUtil.randomString(16) + ".jpg";
+                String savePath = "avatar" + File.separator + user.getUsername();
+                user.setAvatar("/file" + File.separator + ImageBase64Util.generateImage(user.getImageBase64(), fileName, savePath));
             }
             this.userService.updateUserProfile(user);
             return ResponseResult.ok("更新个人信息成功！");

@@ -1,0 +1,127 @@
+<%layout("/layout/body.html",{title:'新增角色',libs:['jqgrid']}){%>
+<div class="main-content">
+    <div class="box box-main">
+        <div class="box-header">
+            <div class="box-title">
+                <i class="fa icon-people"></i> 角色授权用户
+            </div>
+            <div class="box-tools pull-right">
+                <a href="#" class="btn btn-default btn-sm" id="btnAddUser" title="添加用户"><i class="fa fa-plus"></i> 添加用户</a>
+                <a href="#" class="btn btn-default btn-sm" id="btnDelUser" title="删除用户"><i class="fa fa-remove"></i>
+                    批量取消</a>
+                <a href="javascript:" class="btn btn-default btn-sm" onclick="bet.closeTab()"><i
+                        class="fa fa-reply-all"></i> 关 闭</a>
+            </div>
+        </div>
+        <div class="box-body">
+            <form id="searchForm" action="${ctxPath}/role/roleUserListData" method="post" class="form-inline ">
+                <input name="roleId" type="hidden" value="${user.roleId}"/>
+                <input name="exist" type="hidden" value="true"/>
+                <div class="form-group">
+                    <label class="control-label">账号：</label>
+                    <div class="control-inline">
+                        <input name="username" maxlength="100" class="form-control width-90" value="${user.username!}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">用户名称：</label>
+                    <div class="control-inline">
+                        <input name="name" maxlength="100" class="form-control width-90" value="${user.name!}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-sm">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
+                </div>
+            </form>
+            <table id="dataGrid"></table>
+            <div id="dataGridPage"></div>
+        </div>
+    </div>
+</div>
+<div class="hide">
+    <#listselect id="userSelect" title="用户选择"
+    url="${ctxPath}/sys/role/selectUserToRole?roleId=${user.roleId}" allowClear="false"
+    checkbox="true" itemCode="userId" itemName="name"/>
+</div>
+<% } %>
+<script>
+    //初始化DataGrid对象
+    $('#dataGrid').dataGrid({
+        columnModel: [
+            {header: '用户账号', name: 'username', index: 'username', width: 100, align: "center"},
+            {header: '用户名称', name: 'name', index: 'name', width: 100, align: "center"},
+            {
+                header: '性别',
+                name: 'sex',
+                index: 'sex',
+                width: 100,
+                align: "center",
+                formatter: function (val, obj, row, act) {
+                    return bet.transDictLabel(${DictUtils.getDictListJson('sex')}, val, '<font color=#aaa>未设置</font>');
+                }
+            },
+            {header: '电子邮件', name: 'email', index: 'email', width: 100, align: "center"},
+            {header: '电话', name: 'mobile', index: 'mobile', width: 100, align: "center"},
+            {header: '部门', name: 'deptName', index: 'dept_name', width: 100, align: "center"},
+            {header: '备注', name: 'description', index: 'description', width: 100, align: "center"},
+            {header: '状态', name: 'status', index: 'status', width: 100, align: "center"},
+            {header: '创建时间', name: 'crateTime', index: 'crate_time', width: 100, align: "center"},
+            {
+                header: '操作',
+                name: 'actions',
+                width: 100,
+                sortable: false,
+                title: false,
+                align: "center",
+                formatter: function (val, obj, row, act) {
+                    var actions = [];
+                    actions.push('<a href="${ctxPath}/sys/role/deleteUserRole?roleId=${user.roleId}&userIds=' + row.userId + '" class="btnList" title="取消授权" data-confirm="确认要取消该用户角色吗？"><i class="fa fa-remove"></i></a>&nbsp;');
+                    return actions.join('');
+                }
+            }
+        ],
+        showCheckbox: true,
+        // 加载成功后执行事件
+        ajaxSuccess: function (data) {
+
+        }
+    });
+    $('#btnDelUser').click(function () {
+        var userCodes = $('#dataGrid').dataGrid('getSelectRows');
+        if (userCodes != null && userCodes.length > 0) {
+            bet.confirm('确认要取消列表中权重的用户角色权限吗？', function () {
+                bet.ajax('${ctxPath}/sys/role/deleteUserRole', {
+                    roleId: '${user.roleId}',
+                    userIds: userCodes.join(',')
+                }, function (data) {
+                    bet.showMessage(data.message);
+                    page();
+                });
+            });
+        } else {
+            bet.showMessage('请在列表选中要取消角色的用户');
+        }
+        return false;
+    });
+    $('#btnAddUser').click(function () {
+        $('#userSelectName').click();
+    });
+
+    function listselectCallback(id, action, index, layero) {
+        if (id == 'userSelect' && action == 'ok') {
+            if ($('#userSelectCode').val() != '') {
+                bet.ajax('${ctxPath}/sys/role/assignRole', {
+                    roleId: '${user.roleId}',
+                    userIds: $('#userSelectCode').val()
+                }, function (data) {
+                    bet.showMessage(data.message);
+                    page();
+                });
+
+            } else {
+                bet.showMessage('没有选择要授权的用户');
+            }
+        }
+    }
+</script>

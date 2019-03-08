@@ -1,0 +1,64 @@
+<%layout("/layout/body.html",{title:'部门管理',libs:['jqgrid']}){%>
+<section class="main-content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <h3 class="box-title">部门管理</h3>
+            <div class="box-tools pull-right">
+                <a href="#" class="btn btn-default btn-sm" id="btnRefreshTree" title="刷新"><i class="fa fa-refresh"></i>
+                    刷新</a>
+                <a href="#" class="btn btn-default btn-sm" id="btnExpandTreeNode" title="展开一级"><i
+                        class="fa fa-angle-double-down"></i> 展开</a>
+                <a href="#" class="btn btn-default btn-sm" id="btnCollapseTreeNode" title="折叠全部"><i
+                        class="fa fa-angle-double-up"></i> 折叠</a>
+                <a href="/sys/office/form" class="btn btn-default btnTool btn-sm" title="添加机构"><i class="fa fa-plus"></i>
+                    添加部门</a>
+            </div>
+        </div>
+        <div class="box-body">
+            <form style="margin: 10px" id="searchForm" action="${ctxPath}/sys/office/listData" method="post"
+                  class="form-horizontal hide">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-sm">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
+                </div>
+            </form>
+            <table id="dataGrid"></table>
+        </div>
+    </div>
+</section>
+<%}%>
+<script>
+    //初始化DataGrid对象
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        columnModel: [
+            {header: '机构名称', name: 'name', index: 'a.name', width: 150, align: "left"},
+            {header: '负责人', name: 'master', index: 'a.master', width: 80, align: "center"},
+            {header: '机构编码', name: 'code', index: 'a.code', width: 80, align: "center"},
+            {header: '部门电话', name: 'phone', index: 'a.phone', width: 80, align: "center"},
+            {header: '备注', name: 'remarks', index: 'a.remarks', width: 80, align: "center"},
+            {
+                header: '操作',
+                name: 'actions',
+                width: 70,
+                align: "center",
+                sortable: false,
+                title: false,
+                formatter: function (val, obj, row, act) {
+                    var actions = [];
+                    actions.push('<a href="/sys/office/form?id=' + row.id + '" class="btnList" title="修改机构信息"><i class="fa fa-pencil"></i></a>');
+                    actions.push('<a href="${ctxPath}/sys/office/delete?id=' + row.id + '" class="btnList" title="删除机构" data-confirm="要删除该机构及所有子机构项吗？"><i class="fa fa-trash-o"></i></a>');
+                    actions.push('<a href="/sys/office/form?parentId=' + row.id + '" class="btnList" title="添加下级机构"><i class="fa fa-plus-square"></i></a>');
+                    return actions.join('');
+                }
+            }
+        ],
+        treeGrid: true,
+        defaultExpandLevel: 0,
+        expandNodeClearPostData: 'name',
+        // 加载成功后执行事件
+        ajaxSuccess: function (data) {
+
+        }
+    });
+</script>

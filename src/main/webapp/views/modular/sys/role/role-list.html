@@ -1,0 +1,64 @@
+<%layout("/layout/body.html",{title:'角色管理',libs:['jqgrid']}){%>
+<section class="content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <h3 class="box-title">角色管理</h3>
+            <div class="box-tools pull-right">
+                <a href="javascript:void(0)" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i
+                        class="fa fa-filter"></i> 查询</a>
+                <a href="/sys/role/form" class="btn btn-default btnTool btn-sm" title="新增角色"><i class="fa fa-plus"></i>
+                    新增角色</a>
+            </div>
+        </div>
+        <div class="box-body">
+            <form id="searchForm" action="${ctxPath}/sys/role/listData" method="post"
+                  class="form-inline hide">
+                <div class="form-group">
+                    <label class="control-label">角色名称：</label>
+                    <div class="control-inline">
+                        <input name="name" maxlength="100" class="form-control width-90"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
+                </div>
+            </form>
+            <table id="dataGrid"></table>
+            <div id="dataGridPage"></div>
+        </div>
+    </div>
+</section>
+<%}%>
+<script>
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        columnModel: [
+            {header: '角色名称', name: 'roleName', index: 'role_name', width: 100, align: "center"},
+            {header: '角色所属部门', name: 'deptName', index: 'dept_name', width: 100, align: "center"},
+            {header: '角色描述', name: 'remarks', index: 'remarks', width: 100, align: "center"},
+            {header: '创建人', name: 'creator', index: 'creator', width: 100, align: "center"},
+            {header: '创建时间', name: 'createTime', index: 'create_time', width: 100, align: "center"},
+            {header: '修改时间', name: 'modifyTime', index: 'modify_time', width: 100, align: "center"},
+            {
+                header: '操作',
+                name: 'actions',
+                width: 120,
+                sortable: false,
+                title: false,
+                align: "center",
+                formatter: function (val, obj, row, act) {
+                    var actions = [];
+                    actions.push('<a href="/sys/role/roleUserList?roleId=' + row.roleId + '" class="btnList" title="分配用户"><i class="fa fa-user"></i></a>&nbsp;');
+                    actions.push('<a href="/sys/role/form?roleId=' + row.roleId + '" class="btnList" title="编辑角色"><i class="fa fa-pencil"></i></a>&nbsp;');
+                    actions.push('<a href="${ctxPath}/sys/role/delete?roleId=' + row.roleId + '" class="btnList" title="删除角色" data-confirm="确认要删除角色信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    return actions.join('');
+                }
+            }
+        ],
+        // 加载成功后执行事件
+        ajaxSuccess: function (data) {
+
+        }
+    });
+</script>

@@ -1,58 +1,58 @@
 <%
 
-	var p = {
-		id:id!"",
-		name:name!"",
-		value:value!""
-	};
-	
-	var icon = isEmpty(value)?"fa fa-fw":value;
+var p = {
+id:id!"",
+name:name!"",
+value:value!""
+};
+
+var icon = isEmpty(value)?"fa fa-fw":value;
 %>
 
 <div class="input-group">
 	<span class="input-group-addon">
 		<i id="${p.id}Icon" class="${icon}"></i>
 	</span>
-	<input id="${p.id}" name="${p.name}" type="text" value="${p.value}" class="form-control "/>
-	<span class="input-group-btn">
+    <input id="${p.id}" name="${p.name}" type="text" value="${p.value}" class="form-control "/>
+    <span class="input-group-btn">
 		<a id="${p.id}Button" href="javascript:" class="btn btn-default">
 			<i class="fa fa-search"></i>
 		</a>
 	</span>
 </div>
-	
+
 
 <script type="text/javascript">
-	$("#${id}Button").click(function(){
-		bet.layer.open({
-			type: 2,
-			title: '选择图标',
-			shadeClose: true,
-			scrollbar: false,
-			maxmin: true, //开启最大化最小化按钮
-			area: ['1000px', '80%'],
-			content: ['${ctxPath}/menu/iconselect', 'auto'],
-			success: function(layero, index){
-				var info = '<font color="red" class="pull-left mt10">提示：双击选择图标。</font>';
-				layero.find('.layui-layer-btn').append(info);
-			},
-			btn: ['<i class="fa fa-close"></i> 关闭', '<i class="fa fa-eraser"></i> 清除'],
-			btn1: function(index, layero){
-				var win = bet.layer.iframeWindow(index);
-				var icon = win.$("#icon").val();
-				if(icon != null && icon != "" ) {
-					$("#${id}Icon").attr("class", icon);
-					//$("#${id}IconLabel").text(icon);
-					$("#${id}").val(icon);
-				}
+    $("#${id}Button").click(function () {
+        bet.layer.open({
+            type: 2,
+            title: '选择图标',
+            shadeClose: true,
+            scrollbar: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['1000px', '80%'],
+            content: ['${ctxPath}/sys/menu/iconselect', 'auto'],
+            success: function (layero, index) {
+                var info = '<font color="red" class="pull-left mt10">提示：双击选择图标。</font>';
+                layero.find('.layui-layer-btn').append(info);
+            },
+            btn: ['<i class="fa fa-close"></i> 关闭', '<i class="fa fa-eraser"></i> 清除'],
+            btn1: function (index, layero) {
+                var win = bet.layer.iframeWindow(index);
+                var icon = win.$("#icon").val();
+                if (icon != null && icon != "") {
+                    $("#${id}Icon").attr("class", icon);
+                    //$("#${id}IconLabel").text(icon);
+                    $("#${id}").val(icon);
+                }
 
-				bet.layer.close(index);
-			},
-			btn2: function(index, layero){
-				$("#${id}Icon").attr("class", "");
-				//$("#${id}IconLabel").text("无");
-				$("#${id}").val("");
-			}
-		});
-	});
+                bet.layer.close(index);
+            },
+            btn2: function (index, layero) {
+                $("#${id}Icon").attr("class", "");
+                //$("#${id}IconLabel").text("无");
+                $("#${id}").val("");
+            }
+        });
+    });
 </script>

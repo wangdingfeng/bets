@@ -25,59 +25,63 @@ import java.util.List;
  * @Version: 1.0
  */
 @Controller
-@RequestMapping("/office")
+@RequestMapping("/sys/office")
 public class OfficeController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static final String PAGE_SUFFIX = "sys/office";
+    private static final String PAGE_SUFFIX = "modular/sys/office";
 
     @Autowired
     private OfficeService officeService;
 
     /**
      * 跳转列表页面
+     *
      * @return
      */
-    @RequestMapping("/index")
-    public String index(){
-        return PAGE_SUFFIX+"/office-list";
+    @RequestMapping("/list")
+    public String list() {
+        return PAGE_SUFFIX + "/office-list";
     }
 
     /**
      * 部门list
+     *
      * @param office
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/listData")
     @ResponseBody
-    public List<OfficeModel> list(OfficeModel office){
+    public List<OfficeModel> listData(OfficeModel office) {
         List<OfficeModel> list = officeService.findAllList(office);
         return list;
     }
 
     /**
      * 添加 编辑
+     *
      * @return
      */
     @RequestMapping("/form")
-    public String form(OfficeModel office, Model model){
-        if(null != office.getId()){
+    public String form(OfficeModel office, Model model) {
+        if (null != office.getId()) {
             office = officeService.findById(office.getId());
         }
-        model.addAttribute("office",office);
-        return PAGE_SUFFIX+"/office-form";
+        model.addAttribute("office", office);
+        return PAGE_SUFFIX + "/office-form";
     }
 
     /**
      * 保存or更新
+     *
      * @param office
      * @return
      */
     @Log("编辑部门")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult saveOrUpdate(OfficeModel office){
+    public ResponseResult saveOrUpdate(OfficeModel office) {
         try {
             officeService.saveOrUpdate(office);
             return ResponseResult.ok("操作成功！");
@@ -89,11 +93,12 @@ public class OfficeController {
 
     /**
      * 获取部门tree
+     *
      * @return
      */
     @RequestMapping("/getOfficeTree")
     @ResponseBody
-    public ResponseResult getOfficeTree(){
+    public ResponseResult getOfficeTree() {
         try {
             Tree<OfficeModel> tree = officeService.getAllOfficeTree(new OfficeModel());
             return ResponseResult.ok(tree);

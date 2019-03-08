@@ -24,65 +24,70 @@ import javax.servlet.http.HttpServletResponse;
  * @Date 16:08 2019/1/14
  **/
 @Controller
-@RequestMapping("dict")
+@RequestMapping("/sys/dict")
 public class DictController extends BaseController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private static final String PAGE_SUFFIX = "sys/dict";
+    private static final String PAGE_SUFFIX = "modular/sys/dict";
 
     @Autowired
     private DictService dictService;
 
     /**
      * 跳转到 字典列表
+     *
      * @return
      */
     @Log("获取字典信息")
-    @RequestMapping("/index")
+    @RequestMapping("/list")
     @RequiresPermissions("dict:list")
-    public String index() {
-        return PAGE_SUFFIX+"/dict-list";
+    public String list() {
+        return PAGE_SUFFIX + "/dict-list";
     }
+
     /**
      * @Author wangdingfeng
      * @Description 字典列表
      * @Date 16:08 2019/1/14
      **/
 
-    @RequestMapping("/list")
+    @RequestMapping("/listData")
     @ResponseBody
-    public Page<DictModel> list(DictModel dict, HttpServletRequest request, HttpServletResponse response){
-        return dictService.queryPage(new Page<DictModel>(request,response),dict);
+    public Page<DictModel> listData(DictModel dict, HttpServletRequest request, HttpServletResponse response) {
+        return dictService.queryPage(new Page<DictModel>(request, response), dict);
     }
 
     /**
      * 跳转到子菜单信息
+     *
      * @return
      */
     @RequestMapping("/dictChildren")
     public String dictChildren(DictModel dict, Model model) {
-        dict =  dictService.findById(dict.getDictId());
-        model.addAttribute("dict",dict);
-        return PAGE_SUFFIX+"/dict-chr-list";
+        dict = dictService.findById(dict.getDictId());
+        model.addAttribute("dict", dict);
+        return PAGE_SUFFIX + "/dict-chr-list";
     }
 
     /**
      * 查看编辑
+     *
      * @param dict
      * @return
      */
     @RequestMapping("/form")
-    public String form(DictModel dict, Model model){
-        if(null != dict.getDictId()){
-            dict =  dictService.findById(dict.getDictId());
+    public String form(DictModel dict, Model model) {
+        if (null != dict.getDictId()) {
+            dict = dictService.findById(dict.getDictId());
         }
-        model.addAttribute("dict",dict);
-        return PAGE_SUFFIX+"/dict-from";
+        model.addAttribute("dict", dict);
+        return PAGE_SUFFIX + "/dict-from";
     }
 
     /**
      * 新增|更新字典数据
+     *
      * @param dict
      * @return
      */
@@ -102,6 +107,7 @@ public class DictController extends BaseController {
 
     /**
      * 删除菜单
+     *
      * @param dictId
      * @return
      */
