@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.service;
 
 import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.core.base.service.IService;
-import com.simple.bets.modular.sys.model.Office;
+import com.simple.bets.modular.sys.model.OfficeModel;
 
 import java.util.List;
 
@@ -15,22 +15,22 @@ import java.util.List;
  * @Date: 2019/1/8 14:35
  * @Version: 1.0
  */
-public interface OfficeService extends IService<Office> {
+public interface OfficeService extends IService<OfficeModel> {
     /**
      * 查询所有的数据
      * @return
      */
-    List<Office> findAllList(Office office);
+    List<OfficeModel> findAllList(OfficeModel office);
 
     /**
      * 获取部门的树结构
      * @return
      */
-    Tree<Office> getAllOfficeTree(Office office);
+    Tree<OfficeModel> getAllOfficeTree(OfficeModel office);
 
     /**
      * 保存更新
      * @param office
      */
-    void saveOrUpdate(Office office);
+    void saveOrUpdate(OfficeModel office);
 }

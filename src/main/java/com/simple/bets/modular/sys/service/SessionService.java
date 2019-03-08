@@ -1,7 +1,7 @@
 package com.simple.bets.modular.sys.service;
 
 
-import com.simple.bets.modular.sys.model.UserOnline;
+import com.simple.bets.modular.sys.model.UserOnlineModel;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface SessionService {
 	 * 获取在线用户
 	 * @return
 	 */
-	List<UserOnline> list();
+	List<UserOnlineModel> list();
 
 	/**
 	 * 提出用户

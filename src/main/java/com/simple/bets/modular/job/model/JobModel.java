@@ -1,12 +1,11 @@
 package com.simple.bets.modular.job.model;
-import com.google.common.base.MoreObjects;
+
 import com.simple.bets.core.base.model.BaseModel;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,10 +14,8 @@ import java.util.Date;
  * @Date 15:15 2019/2/2
  **/
 
-@Table(name = "t_job")
+@Table(name = "sys_job")
 public class JobModel extends BaseModel {
-
-    private static final long serialVersionUID = 400066840871805700L;
 
     /**
      * 任务调度参数key
@@ -62,6 +59,9 @@ public class JobModel extends BaseModel {
 
     @Column(name = "cron_expression")
     private String cronExpression;
+
+    @Column(name = "job_status")
+    private String jobStatus;
 
     /**
      * @return JOB_ID
@@ -159,5 +159,13 @@ public class JobModel extends BaseModel {
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getJobStatus() {
+        return jobStatus;
+    }
+
+    public void setJobStatus(String jobStatus) {
+        this.jobStatus = jobStatus;
     }
 }

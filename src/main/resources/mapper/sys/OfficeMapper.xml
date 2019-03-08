@@ -23,7 +23,7 @@
 		a.status AS status
 	</sql>
 
-	<select id="findAllList" resultType="com.simple.bets.modular.sys.model.Office">
+	<select id="findAllList" resultType="com.simple.bets.modular.sys.model.OfficeModel">
 		SELECT
 		<include refid="officeColumns"/>
 		FROM sys_office a
@@ -34,7 +34,7 @@
 		ORDER BY a.tree_level
 	</select>
 
-	<select id="findSubOfficeListByPid" resultType="com.simple.bets.modular.sys.model.Office">
+	<select id="findSubOfficeListByPid" resultType="com.simple.bets.modular.sys.model.OfficeModel">
 
 		SELECT * FROM sys_office WHERE parent_id = #{parentId} AND sys_status = '0'
 

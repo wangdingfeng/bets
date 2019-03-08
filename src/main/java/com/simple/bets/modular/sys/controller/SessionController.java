@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.controller;
 
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.base.model.ResponseResult;
-import com.simple.bets.modular.sys.model.UserOnline;
+import com.simple.bets.modular.sys.model.UserOnlineModel;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.modular.sys.service.SessionService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -47,9 +47,9 @@ public class SessionController {
     @ResponseBody
     @RequestMapping("session/list")
     @RequiresPermissions("session:list")
-    public Page<UserOnline> list() {
-        List<UserOnline> list = sessionService.list();
-        Page<UserOnline> page = new Page<>();
+    public Page<UserOnlineModel> list() {
+        List<UserOnlineModel> list = sessionService.list();
+        Page<UserOnlineModel> page = new Page<>();
         page.setList(list);
         return page;
     }

@@ -3,15 +3,12 @@ package com.simple.bets.modular.sys.service.impl;
 import com.simple.bets.core.common.util.MD5Utils;
 import com.simple.bets.modular.sys.dao.UserMapper;
 import com.simple.bets.modular.sys.dao.UserRoleMapper;
-import com.simple.bets.modular.sys.model.User;
-import com.simple.bets.modular.sys.model.UserRole;
-import com.simple.bets.modular.sys.model.UserWithRole;
+import com.simple.bets.modular.sys.model.UserModel;
+import com.simple.bets.modular.sys.model.UserRoleModel;
+import com.simple.bets.modular.sys.model.UserWithRoleDTO;
 import com.simple.bets.core.base.service.impl.ServiceImpl;
-import com.simple.bets.modular.sys.service.UserRoleService;
 import com.simple.bets.modular.sys.service.UserService;
 import org.apache.shiro.SecurityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,14 +22,13 @@ import java.util.stream.Collectors;
 
 /**
  * 用户serviceImpl
+ *
  * @author wangdingfeng
  * @Date 2019-01-07
  */
 @Service("userService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class UserServiceImpl extends ServiceImpl<User> implements UserService {
-
-    private Logger log = LoggerFactory.getLogger(this.getClass());
+public class UserServiceImpl extends ServiceImpl<UserModel> implements UserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -40,72 +36,43 @@ public class UserServiceImpl extends ServiceImpl<User> implements UserService {
     @Autowired
     private UserRoleMapper userRoleMapper;
 
-    @Autowired
-    private UserRoleService userRoleService;
-
     @Override
-    public User findByName(String userName) {
-        Example example = new Example(User.class);
+    public UserModel findByName(String userName) {
+        Example example = new Example(UserModel.class);
         example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
-        List<User> list = this.selectByExample(example);
+        List<UserModel> list = this.selectByExample(example);
         return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
-    public User saveOrUpdateUser(User user) {
-        if(null == user.getUserId()) {
+    @Transactional
+    public UserModel saveOrUpdateUser(UserModel user) {
+        if (null == user.getUserId()) {
             saveUser(user);
             user.setBaseData(true);
             this.save(user);
-        }else{
+        } else {
             user.setBaseData(false);
             this.updateNotNull(user);
         }
         return user;
     }
 
-/*    @Override
-    public List<User> findUserWithDept(User user, QueryRequest request) {
-        try {
-            return this.userMapper.findUserWithDept(user);
-        } catch (Exception e) {
-            log.error("error", e);
-            return new ArrayList<>();
-        }
-    }*/
-    @Override
-    @Transactional
-    public void registerUser(User user) {
-        saveUser(user);
-        user.setSex(User.SEX_UNKNOW);
-        UserRole ur = new UserRole();
-        ur.setUserId(user.getUserId());
-        ur.setRoleId(3L);
-        this.userRoleMapper.insert(ur);
-    }
-
-
-    @Override
-    @Transactional
-    public void addUser(User user, Long[] roles) {
-        saveUser(user);
-        setUserRoles(user, roles);
-    }
-
     /**
      * 保存用户信息
+     *
      * @param user
      * @return
      */
-    private User saveUser(User user){
-        user.setPassword(MD5Utils.encryptBasedDes(user.getUsername()+user.getPassword()));
-        user.setUserStatus(User.STATUS_VALID);
+    private UserModel saveUser(UserModel user) {
+        user.setPassword(MD5Utils.encryptBasedDes(user.getUsername() + user.getPassword()));
+        user.setUserStatus(UserModel.STATUS_VALID);
         return user;
     }
 
-    private void setUserRoles(User user, Long[] roles) {
+    private void setUserRoles(UserModel user, Long[] roles) {
         Arrays.stream(roles).forEach(roleId -> {
-            UserRole ur = new UserRole();
+            UserRoleModel ur = new UserRoleModel();
             ur.setUserId(user.getUserId());
             ur.setRoleId(roleId);
             this.userRoleMapper.insert(ur);
@@ -114,23 +81,10 @@ public class UserServiceImpl extends ServiceImpl<User> implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(User user, Long[] roles) {
-        user.setPassword(null);
-        user.setUsername(null);
-        user.setModifyTime(new Date());
-        this.updateNotNull(user);
-        Example example = new Example(UserRole.class);
-        example.createCriteria().andCondition("user_id=", user.getUserId());
-        this.userRoleMapper.deleteByExample(example);
-        setUserRoles(user, roles);
-    }
-
-    @Override
-    @Transactional
     public void updateLoginTime(String userName) {
-        Example example = new Example(User.class);
+        Example example = new Example(UserModel.class);
         example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
-        User user = new User();
+        UserModel user = new UserModel();
         user.setLastLoginTime(new Date());
         this.userMapper.updateByExampleSelective(user, example);
     }
@@ -138,33 +92,33 @@ public class UserServiceImpl extends ServiceImpl<User> implements UserService {
     @Override
     @Transactional
     public void updatePassword(String password) {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-        Example example = new Example(User.class);
+        UserModel user = (UserModel) SecurityUtils.getSubject().getPrincipal();
+        Example example = new Example(UserModel.class);
         example.createCriteria().andCondition("username=", user.getUsername());
-        String newPassword = MD5Utils.encryptBasedDes(user.getUsername().toLowerCase()+password);
+        String newPassword = MD5Utils.encryptBasedDes(user.getUsername().toLowerCase() + password);
         user.setPassword(newPassword);
         this.userMapper.updateByExampleSelective(user, example);
     }
 
     @Override
-    public UserWithRole findUserRoleById(Long userId) {
-        List<UserWithRole> list = this.userMapper.findUserWithRole(userId);
-        List<Long> roleList = list.stream().map(UserWithRole::getRoleId).collect(Collectors.toList());
+    public UserWithRoleDTO findUserRoleById(Long userId) {
+        List<UserWithRoleDTO> list = this.userMapper.findUserWithRole(userId);
+        List<Long> roleList = list.stream().map(UserWithRoleDTO::getRoleId).collect(Collectors.toList());
         if (list.isEmpty())
             return null;
-        UserWithRole userWithRole = list.get(0);
+        UserWithRoleDTO userWithRole = list.get(0);
         userWithRole.setRoleIds(roleList);
         return userWithRole;
     }
 
     @Override
-    public User findUserProfile(User user) {
+    public UserModel findUserProfile(UserModel user) {
         return this.userMapper.findUserProfile(user);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void updateUserProfile(User user) {
+    public void updateUserProfile(UserModel user) {
         user.setUsername(null);
         user.setPassword(null);
         this.updateNotNull(user);

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.simple.bets.modular.sys.dao.UserRoleMapper">
-  <resultMap id="BaseResultMap" type="com.simple.bets.modular.sys.model.UserRole">
+  <resultMap id="BaseResultMap" type="com.simple.bets.modular.sys.model.UserRoleModel">
+    <result column="id" jdbcType="DECIMAL" property="id" />
     <result column="user_id" jdbcType="DECIMAL" property="userId" />
     <result column="role_id" jdbcType="DECIMAL" property="roleId" />
   </resultMap>
   <!--用户基本信息映射-->
-  <resultMap id="UserModel" type="com.simple.bets.modular.sys.model.User">
+  <resultMap id="UserModel" type="com.simple.bets.modular.sys.model.UserModel">
     <id column="user_id" jdbcType="DECIMAL" property="userId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
@@ -25,11 +26,11 @@
   </resultMap>
 
   <select id="findUsersByRole" resultMap="UserModel">
-    SELECT u.* FROM t_user u,t_user_role ur WHERE u.user_id=ur.user_id AND ur.role_id=#{roleId}
+    SELECT u.* FROM sys_user u,sys_user_role ur WHERE u.user_id=ur.user_id AND ur.role_id=#{roleId}
   </select>
 
   <select id="findNotUsersByRole" resultMap="UserModel">
-    SELECT u.* FROM t_user u WHERE u.user_id not in (SELECT ur.user_id FROM t_user_role ur WHERE ur.role_id =#{roleId})
+    SELECT u.* FROM sys_user u WHERE u.user_id not in (SELECT ur.user_id FROM sys_user_role ur WHERE ur.role_id =#{roleId})
   </select>
 
 </mapper>

@@ -1,8 +1,8 @@
 package com.simple.bets.core.shiro;
 
-import com.simple.bets.modular.sys.model.Menu;
-import com.simple.bets.modular.sys.model.Role;
-import com.simple.bets.modular.sys.model.User;
+import com.simple.bets.modular.sys.model.MenuModel;
+import com.simple.bets.modular.sys.model.RoleModel;
+import com.simple.bets.modular.sys.model.UserModel;
 import com.simple.bets.modular.sys.service.MenuService;
 import com.simple.bets.modular.sys.service.RoleService;
 import com.simple.bets.modular.sys.service.UserService;
@@ -57,19 +57,19 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        UserModel user = (UserModel) SecurityUtils.getSubject().getPrincipal();
         String userName = user.getUsername();
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
         // 获取用户角色集
-        List<Role> roleList = this.roleService.findUserRole(userName);
-        Set<String> roleSet = roleList.stream().map(Role::getRoleName).collect(Collectors.toSet());
+        List<RoleModel> roleList = this.roleService.findUserRole(userName);
+        Set<String> roleSet = roleList.stream().map(RoleModel::getRoleName).collect(Collectors.toSet());
         simpleAuthorizationInfo.setRoles(roleSet);
 
         // 获取用户权限集
-        List<Menu> permissionList = this.menuService.findUserPermissions(userName);
-        Set<String> permissionSet = permissionList.stream().map(Menu::getPerms).collect(Collectors.toSet());
+        List<MenuModel> permissionList = this.menuService.findUserPermissions(userName);
+        Set<String> permissionSet = permissionList.stream().map(MenuModel::getPerms).collect(Collectors.toSet());
         simpleAuthorizationInfo.setStringPermissions(permissionSet);
         return simpleAuthorizationInfo;
     }
@@ -102,13 +102,13 @@ public class ShiroRealm extends AuthorizingRealm {
         }
 
         // 通过用户名到数据库查询用户信息
-        User user = this.userService.findByName(userName);
+        UserModel user = this.userService.findByName(userName);
 
         if (user == null)
             throw new UnknownAccountException("用户名或密码错误！");
         if (!password.equals(user.getPassword()))
             throw new IncorrectCredentialsException("用户名或密码错误！");
-        if (User.STATUS_LOCK.equals(user.getStatus()))
+        if (UserModel.STATUS_LOCK.equals(user.getUserStatus()))
             throw new LockedAccountException("账号已被锁定,请联系管理员！");
         //清空登录计数
         opsForValue.set(SHIRO_LOGIN_COUNT+userName, "0");

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.simple.bets.modular.sys.dao.UserMapper">
-    <resultMap id="BaseResultMap" type="com.simple.bets.modular.sys.model.User">
+    <resultMap id="BaseResultMap" type="com.simple.bets.modular.sys.model.UserModel">
         <id column="user_id" jdbcType="DECIMAL" property="userId"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
@@ -22,11 +22,11 @@
         <result column="user_status" jdbcType="CHAR" property="userStatus"/>
     </resultMap>
 
-    <select id="findUserWithDept" resultType="com.simple.bets.modular.sys.model.User"
-            parameterType="com.simple.bets.modular.sys.model.User">
+    <select id="findUserWithDept" resultType="com.simple.bets.modular.sys.model.UserModel"
+            parameterType="com.simple.bets.modular.sys.model.UserModel">
         select u.user_id userId,u.username,u.email,u.mobile,u.status,u.create_time createTime,
-        u.sex,d.dept_name deptName from t_user u
-        left join t_dept d on(u.dept_id = d.dept_id)
+        u.sex,d.dept_name deptName from sys_user u
+        left join sys_dept d on(u.dept_id = d.dept_id)
         where 1=1
         <if test="username != null and username != ''">
             AND u.username = #{username}
@@ -44,31 +44,28 @@
     </select>
 
 
-    <select id="findUserWithRole" resultType="com.simple.bets.modular.sys.model.UserWithRole">
+    <select id="findUserWithRole" resultType="com.simple.bets.modular.sys.model.UserWithRoleDTO">
 		select u.user_id userId,u.username,u.dept_id deptId,u.email,u.mobile,
-		u.status,u.sex,ur.role_id roleId from t_user u
-		left join t_user_role ur on (u.user_id = ur.user_id)
+		u.status,u.sex,ur.role_id roleId from sys_user u
+		left join sys_user_role ur on (u.user_id = ur.user_id)
 		where u.user_id = #{userId}
   </select>
 
-    <select id="findUserProfile" resultType="com.simple.bets.modular.sys.model.User"
-            parameterType="com.simple.bets.modular.sys.model.User">
+    <select id="findUserProfile" resultType="com.simple.bets.modular.sys.model.UserModel"
+            parameterType="com.simple.bets.modular.sys.model.UserModel">
 	SELECT
 		U .username,
 		U .user_id userId,
-		D .dept_name deptName,
 		U .mobile,
 		U .email,
 		U .avatar,
 		U .remarks,
 		U .sex,
-		U .dept_id deptId,
 		group_concat(r.role_name) AS roleName
 	FROM
-		t_user U
-	LEFT JOIN t_dept D ON U .dept_id = D .dept_id
-	LEFT JOIN t_user_role ur ON U .user_id = ur.user_id
-	LEFT JOIN t_role r ON r.role_id = ur.role_id
+		sys_user U
+	LEFT JOIN sys_user_role ur ON U .user_id = ur.user_id
+	LEFT JOIN sys_role r ON r.role_id = ur.role_id
 	WHERE
 		U .user_id = #{userId}
 	GROUP BY
@@ -79,8 +76,7 @@
 		U .avatar,
 		U .remarks,
 		U .sex,
-		U .user_id,
-		U .dept_id
+		U .user_id
   </select>
 
 </mapper>

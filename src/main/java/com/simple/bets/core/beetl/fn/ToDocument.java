@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simple.bets.modular.sys.utils.DictUtils;
 import com.simple.bets.core.common.lang.StringUtils;
 import com.simple.bets.core.common.util.JsonMapper;
-import com.simple.bets.modular.sys.model.Dict;
+import com.simple.bets.modular.sys.model.DictModel;
 import org.beetl.core.BodyContent;
 import org.beetl.core.Context;
 import org.beetl.core.Function;
@@ -66,7 +66,7 @@ public class ToDocument implements Function {
 				
 				String opStr = paras[2].toString();
 				if(opStr.startsWith("getDictList")) {
-					List<Dict> opData = DictUtils.getDictList(opStr.split(":")[1]);
+					List<DictModel> opData = DictUtils.getDictList(opStr.split(":")[1]);
 					data = objectMapper.readValue(JsonMapper.toJsonString(opData), JsonNode.class);
 					
 					idKey = "dictValue";

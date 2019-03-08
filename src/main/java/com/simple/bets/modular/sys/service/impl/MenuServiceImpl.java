@@ -3,10 +3,9 @@ package com.simple.bets.modular.sys.service.impl;
 import com.simple.bets.core.common.util.TreeUtils;
 import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.modular.sys.dao.MenuMapper;
-import com.simple.bets.modular.sys.model.Menu;
+import com.simple.bets.modular.sys.model.MenuModel;
 import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.service.MenuService;
-import com.simple.bets.modular.sys.service.RoleMenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -26,7 +25,7 @@ import java.util.*;
 
 @Service("menuService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
+public class MenuServiceImpl extends ServiceImpl<MenuModel> implements MenuService {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -37,19 +36,19 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
     private WebApplicationContext applicationContext;
 
     @Override
-    public List<Menu> findUserPermissions(String userName) {
+    public List<MenuModel> findUserPermissions(String userName) {
         return this.menuMapper.findUserPermissions(userName);
     }
 
     @Override
-    public List<Menu> findUserMenus(String userName) {
+    public List<MenuModel> findUserMenus(String userName) {
         return this.menuMapper.findUserMenus(userName);
     }
 
     @Override
-    public List<Menu> findAllMenus(Menu menu) {
+    public List<MenuModel> findAllMenus(MenuModel menu) {
         try {
-            Example example = new Example(Menu.class);
+            Example example = new Example(MenuModel.class);
             Criteria criteria = example.createCriteria();
             if (StringUtils.isNotBlank(menu.getMenuName())) {
                 criteria.andCondition("menu_name=", menu.getMenuName());
@@ -67,21 +66,21 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
     }
 
     @Override
-    public Tree<Menu> getMenuTree(boolean isAll) {
-        List<Tree<Menu>> trees = new ArrayList<>();
-        Example example = new Example(Menu.class);
+    public Tree<MenuModel> getMenuTree(boolean isAll) {
+        List<Tree<MenuModel>> trees = new ArrayList<>();
+        Example example = new Example(MenuModel.class);
         if(!isAll){
             example.createCriteria().andCondition("type =", 0);
         }
         example.setOrderByClause("create_time");
-        List<Menu> menus = this.selectByExample(example);
+        List<MenuModel> menus = this.selectByExample(example);
         buildTrees(trees, menus);
         return TreeUtils.build(trees);
     }
 
-    private void buildTrees(List<Tree<Menu>> trees, List<Menu> menus) {
+    private void buildTrees(List<Tree<MenuModel>> trees, List<MenuModel> menus) {
         menus.forEach(menu -> {
-            Tree<Menu> tree = new Tree<>();
+            Tree<MenuModel> tree = new Tree<>();
             tree.setId(menu.getId().toString());
             tree.setParentId(menu.getParentId().toString());
             tree.setText(menu.getMenuName());
@@ -90,11 +89,11 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
     }
 
     @Override
-    public List<Tree<Menu>> getUserMenu(String userName) {
-        List<Tree<Menu>> trees = new ArrayList<>();
-        List<Menu> menus = this.findUserMenus(userName);
+    public List<Tree<MenuModel>> getUserMenu(String userName) {
+        List<Tree<MenuModel>> trees = new ArrayList<>();
+        List<MenuModel> menus = this.findUserMenus(userName);
         menus.forEach(menu -> {
-            Tree<Menu> tree = new Tree<>();
+            Tree<MenuModel> tree = new Tree<>();
             tree.setId(menu.getId().toString());
             tree.setParentId(menu.getParentId().toString());
             tree.setText(menu.getMenuName());
@@ -107,11 +106,11 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
     }
 
     @Override
-    public Menu findByNameAndType(String menuName, String type) {
-        Example example = new Example(Menu.class);
+    public MenuModel findByNameAndType(String menuName, String type) {
+        Example example = new Example(MenuModel.class);
         example.createCriteria().andCondition("lower(menu_name)=", menuName.toLowerCase())
                 .andEqualTo("type", Long.valueOf(type));
-        List<Menu> list = this.selectByExample(example);
+        List<MenuModel> list = this.selectByExample(example);
         return list.isEmpty() ? null : list.get(0);
     }
 
@@ -143,10 +142,10 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
 
     @Override
     @Transactional(readOnly = false)
-    public void saveOrUpdate(Menu menu) {
+    public void saveOrUpdate(MenuModel menu) {
 
         // 获取父节点实体
-        Menu newParent = super.findById(menu.getParentId());
+        MenuModel newParent = super.findById(menu.getParentId());
         Long oldParentId = null;
         String oldParentIds = "";
         int oldParentTLevel = 0;
@@ -154,13 +153,13 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
         if(null == menu.getId()){
             //新增根节点
             if(null == newParent){
-                menu.setTreeLeaf(Menu.TREE_LEAF_NO);
+                menu.setTreeLeaf(MenuModel.TREE_LEAF_NO);
                 menu.setTreeLevel(0);
             }else{
-                menu.setTreeLeaf(Menu.TREE_LEAF_NO);
+                menu.setTreeLeaf(MenuModel.TREE_LEAF_NO);
                 menu.setTreeLevel(newParent.getTreeLevel() + 1);
                 if (newParent.getIsTreeLeaf()) {
-                    newParent.setTreeLeaf(Menu.TREE_LEAF_YES);
+                    newParent.setTreeLeaf(MenuModel.TREE_LEAF_YES);
                     super.updateNotNull(newParent);
                 }
             }
@@ -172,13 +171,13 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
 
         }else{
             // 数据库中当前的menu的ParentId，还未更新
-            Menu copyMenu =  findById(menu.getId());
+            MenuModel copyMenu =  findById(menu.getId());
             oldParentId = copyMenu.getParentId();
             // 获取修改前的parentIds，用于更新子节点的parentIds
             oldParentIds = copyMenu.getParentIds();
 
 
-            Menu oldParent = findById(oldParentId);
+            MenuModel oldParent = findById(oldParentId);
             oldParentTLevel = oldParent == null ? -1 : oldParent.getTreeLevel();
 
             // 设置新的父节点串
@@ -194,20 +193,20 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
             if (!oldParentId.equals(menu.getParentId())) {
                 // 第一步：判断原来的父节点下还有没有子菜单
                 if (oldParent != null) {
-                    List<Menu> list1 = this.menuMapper.findSubMenuListByPid(oldParentId);
+                    List<MenuModel> list1 = this.menuMapper.findSubMenuListByPid(oldParentId);
                     // 原来的父节点下没有子节点了，并且节点treeleaf属性不等于1
                     if (list1.size() <= 0 && !oldParent.getIsTreeLeaf()) {
-                        oldParent.setTreeLeaf(Menu.TREE_LEAF_NO);
+                        oldParent.setTreeLeaf(MenuModel.TREE_LEAF_NO);
                         super.updateNotNull(oldParent);
                     }
                 }
 
                 // 第二步：1.更新子节点 parentIds
-                List<Menu> list2 = findSubMenuListByPid(menu.getId());
+                List<MenuModel> list2 = findSubMenuListByPid(menu.getId());
 
                 int diffValue = newParent.getTreeLevel() - oldParentTLevel;
 
-                for (Menu e : list2) {
+                for (MenuModel e : list2) {
                     // 更新子节点 parentIds
                     e.setParentIds(e.getParentIds().replace(oldParentIds, menu.getParentIds()));
                     // 更新menu子节点的treelevel值
@@ -217,7 +216,7 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
 
                 // 第三步：新父节点如果treeLeaf==1，则需要更新treeLeaf==0
                 if (newParent.getIsTreeLeaf()) {
-                    newParent.setTreeLeaf(Menu.TREE_LEAF_YES);
+                    newParent.setTreeLeaf(MenuModel.TREE_LEAF_YES);
                     this.updateNotNull(newParent);
                 }
             }
@@ -227,7 +226,7 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
     }
 
     @Override
-    public Menu findById(Long menuId) {
+    public MenuModel findById(Long menuId) {
         return this.selectByKey(menuId);
     }
 
@@ -237,33 +236,33 @@ public class MenuServiceImpl extends ServiceImpl<Menu> implements MenuService {
      * @param menu
      */
     @Transactional(readOnly = false)
-    public void updateMenuSort(Menu menu) {
+    public void updateMenuSort(MenuModel menu) {
         menuMapper.updateSort(menu);
     }
 
     @Override
     public void deleteMenu(Long id) {
         //查询父类是无此节点
-        Menu menu = findById(id);
+        MenuModel menu = findById(id);
         //查询父类
-        Menu menuParent = findById(menu.getParentId());
+        MenuModel menuParent = findById(menu.getParentId());
         if(null != menuParent){
             //查询所有的子类
-            Menu menuChild = new Menu();
+            MenuModel menuChild = new MenuModel();
             menuChild.setParentId(menu.getParentId());
-            List<Menu> list = super.queryObjectForList(menuChild);
+            List<MenuModel> list = super.queryObjectForList(menuChild);
             if(list.size() == 1){
-                menuParent.setTreeLeaf(Menu.TREE_LEAF_NO);
+                menuParent.setTreeLeaf(MenuModel.TREE_LEAF_NO);
                 this.updateNotNull(menuParent);
             }
         }
         this.delete(id);
     }
 
-    private List<Menu> findSubMenuListByPid(Long menuId){
-        Example example = new Example(Menu.class);
+    private List<MenuModel> findSubMenuListByPid(Long menuId){
+        Example example = new Example(MenuModel.class);
         example.createCriteria().andLike("parentIds",","+menuId+",");
-        List<Menu> list = this.selectByExample(example);
+        List<MenuModel> list = this.selectByExample(example);
         return list;
     }
 

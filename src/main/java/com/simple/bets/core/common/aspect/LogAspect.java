@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.simple.bets.core.common.util.IPUtils;
 import com.simple.bets.config.BetsProperties;
 import com.simple.bets.core.common.util.HttpContextUtils;
-import com.simple.bets.modular.sys.model.SysLog;
-import com.simple.bets.modular.sys.model.User;
+import com.simple.bets.modular.sys.model.LogModel;
+import com.simple.bets.modular.sys.model.UserModel;
 import com.simple.bets.modular.sys.service.LogService;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -60,8 +60,8 @@ public class LogAspect {
         long time = System.currentTimeMillis() - beginTime;
         if (betsProperties.isOpenAopLog()) {
             // 保存日志
-            User user = (User) SecurityUtils.getSubject().getPrincipal();
-            SysLog log = new SysLog();
+            UserModel user = (UserModel) SecurityUtils.getSubject().getPrincipal();
+            LogModel log = new LogModel();
             log.setUsername(user.getUsername());
             log.setIp(ip);
             log.setTime(time);

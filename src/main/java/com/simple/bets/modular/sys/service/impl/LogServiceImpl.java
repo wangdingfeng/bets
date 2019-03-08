@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.simple.bets.modular.sys.model.SysLog;
+import com.simple.bets.modular.sys.model.LogModel;
 import com.simple.bets.modular.sys.service.LogService;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.core.base.service.impl.ServiceImpl;
@@ -32,7 +32,7 @@ import java.util.*;
  */
 @Service("logService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class LogServiceImpl extends ServiceImpl<SysLog> implements LogService {
+public class LogServiceImpl extends ServiceImpl<LogModel> implements LogService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -40,9 +40,9 @@ public class LogServiceImpl extends ServiceImpl<SysLog> implements LogService {
     ObjectMapper objectMapper;
 
     @Override
-    public List<SysLog> findAllLogs(SysLog log) {
+    public List<LogModel> findAllLogs(LogModel log) {
         try {
-            Example example = new Example(SysLog.class);
+            Example example = new Example(LogModel.class);
             Criteria criteria = example.createCriteria();
             if (StringUtils.isNotBlank(log.getUsername())) {
                 criteria.andCondition("username=", log.getUsername().toLowerCase());
@@ -67,11 +67,11 @@ public class LogServiceImpl extends ServiceImpl<SysLog> implements LogService {
     @Transactional
     public void deleteLogs(String logIds) {
         List<String> list = Arrays.asList(logIds.split(","));
-        this.batchDelete(list, "id", SysLog.class);
+        this.batchDelete(list, "id", LogModel.class);
     }
 
     @Override
-    public void saveLog(ProceedingJoinPoint joinPoint, SysLog log) throws JsonProcessingException {
+    public void saveLog(ProceedingJoinPoint joinPoint, LogModel log) throws JsonProcessingException {
 
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();

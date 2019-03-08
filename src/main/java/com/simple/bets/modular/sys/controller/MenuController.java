@@ -3,7 +3,7 @@ package com.simple.bets.modular.sys.controller;
 import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.core.base.model.Tree;
-import com.simple.bets.modular.sys.model.Menu;
+import com.simple.bets.modular.sys.model.MenuModel;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.modular.sys.service.MenuService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -58,7 +58,7 @@ public class MenuController extends BaseController {
      **/
     @RequestMapping("/list")
     @ResponseBody
-    public List<Menu> list(Menu menu) {
+    public List<MenuModel> list(MenuModel menu) {
         return menuService.findAllMenus(menu);
     }
 
@@ -69,15 +69,15 @@ public class MenuController extends BaseController {
      * @return 
      **/
     @RequestMapping("/form")
-    public String form(Menu menu, Model model) {
+    public String form(MenuModel menu, Model model) {
         if (null != menu.getId()) {
             menu = menuService.findById(menu.getId());
         }
         // 获取排序号，最末节点排序号+30
         if (null != menu.getId()){
-            List<Menu> list = new ArrayList<>();
-            List<Menu> sourcelist = menuService.findAllMenus(new Menu());
-            Menu.sortList(list, sourcelist, menu.getParentId(), false);
+            List<MenuModel> list = new ArrayList<>();
+            List<MenuModel> sourcelist = menuService.findAllMenus(new MenuModel());
+            MenuModel.sortList(list, sourcelist, menu.getParentId(), false);
             if (list.size() > 0){
                 menu.setSort(list.get(list.size()-1).getSort() + 30);
             }
@@ -93,9 +93,9 @@ public class MenuController extends BaseController {
      */
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult saveOrUpdate(Menu menu){
+    public ResponseResult saveOrUpdate(MenuModel menu){
         String name;
-        if (Menu.TYPE_MENU.equals(menu.getType())) {
+        if (MenuModel.TYPE_MENU.equals(menu.getType())) {
             name = "菜单";
         } else {
             name = "按钮";
@@ -116,7 +116,7 @@ public class MenuController extends BaseController {
     @ResponseBody
     public ResponseResult getMenuTree(boolean isAll) {
         try {
-            Tree<Menu> tree = this.menuService.getMenuTree(isAll);
+            Tree<MenuModel> tree = this.menuService.getMenuTree(isAll);
             return ResponseResult.ok(tree);
         } catch (Exception e) {
             logger.error("获取菜单树失败", e);
@@ -133,7 +133,7 @@ public class MenuController extends BaseController {
     @ResponseBody
     public ResponseResult getUserMenu(String userName) {
         try {
-            List<Tree<Menu>> tree = this.menuService.getUserMenu(userName);
+            List<Tree<MenuModel>> tree = this.menuService.getUserMenu(userName);
             return ResponseResult.ok(tree);
         } catch (Exception e) {
             logger.error("获取用户菜单失败", e);
@@ -157,7 +157,7 @@ public class MenuController extends BaseController {
     @ResponseBody
     public ResponseResult updateSort(Long[] ids, Integer[] sorts) {
         for (int i = 0; i < ids.length; i++) {
-            Menu menu = new Menu(ids[i]);
+            MenuModel menu = new MenuModel(ids[i]);
             menu.setSort(sorts[i]);
             menuService.updateMenuSort(menu);
         }

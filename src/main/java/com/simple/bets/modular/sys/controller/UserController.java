@@ -6,8 +6,8 @@ import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.core.annotation.Log;
-import com.simple.bets.modular.sys.model.Role;
-import com.simple.bets.modular.sys.model.User;
+import com.simple.bets.modular.sys.model.RoleModel;
+import com.simple.bets.modular.sys.model.UserModel;
 import com.simple.bets.modular.sys.service.OfficeService;
 import com.simple.bets.modular.sys.service.RoleService;
 import com.simple.bets.modular.sys.service.UserService;
@@ -46,7 +46,7 @@ public class UserController extends BaseController {
     @RequestMapping("/index")
     @RequiresPermissions("user:list")
     public String index(Model model) {
-        User user = super.getCurrentUser();
+        UserModel user = super.getCurrentUser();
         model.addAttribute("user", user);
         return PAGE_SUFFIX+"/user-list";
     }
@@ -57,8 +57,8 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/list")
     @ResponseBody
-    public Page<User> list(User user, HttpServletRequest request, HttpServletResponse response) {
-        Page<User> page= userService.queryPage(new Page<User>(request, response), user);
+    public Page<UserModel> list(UserModel user, HttpServletRequest request, HttpServletResponse response) {
+        Page<UserModel> page= userService.queryPage(new Page<UserModel>(request, response), user);
         return page;
     }
 
@@ -68,7 +68,7 @@ public class UserController extends BaseController {
      * @return
      */
     @RequestMapping("/form")
-    public String form(User user,Model model){
+    public String form(UserModel user, Model model){
         if(null != user.getUserId()){
             user = userService.findById(user.getUserId());
             model.addAttribute("user",user);
@@ -88,7 +88,7 @@ public class UserController extends BaseController {
         if (StringUtils.isNotBlank(oldUsername) && username.equalsIgnoreCase(oldUsername)) {
             return true;
         }
-        User result = this.userService.findByName(username);
+        UserModel result = this.userService.findByName(username);
         return result == null;
     }
 
@@ -101,10 +101,10 @@ public class UserController extends BaseController {
     @RequiresPermissions("user:add")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult saveOrUpdate(User user){
+    public ResponseResult saveOrUpdate(UserModel user){
         //检验用户名是否重复
         if(null != user.getUserId()){
-            User oldUser = this.userService.findById(user.getUserId());
+            UserModel oldUser = this.userService.findById(user.getUserId());
             if(!checkUserName(user.getUsername(),oldUser.getUsername())){
                 return ResponseResult.error("当前填写用户名重复，请重新填写");
             }
@@ -176,14 +176,14 @@ public class UserController extends BaseController {
     @RequestMapping("/toUserInfoPage")
     public String toUserInfoPage(Model model){
         //查询用户信息
-        User user =  userService.findByName(getCurrentUser().getUsername());;
+        UserModel user =  userService.findByName(getCurrentUser().getUsername());;
         //获取用户部门
         user.setDeptName(officeService.findById(user.getDeptId()).getName());
         model.addAttribute("user",user);
         //获取用户角色信息
-        List<Role> roleList = roleService.findUserRole(user.getUsername());
+        List<RoleModel> roleList = roleService.findUserRole(user.getUsername());
         String roles ="";
-        for(Role role:roleList){
+        for(RoleModel role:roleList){
             roles += role.getRoleName()+",";
         }
         model.addAttribute("roles",roles);
@@ -197,7 +197,7 @@ public class UserController extends BaseController {
     @RequestMapping("/dealAvatar")
     public String dealAvatar(Model model){
         //查询用户信息
-        User user = userService.findByName(getCurrentUser().getUsername());
+        UserModel user = userService.findByName(getCurrentUser().getUsername());
         model.addAttribute("user",user);
         return PAGE_SUFFIX+"/imageclip";
     }
@@ -209,7 +209,7 @@ public class UserController extends BaseController {
      */
     @RequestMapping("/updateUserProfile")
     @ResponseBody
-    public ResponseResult updateUserProfile(User user) {
+    public ResponseResult updateUserProfile(UserModel user) {
         try {
             if(StringUtils.isNotEmpty(user.getImageBase64())){
                 String fileName =  RandomUtil.randomString(16)+".jpg";
@@ -228,7 +228,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public ResponseResult getUserProfile(Long userId) {
         try {
-            User user = new User();
+            UserModel user = new UserModel();
             user.setUserId(userId);
             return ResponseResult.ok(this.userService.findUserProfile(user));
         } catch (Exception e) {
@@ -243,7 +243,7 @@ public class UserController extends BaseController {
         try {
             String[] img = imgName.split("/");
             String realImgName = img[img.length - 1];
-            User user = getCurrentUser();
+            UserModel user = getCurrentUser();
             user.setAvatar(realImgName);
             this.userService.updateNotNull(user);
             return ResponseResult.ok("更新头像成功！");

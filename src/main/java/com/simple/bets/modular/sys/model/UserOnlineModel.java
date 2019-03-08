@@ -3,7 +3,10 @@ package com.simple.bets.modular.sys.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UserOnline implements Serializable{
+/**
+ * session 在线用户表
+ */
+public class UserOnlineModel implements Serializable{
 	
 	private static final long serialVersionUID = 3828664348416633856L;
 	

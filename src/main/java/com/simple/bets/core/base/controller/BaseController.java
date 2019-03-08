@@ -1,6 +1,6 @@
 package com.simple.bets.core.base.controller;
 
-import com.simple.bets.modular.sys.model.User;
+import com.simple.bets.modular.sys.model.UserModel;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.Session;
@@ -28,8 +28,8 @@ public class BaseController {
      * 获取用户
      * @return
      */
-    protected User getCurrentUser() {
-        return (User) getSubject().getPrincipal();
+    protected UserModel getCurrentUser() {
+        return (UserModel) getSubject().getPrincipal();
     }
 
     /**

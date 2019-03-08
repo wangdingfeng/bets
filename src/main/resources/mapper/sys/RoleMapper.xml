@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.simple.bets.modular.sys.dao.RoleMapper">
-    <resultMap id="roleMap" type="com.simple.bets.modular.sys.model.Role">
+    <resultMap id="roleMap" type="com.simple.bets.modular.sys.model.RoleModel">
         <result column="role_id" jdbcType="DECIMAL" property="roleId"/>
         <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
         <result column="dept_id" jdbcType="DECIMAL" property="deptId"/>
-        <result column="dept_name" jdbcType="VARCHAR" property="depName"/>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"/>
         <result column="status" jdbcType="CHAR" property="status"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="crateTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
         <result column="operator" jdbcType="VARCHAR" property="operator"/>
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
@@ -15,9 +15,9 @@
     </resultMap>
 
     <select id="findUserRole" resultMap="roleMap">
-  	select r.* from t_role r 
-  	left join t_user_role ur on(r.role_id = ur.role_id)
-	left join t_user u on(u.user_id = ur.user_id) 
+  	select r.* from sys_role r
+  	left join sys_user_role ur on(r.role_id = ur.role_id)
+	left join sys_user u on(u.user_id = ur.user_id)
 	where u.username = #{userName}
   </select>
 

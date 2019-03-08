@@ -1,5 +1,5 @@
 server:
-  port: 80
+  port: 8080
   tomcat:
     uri-encoding: utf-8
 spring:
@@ -40,7 +40,7 @@ spring:
         # 添加过滤规则
         url-pattern: /*
         # 忽略过滤的格式
-        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,/actuator/*,/file/*'
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.icon,/druid/*,/actuator/*,/file/*'
 
       # StatViewServlet配置
       stat-view-servlet:
@@ -133,7 +133,7 @@ bets:
     # rememberMe cookie有效时长，默认86400秒，即一天
     cookieTimeout: 86400
     # 免认证的路径配置，如静态资源，druid监控页面，注册页面，验证码请求等
-    anonUrl: /css/**,/js/**,/fonts/**,/img/**,/plugins/**,/druid/**,/user/regist,/,/actuator/**,/test/**,/file/**
+    anonUrl: /css/**,/js/**,/fonts/**,/img/**,/plugins/**,/druid/**,/,/actuator/**,/test/**,/file/**
     # 登录 url
     loginUrl: /login
     # 登录成功后跳转的 url

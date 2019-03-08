@@ -5,10 +5,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.simple.bets.core.common.util.SpringContextUtils;
 import com.simple.bets.core.common.util.JsonMapper;
-import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.core.redis.JedisUtils;
 import com.simple.bets.modular.sys.dao.DictMapper;
-import com.simple.bets.modular.sys.model.Dict;
+import com.simple.bets.modular.sys.model.DictModel;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class DictUtils {
 	
 	public static String getDictLabel(String value, String type, String defaultValue){
 		if (StringUtils.isNotBlank(type) && StringUtils.isNotBlank(value)){
-			for (Dict dict : getDictList(type)){
+			for (DictModel dict : getDictList(type)){
 				if (type.equals(dict.getDictType()) && value.equals(dict.getDictValue())){
 					return dict.getDictLabel();
 				}
@@ -51,7 +50,7 @@ public class DictUtils {
 
 	public static String getDictValue(String label, String type, String defaultLabel){
 		if (StringUtils.isNotBlank(type) && StringUtils.isNotBlank(label)){
-			for (Dict dict : getDictList(type)){
+			for (DictModel dict : getDictList(type)){
 				if (type.equals(dict.getDictType()) && label.equals(dict.getDictLabel())){
 					return dict.getDictValue();
 				}
@@ -60,13 +59,13 @@ public class DictUtils {
 		return defaultLabel;
 	}
 	
-	public static List<Dict> getDictList(String type){
+	public static List<DictModel> getDictList(String type){
 		Map<String, Object> dictMap = JedisUtils.getObjectMap(CACHE_DICT_MAP);
 		if (dictMap==null){
 			dictMap = Maps.newHashMap();
-			List<Dict> dicts = dictDao.selectAllChildrenDict();
-			for (Dict dict : dicts){
-				List<Dict> dictList = (List<Dict>)dictMap.get(dict.getDictType());
+			List<DictModel> dicts = dictDao.selectAllChildrenDict();
+			for (DictModel dict : dicts){
+				List<DictModel> dictList = (List<DictModel>)dictMap.get(dict.getDictType());
 				if (dictList != null){
 					dictList.add(dict);
 				}else{
@@ -76,7 +75,7 @@ public class DictUtils {
 			//一天过期
 			JedisUtils.setObjectMap(CACHE_DICT_MAP,dictMap,86400);
 		}
-		List<Dict> dictList = (List<Dict>) dictMap.get(type);
+		List<DictModel> dictList = (List<DictModel>) dictMap.get(type);
 		if (dictList == null){
 			dictList = Lists.newArrayList();
 		}

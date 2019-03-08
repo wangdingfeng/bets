@@ -1,18 +1,18 @@
 package com.simple.bets.modular.sys.dao;
 
 import com.simple.bets.core.base.mapper.BaseMapper;
-import com.simple.bets.modular.sys.model.Menu;
+import com.simple.bets.modular.sys.model.MenuModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface MenuMapper extends BaseMapper<Menu> {
+public interface MenuMapper extends BaseMapper<MenuModel> {
 	
-	List<Menu> findUserPermissions(String userName);
+	List<MenuModel> findUserPermissions(String userName);
 	
-	List<Menu> findUserMenus(String userName);
+	List<MenuModel> findUserMenus(String userName);
 	
 	// 删除父节点，子节点变成顶级节点（根据实际业务调整）
 	void changeToTop(List<String> menuIds);
@@ -22,11 +22,11 @@ public interface MenuMapper extends BaseMapper<Menu> {
 	 * @param parentId
 	 * @return
 	 */
-	List<Menu> findSubMenuListByPid(@Param("parentId") Long parentId);
+	List<MenuModel> findSubMenuListByPid(@Param("parentId") Long parentId);
 
 	/**
 	 * 保存排序
 	 * @param menu
 	 */
-	void updateSort(Menu menu);
+	void updateSort(MenuModel menu);
 }

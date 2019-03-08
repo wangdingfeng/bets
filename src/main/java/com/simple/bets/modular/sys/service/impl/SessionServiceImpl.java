@@ -1,8 +1,8 @@
 package com.simple.bets.modular.sys.service.impl;
 
 import com.simple.bets.core.common.util.AddressUtils;
-import com.simple.bets.modular.sys.model.User;
-import com.simple.bets.modular.sys.model.UserOnline;
+import com.simple.bets.modular.sys.model.UserModel;
+import com.simple.bets.modular.sys.model.UserOnlineModel;
 import com.simple.bets.modular.sys.service.SessionService;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
@@ -27,19 +27,19 @@ public class SessionServiceImpl implements SessionService {
     private SessionDAO sessionDAO;
 
     @Override
-    public List<UserOnline> list() {
-        List<UserOnline> list = new ArrayList<>();
+    public List<UserOnlineModel> list() {
+        List<UserOnlineModel> list = new ArrayList<>();
         Collection<Session> sessions = sessionDAO.getActiveSessions();
         for (Session session : sessions) {
-            UserOnline userOnline = new UserOnline();
-            User user;
+            UserOnlineModel userOnline = new UserOnlineModel();
+            UserModel user;
             SimplePrincipalCollection principalCollection;
             if (session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY) == null) {
                 continue;
             } else {
                 principalCollection = (SimplePrincipalCollection) session
                         .getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-                user = (User) principalCollection.getPrimaryPrincipal();
+                user = (UserModel) principalCollection.getPrimaryPrincipal();
                 userOnline.setUserName(user.getUsername());
                 userOnline.setUserId(user.getUserId().toString());
             }

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.simple.bets.modular.sys.dao.LogMapper">
-  <resultMap id="BaseResultMap" type="com.simple.bets.modular.sys.model.SysLog">
-    <!--
-      WARNING - @mbg.generated
-    -->
+  <resultMap id="BaseResultMap" type="com.simple.bets.modular.sys.model.LogModel">
     <result column="id" jdbcType="DECIMAL" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="operation" jdbcType="VARCHAR" property="operation" />

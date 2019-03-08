@@ -6,8 +6,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Table(name = "t_log")
-public class SysLog implements Serializable {
+/**
+ * 日志表
+ */
+@Table(name = "sys_log")
+public class LogModel implements Serializable {
 
 	private static final long serialVersionUID = -8878596941954995444L;
 

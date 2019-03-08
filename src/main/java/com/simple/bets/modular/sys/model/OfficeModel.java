@@ -12,7 +12,7 @@ import javax.persistence.*;
  * @version 2018-11-15
  */
 @Table(name = "sys_office")
-public class Office extends TreeModel {
+public class OfficeModel extends TreeModel {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -34,10 +34,10 @@ public class Office extends TreeModel {
 	@Column(name = "email")
 	private String email; 	// 邮箱
 
-	public Office(Long id){
+	public OfficeModel(Long id){
 		setId(id);
 	}
-	public Office(){
+	public OfficeModel(){
 		setId(id);
 	}
 

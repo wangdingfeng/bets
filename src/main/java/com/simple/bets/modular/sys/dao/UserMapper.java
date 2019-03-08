@@ -1,15 +1,21 @@
 package com.simple.bets.modular.sys.dao;
 
 import com.simple.bets.core.base.mapper.BaseMapper;
-import com.simple.bets.modular.sys.model.UserWithRole;
-import com.simple.bets.modular.sys.model.User;
+import com.simple.bets.modular.sys.model.UserWithRoleDTO;
+import com.simple.bets.modular.sys.model.UserModel;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-public interface UserMapper extends BaseMapper<User> {
 
-	List<User> findUserWithDept(User user);
+/**
+ * 用户基本信息
+ */
+@Repository
+public interface UserMapper extends BaseMapper<UserModel> {
+
+	List<UserModel> findUserWithDept(UserModel user);
 	
-	List<UserWithRole> findUserWithRole(Long userId);
+	List<UserWithRoleDTO> findUserWithRole(Long userId);
 	
-	User findUserProfile(User user);
+	UserModel findUserProfile(UserModel user);
 }

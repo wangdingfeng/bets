@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.dao;
 
 
 import com.simple.bets.core.base.mapper.BaseMapper;
-import com.simple.bets.modular.sys.model.Dict;
+import com.simple.bets.modular.sys.model.DictModel;
 
 import java.util.List;
 /**
@@ -11,11 +11,11 @@ import java.util.List;
  * @Date 15:57 2019/1/14
  **/
 
-public interface DictMapper extends BaseMapper<Dict> {
+public interface DictMapper extends BaseMapper<DictModel> {
 
     /**
      * 查询所有子字典项
      * @return
      */
-   List<Dict> selectAllChildrenDict();
+   List<DictModel> selectAllChildrenDict();
 }

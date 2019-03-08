@@ -6,10 +6,10 @@ import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.core.base.model.Tree;
-import com.simple.bets.modular.sys.model.Menu;
-import com.simple.bets.modular.sys.model.Role;
+import com.simple.bets.modular.sys.model.MenuModel;
+import com.simple.bets.modular.sys.model.RoleModel;
 import com.simple.bets.core.annotation.Log;
-import com.simple.bets.modular.sys.model.User;
+import com.simple.bets.modular.sys.model.UserModel;
 import com.simple.bets.modular.sys.service.MenuService;
 import com.simple.bets.modular.sys.service.RoleMenuService;
 import com.simple.bets.modular.sys.service.RoleService;
@@ -68,8 +68,8 @@ public class RoleController extends BaseController {
      */
     @RequestMapping("/list")
     @ResponseBody
-    public Page<Role> list(Role role, HttpServletRequest request, HttpServletResponse response){
-        Page<Role> page= roleService.queryPage(new Page<Role>(request, response), role);
+    public Page<RoleModel> list(RoleModel role, HttpServletRequest request, HttpServletResponse response){
+        Page<RoleModel> page= roleService.queryPage(new Page<RoleModel>(request, response), role);
         return page;
     }
 
@@ -82,13 +82,13 @@ public class RoleController extends BaseController {
     @Log("新增|编辑-角色信息")
     @RequiresPermissions("role:add")
     @RequestMapping("/form")
-    public String form(Role role, Model model){
+    public String form(RoleModel role, Model model){
         if(null != role.getRoleId()){
             role = roleService.findById(role.getRoleId());
             List<Long> menuIds = roleMenuService.findRoleMenu(role.getRoleId());
             role.setMenuIds(StringUtils.join(menuIds,","));
         }
-        Tree<Menu> tree = this.menuService.getMenuTree(true);
+        Tree<MenuModel> tree = this.menuService.getMenuTree(true);
         String treeJson =JSONObject.toJSONString(tree);
         model.addAttribute("treeJson",treeJson);
         model.addAttribute("role",role);
@@ -102,9 +102,9 @@ public class RoleController extends BaseController {
     @Log("保存|更新角色")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult saveOrUpdate(Role role){
+    public ResponseResult saveOrUpdate(RoleModel role){
         if(null != role.getRoleId()){
-            Role oldRole = roleService.findById(role.getRoleId());
+            RoleModel oldRole = roleService.findById(role.getRoleId());
             if(!checkRoleName(role.getRoleName(),oldRole.getRoleName())){
                 return ResponseResult.error("当前填写角色名重复，请重新填写");
             }
@@ -124,10 +124,10 @@ public class RoleController extends BaseController {
 
     @RequestMapping("/excel")
     @ResponseBody
-    public ResponseResult roleExcel(Role role) {
+    public ResponseResult roleExcel(RoleModel role) {
         try {
-            List<Role> list = this.roleService.findAllRole(role);
-            return FileUtil.createExcelByPOIKit("角色表", list, Role.class);
+            List<RoleModel> list = this.roleService.findAllRole(role);
+            return FileUtil.createExcelByPOIKit("角色表", list, RoleModel.class);
         } catch (Exception e) {
             logger.error("导出角色信息Excel失败", e);
             return ResponseResult.error("导出Excel失败，请联系网站管理员！");
@@ -146,7 +146,7 @@ public class RoleController extends BaseController {
         if (StringUtils.isNotBlank(oldRoleName) && roleName.equalsIgnoreCase(oldRoleName)) {
             return true;
         }
-        Role result = this.roleService.findByName(roleName);
+        RoleModel result = this.roleService.findByName(roleName);
         return result == null;
     }
 
@@ -176,7 +176,7 @@ public class RoleController extends BaseController {
      * @return
      */
     @RequestMapping("/roleUserList")
-    public String roleUserList(User user,Model model,Boolean exist){
+    public String roleUserList(UserModel user, Model model, Boolean exist){
         model.addAttribute("user",user);
         model.addAttribute("exist",exist);
         return PAGE_SUFFIX+"/role-assign";
@@ -191,8 +191,8 @@ public class RoleController extends BaseController {
      */
     @RequestMapping("/roleUserListData")
     @ResponseBody
-    public Page<User> roleUserListData(User user, HttpServletRequest request, HttpServletResponse response,Boolean exist){
-        return userRoleService.queryPage(new Page<User>(request, response), user,exist);
+    public Page<UserModel> roleUserListData(UserModel user, HttpServletRequest request, HttpServletResponse response, Boolean exist){
+        return userRoleService.queryPage(new Page<UserModel>(request, response), user,exist);
     }
 
     /**
@@ -204,7 +204,7 @@ public class RoleController extends BaseController {
      * @return
      */
     @RequestMapping(value = "selectUserToRole")
-    public String selectUserToRole(Role role, String selectData, String checkbox, Model model) {
+    public String selectUserToRole(RoleModel role, String selectData, String checkbox, Model model) {
         model.addAttribute("selectData", selectData);
         model.addAttribute("checkbox", checkbox);
         model.addAttribute("role", role);
@@ -219,7 +219,7 @@ public class RoleController extends BaseController {
      */
     @RequestMapping("/assignRole")
     @ResponseBody
-    public ResponseResult assignRole(Role role){
+    public ResponseResult assignRole(RoleModel role){
         try {
             userRoleService.assignRoleUser(role);
             return ResponseResult.ok("分配角色成功！");
@@ -236,7 +236,7 @@ public class RoleController extends BaseController {
      */
     @RequestMapping("/deleteUserRole")
     @ResponseBody
-    public ResponseResult deleteUserRole(Role role){
+    public ResponseResult deleteUserRole(RoleModel role){
         try {
             userRoleService.deleteUserRolesByRoleId(role);
             return ResponseResult.ok("删除角色成功！");

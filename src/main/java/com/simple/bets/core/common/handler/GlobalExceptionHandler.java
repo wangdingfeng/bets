@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ RuntimeException.class })
     @ResponseStatus(HttpStatus.OK)
     public ModelAndView processException(RuntimeException exception) {
-        logger.info("500异常处理-RuntimeException");
+        logger.error("500异常,请查看报错信息",exception);
         ModelAndView m = new ModelAndView();
         m.addObject("exception", exception);
         m.setViewName("error/500");
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({ Exception.class })
     @ResponseStatus(HttpStatus.OK)
     public ModelAndView processException(Exception exception) {
-        logger.info("500异常处理-Exception");
+        logger.error("500异常,请查看报错信息",exception);
         ModelAndView m = new ModelAndView();
         m.addObject("exception", exception.getMessage());
         m.setViewName("error/500");

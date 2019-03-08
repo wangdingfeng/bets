@@ -1,6 +1,6 @@
 package com.simple.bets.modular.sys.service.impl;
 
-import com.simple.bets.modular.sys.model.Dict;
+import com.simple.bets.modular.sys.model.DictModel;
 import com.simple.bets.modular.sys.service.DictService;
 import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.utils.DictUtils;
@@ -17,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("dictService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class DictServiceImpl extends ServiceImpl<Dict> implements DictService {
+public class DictServiceImpl extends ServiceImpl<DictModel> implements DictService {
 
 	@Override
 	@Transactional
-	public void saveOrUpdate(Dict dict) {
+	public void saveOrUpdate(DictModel dict) {
 		if(null == dict.getDictId()){
 			dict.setBaseData(true);
 			super.save(dict);

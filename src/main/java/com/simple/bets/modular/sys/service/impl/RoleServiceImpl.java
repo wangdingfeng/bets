@@ -3,8 +3,8 @@ package com.simple.bets.modular.sys.service.impl;
 import com.simple.bets.core.shiro.ShiroRealm;
 import com.simple.bets.modular.sys.dao.RoleMapper;
 import com.simple.bets.modular.sys.dao.RoleMenuMapper;
-import com.simple.bets.modular.sys.model.Role;
-import com.simple.bets.modular.sys.model.RoleMenu;
+import com.simple.bets.modular.sys.model.RoleModel;
+import com.simple.bets.modular.sys.model.RoleMenuModel;
 import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.service.RoleMenuService;
 import com.simple.bets.modular.sys.service.RoleService;
@@ -20,7 +20,6 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ import java.util.List;
 
 @Service("roleService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleModel> implements RoleService {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -50,17 +49,17 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
     private ShiroRealm shiroRealm;
 
     @Override
-    public List<Role> findUserRole(String userName) {
+    public List<RoleModel> findUserRole(String userName) {
         return this.roleMapper.findUserRole(userName);
     }
 
     @Override
-    public Role saveOrUpdate(Role role) {
+    public RoleModel saveOrUpdate(RoleModel role) {
         if(null != role.getRoleId() ){
             role.setBaseData(false);
             super.updateNotNull(role);
             //删除已有菜单
-            Example example = new Example(RoleMenu.class);
+            Example example = new Example(RoleMenuModel.class);
             example.createCriteria().andCondition("role_id=", role.getRoleId());
             this.roleMenuMapper.deleteByExample(example);
             setRoleMenus(role);
@@ -73,9 +72,9 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
         return role;
     }
     @Override
-    public List<Role> findAllRole(Role role) {
+    public List<RoleModel> findAllRole(RoleModel role) {
         try {
-            Example example = new Example(Role.class);
+            Example example = new Example(RoleModel.class);
             if (StringUtils.isNotBlank(role.getRoleName())) {
                 example.createCriteria().andCondition("role_name=", role.getRoleName());
             }
@@ -88,10 +87,10 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
     }
 
     @Override
-    public Role findByName(String roleName) {
-        Example example = new Example(Role.class);
+    public RoleModel findByName(String roleName) {
+        Example example = new Example(RoleModel.class);
         example.createCriteria().andCondition("lower(role_name)=", roleName.toLowerCase());
-        List<Role> list = this.selectByExample(example);
+        List<RoleModel> list = this.selectByExample(example);
         return list.isEmpty() ? null : list.get(0);
     }
 
@@ -99,13 +98,13 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
      * 设置角色菜单
      * @param role
      */
-    private void setRoleMenus(Role role) {
+    private void setRoleMenus(RoleModel role) {
         if(StringUtils.isEmpty(role.getMenuIds())){
             return;
         }
         String[] menuIdJson = role.getMenuIds().split(",");
         Arrays.stream(menuIdJson).forEach(menuId -> {
-            RoleMenu rm = new RoleMenu();
+            RoleMenuModel rm = new RoleMenuModel();
             rm.setMenuId(Long.parseLong(menuId));
             rm.setRoleId(role.getRoleId());
             this.roleMenuMapper.insert(rm);
@@ -116,7 +115,7 @@ public class RoleServiceImpl extends ServiceImpl<Role> implements RoleService {
     @Transactional
     public void deleteRoles(String roleIds) {
         List<String> list = Arrays.asList(roleIds.split(","));
-        this.batchDelete(list, "roleId", Role.class);
+        this.batchDelete(list, "roleId", RoleModel.class);
         this.roleMenuService.deleteRoleMenusByRoleId(roleIds);
         this.userRoleService.deleteAllUserRolesByRoleId(roleIds);
 

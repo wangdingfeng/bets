@@ -1,8 +1,7 @@
 package com.simple.bets.core.base.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.simple.bets.modular.sys.model.User;
+import com.simple.bets.modular.sys.model.UserModel;
 import org.apache.shiro.SecurityUtils;
 import org.hibernate.validator.constraints.Length;
 
@@ -111,7 +110,7 @@ public abstract class BaseModel implements Serializable {
      * @param isAdd 是否新增 true 新增 false 更新
      */
     public void setBaseData(boolean isAdd){
-       User user = (User) SecurityUtils.getSubject().getPrincipal();
+       UserModel user = (UserModel) SecurityUtils.getSubject().getPrincipal();
         if(isAdd){
             this.setCreateTime(new Date());
             this.setCreator(null == user ? "system": user.getUsername());

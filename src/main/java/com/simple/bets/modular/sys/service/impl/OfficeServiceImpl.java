@@ -4,8 +4,8 @@ import com.simple.bets.core.common.util.TreeUtils;
 import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.dao.OfficeMapper;
-import com.simple.bets.modular.sys.model.Menu;
-import com.simple.bets.modular.sys.model.Office;
+import com.simple.bets.modular.sys.model.MenuModel;
+import com.simple.bets.modular.sys.model.OfficeModel;
 import com.simple.bets.modular.sys.service.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,23 +27,23 @@ import java.util.List;
  */
 @Service("officeService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class OfficeServiceImpl extends ServiceImpl<Office> implements OfficeService {
+public class OfficeServiceImpl extends ServiceImpl<OfficeModel> implements OfficeService {
 
     @Autowired
     OfficeMapper officeMapper;
 
     @Override
-    public List<Office> findAllList(Office office) {
+    public List<OfficeModel> findAllList(OfficeModel office) {
         return officeMapper.findAllList(office);
     }
 
     @Override
-    public Tree<Office> getAllOfficeTree(Office office) {
+    public Tree<OfficeModel> getAllOfficeTree(OfficeModel office) {
         office.setParentId(null);
-        List<Tree<Office>> treeList = new ArrayList<>();
-        List<Office> offices = officeMapper.findAllList(office);
+        List<Tree<OfficeModel>> treeList = new ArrayList<>();
+        List<OfficeModel> offices = officeMapper.findAllList(office);
         offices.forEach(office1 -> {
-            Tree<Office> tree = new Tree<>();
+            Tree<OfficeModel> tree = new Tree<>();
             tree.setId(office1.getId().toString());
             tree.setParentId(office1.getParentId().toString());
             tree.setText(office1.getName());
@@ -53,9 +53,9 @@ public class OfficeServiceImpl extends ServiceImpl<Office> implements OfficeServ
     }
 
     @Override
-    public void saveOrUpdate(Office office) {
+    public void saveOrUpdate(OfficeModel office) {
 
-        Office newParent = super.findById(office.getParentId());
+        OfficeModel newParent = super.findById(office.getParentId());
         Long oldParentId = null;
         String oldParentIds = "";
         int oldParentTLevel = 0;
@@ -64,13 +64,13 @@ public class OfficeServiceImpl extends ServiceImpl<Office> implements OfficeServ
         if (null == office.getId()) {
             //新增根节点
             if (null == newParent) {
-                office.setTreeLeaf(Office.TREE_LEAF_NO);
+                office.setTreeLeaf(OfficeModel.TREE_LEAF_NO);
                 office.setTreeLevel(0);
             } else {
-                office.setTreeLeaf(Office.TREE_LEAF_NO);
+                office.setTreeLeaf(OfficeModel.TREE_LEAF_NO);
                 office.setTreeLevel(newParent.getTreeLevel() + 1);
                 if (newParent.getIsTreeLeaf()) {
-                    newParent.setTreeLeaf(Office.TREE_LEAF_YES);
+                    newParent.setTreeLeaf(OfficeModel.TREE_LEAF_YES);
                     super.updateNotNull(newParent);
                 }
             }
@@ -81,13 +81,13 @@ public class OfficeServiceImpl extends ServiceImpl<Office> implements OfficeServ
         } else {
 
             // 数据库中当前的menu的ParentId，还未更新
-            Office copyOffice = findById(office.getId());
+            OfficeModel copyOffice = findById(office.getId());
             oldParentId = copyOffice.getParentId();
             // 获取修改前的parentIds，用于更新子节点的parentIds
             oldParentIds = copyOffice.getParentIds();
 
 
-            Office oldParent = findById(oldParentId);
+            OfficeModel oldParent = findById(oldParentId);
             oldParentTLevel = oldParent == null ? -1 : oldParent.getTreeLevel();
 
             // 设置新的父节点串
@@ -104,20 +104,20 @@ public class OfficeServiceImpl extends ServiceImpl<Office> implements OfficeServ
             if (!oldParentId.equals(office.getParentId())) {
                 // 第一步：判断原来的父节点下还有没有子菜单
                 if (oldParent != null) {
-                    List<Office> list1 = this.officeMapper.findSubOfficeListByPid(oldParentId);
+                    List<OfficeModel> list1 = this.officeMapper.findSubOfficeListByPid(oldParentId);
                     // 原来的父节点下没有子节点了，并且节点treeleaf属性不等于1
                     if (list1.size() <= 0 && !oldParent.getIsTreeLeaf()) {
-                        oldParent.setTreeLeaf(Office.TREE_LEAF_NO);
+                        oldParent.setTreeLeaf(OfficeModel.TREE_LEAF_NO);
                         super.updateNotNull(oldParent);
                     }
                 }
 
                 // 第二步：1.更新子节点 parentIds
-                List<Office> list2 = findSubOfficeListByPid(office.getId());
+                List<OfficeModel> list2 = findSubOfficeListByPid(office.getId());
 
                 int diffValue = newParent.getTreeLevel() - oldParentTLevel;
 
-                for (Office e : list2) {
+                for (OfficeModel e : list2) {
                     // 更新子节点 parentIds
                     e.setParentIds(e.getParentIds().replace(oldParentIds, office.getParentIds()));
                     // 更新menu子节点的treelevel值
@@ -127,17 +127,17 @@ public class OfficeServiceImpl extends ServiceImpl<Office> implements OfficeServ
 
                 // 第三步：新父节点如果treeLeaf==1，则需要更新treeLeaf==0
                 if (newParent.getIsTreeLeaf()) {
-                    newParent.setTreeLeaf(Office.TREE_LEAF_YES);
+                    newParent.setTreeLeaf(OfficeModel.TREE_LEAF_YES);
                     this.updateNotNull(newParent);
                 }
             }
         }
     }
 
-    private List<Office> findSubOfficeListByPid(Long officeId) {
-        Example example = new Example(Menu.class);
+    private List<OfficeModel> findSubOfficeListByPid(Long officeId) {
+        Example example = new Example(MenuModel.class);
         example.createCriteria().andLike("parentIds", "," + officeId + ",");
-        List<Office> list = super.selectByExample(example);
+        List<OfficeModel> list = super.selectByExample(example);
         return list;
     }
 }

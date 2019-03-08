@@ -4,7 +4,7 @@ import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.base.model.ResponseResult;
-import com.simple.bets.modular.sys.model.SysLog;
+import com.simple.bets.modular.sys.model.LogModel;
 import com.simple.bets.modular.sys.service.LogService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -45,16 +45,16 @@ public class LogController extends BaseController {
      */
     @RequestMapping("/list")
     @ResponseBody
-    public Page<SysLog> list(SysLog log, HttpServletRequest request, HttpServletResponse response) {
-       return logService.queryPage(new Page<SysLog>(request,response),log);
+    public Page<LogModel> list(LogModel log, HttpServletRequest request, HttpServletResponse response) {
+       return logService.queryPage(new Page<LogModel>(request,response),log);
     }
 
     @RequestMapping("log/excel")
     @ResponseBody
-    public ResponseResult logExcel(SysLog log) {
+    public ResponseResult logExcel(LogModel log) {
         try {
-            List<SysLog> list = this.logService.findAllLogs(log);
-            return FileUtil.createExcelByPOIKit("系统日志表", list, SysLog.class);
+            List<LogModel> list = this.logService.findAllLogs(log);
+            return FileUtil.createExcelByPOIKit("系统日志表", list, LogModel.class);
         } catch (Exception e) {
             logger.error("导出系统日志Excel失败", e);
             return ResponseResult.error("导出Excel失败，请联系网站管理员！");

@@ -3,7 +3,7 @@ package com.simple.bets.modular.sys.controller;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.core.base.model.Tree;
-import com.simple.bets.modular.sys.model.Office;
+import com.simple.bets.modular.sys.model.OfficeModel;
 import com.simple.bets.modular.sys.service.OfficeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +51,8 @@ public class OfficeController {
      */
     @RequestMapping("/list")
     @ResponseBody
-    public List<Office> list(Office office){
-        List<Office> list = officeService.findAllList(office);
+    public List<OfficeModel> list(OfficeModel office){
+        List<OfficeModel> list = officeService.findAllList(office);
         return list;
     }
 
@@ -61,7 +61,7 @@ public class OfficeController {
      * @return
      */
     @RequestMapping("/form")
-    public String form(Office office, Model model){
+    public String form(OfficeModel office, Model model){
         if(null != office.getId()){
             office = officeService.findById(office.getId());
         }
@@ -77,7 +77,7 @@ public class OfficeController {
     @Log("编辑部门")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult saveOrUpdate(Office office){
+    public ResponseResult saveOrUpdate(OfficeModel office){
         try {
             officeService.saveOrUpdate(office);
             return ResponseResult.ok("操作成功！");
@@ -95,7 +95,7 @@ public class OfficeController {
     @ResponseBody
     public ResponseResult getOfficeTree(){
         try {
-            Tree<Office> tree = officeService.getAllOfficeTree(new Office());
+            Tree<OfficeModel> tree = officeService.getAllOfficeTree(new OfficeModel());
             return ResponseResult.ok(tree);
         } catch (Exception e) {
             logger.error("获取菜单树失败", e);

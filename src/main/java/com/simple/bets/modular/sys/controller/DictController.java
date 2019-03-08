@@ -3,7 +3,7 @@ package com.simple.bets.modular.sys.controller;
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.base.model.ResponseResult;
-import com.simple.bets.modular.sys.model.Dict;
+import com.simple.bets.modular.sys.model.DictModel;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.modular.sys.service.DictService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -52,8 +52,8 @@ public class DictController extends BaseController {
 
     @RequestMapping("/list")
     @ResponseBody
-    public Page<Dict> list(Dict dict, HttpServletRequest request, HttpServletResponse response){
-        return dictService.queryPage(new Page<Dict>(request,response),dict);
+    public Page<DictModel> list(DictModel dict, HttpServletRequest request, HttpServletResponse response){
+        return dictService.queryPage(new Page<DictModel>(request,response),dict);
     }
 
     /**
@@ -61,7 +61,7 @@ public class DictController extends BaseController {
      * @return
      */
     @RequestMapping("/dictChildren")
-    public String dictChildren(Dict dict,Model model) {
+    public String dictChildren(DictModel dict, Model model) {
         dict =  dictService.findById(dict.getDictId());
         model.addAttribute("dict",dict);
         return PAGE_SUFFIX+"/dict-chr-list";
@@ -73,7 +73,7 @@ public class DictController extends BaseController {
      * @return
      */
     @RequestMapping("/form")
-    public String form(Dict dict, Model model){
+    public String form(DictModel dict, Model model){
         if(null != dict.getDictId()){
             dict =  dictService.findById(dict.getDictId());
         }
@@ -90,7 +90,7 @@ public class DictController extends BaseController {
     @RequiresPermissions("dict:edit")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
-    public ResponseResult saveOrUpdate(Dict dict) {
+    public ResponseResult saveOrUpdate(DictModel dict) {
         try {
             this.dictService.saveOrUpdate(dict);
             return ResponseResult.ok("新增字典成功！");

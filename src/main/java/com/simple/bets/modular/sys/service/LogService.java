@@ -1,7 +1,7 @@
 package com.simple.bets.modular.sys.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.simple.bets.modular.sys.model.SysLog;
+import com.simple.bets.modular.sys.model.LogModel;
 import com.simple.bets.core.base.service.IService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.scheduling.annotation.Async;
@@ -13,14 +13,14 @@ import java.util.List;
  * @author wangdingfeng
  * @Date 2019-01-07
  */
-public interface LogService extends IService<SysLog> {
+public interface LogService extends IService<LogModel> {
 
 	/**
 	 * 查询所有的日志
 	 * @param log
 	 * @return
 	 */
-	List<SysLog> findAllLogs(SysLog log);
+	List<LogModel> findAllLogs(LogModel log);
 
 	/**
 	 * 删除日志
@@ -35,5 +35,5 @@ public interface LogService extends IService<SysLog> {
 	 * @throws JsonProcessingException
 	 */
 	@Async
-	void saveLog(ProceedingJoinPoint point, SysLog log) throws JsonProcessingException;
+	void saveLog(ProceedingJoinPoint point, LogModel log) throws JsonProcessingException;
 }

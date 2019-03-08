@@ -1,7 +1,7 @@
 package com.simple.bets.modular.sys.service;
 
 
-import com.simple.bets.modular.sys.model.RoleMenu;
+import com.simple.bets.modular.sys.model.RoleMenuModel;
 import com.simple.bets.core.base.service.IService;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @Date 9:27 2019/1/24
  **/
 
-public interface RoleMenuService extends IService<RoleMenu> {
+public interface RoleMenuService extends IService<RoleMenuModel> {
 	/**
 	 * 获取角色菜单
 	 * @param roleId

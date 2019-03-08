@@ -4,8 +4,8 @@ import com.simple.bets.core.common.util.MD5Utils;
 import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.annotation.Log;
 import com.simple.bets.core.base.model.Tree;
-import com.simple.bets.modular.sys.model.Menu;
-import com.simple.bets.modular.sys.model.User;
+import com.simple.bets.modular.sys.model.MenuModel;
+import com.simple.bets.modular.sys.model.UserModel;
 import com.simple.bets.modular.sys.service.MenuService;
 import com.simple.bets.modular.sys.service.UserService;
 import org.apache.shiro.authc.*;
@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -89,10 +88,10 @@ public class LoginController extends BaseController {
     @RequestMapping("/index")
     public String index(Model model) {
         // 登录成后，即可通过 Subject 获取登录的用户信息
-        User user = super.getCurrentUser();
+        UserModel user = super.getCurrentUser();
         model.addAttribute("user", user);
         //获取当前用户菜单
-        List<Tree<Menu>> menu = menuService.getUserMenu(user.getUsername());
+        List<Tree<MenuModel>> menu = menuService.getUserMenu(user.getUsername());
         model.addAttribute("menu", menu);
         return "index";
     }

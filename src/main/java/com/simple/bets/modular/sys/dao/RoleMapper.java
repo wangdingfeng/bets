@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.dao;
 
 
 import com.simple.bets.core.base.mapper.BaseMapper;
-import com.simple.bets.modular.sys.model.Role;
+import com.simple.bets.modular.sys.model.RoleModel;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @Date 9:58 2019/1/17
  **/
 @Repository
-public interface RoleMapper extends BaseMapper<Role> {
+public interface RoleMapper extends BaseMapper<RoleModel> {
 	
-	List<Role> findUserRole(String userName);
+	List<RoleModel> findUserRole(String userName);
 }

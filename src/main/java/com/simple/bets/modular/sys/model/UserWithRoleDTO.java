@@ -2,7 +2,7 @@ package com.simple.bets.modular.sys.model;
 
 import java.util.List;
 
-public class UserWithRole extends User{
+public class UserWithRoleDTO extends UserModel {
 	
 	private static final long serialVersionUID = -5680235862276163462L;
 	

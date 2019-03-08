@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.simple.bets.modular.sys.dao.DictMapper">
 
-  <resultMap id="dict" type="com.simple.bets.modular.sys.model.Dict">
+  <resultMap id="dict" type="com.simple.bets.modular.sys.model.DictModel">
     <!--
       WARNING - @mbg.generated
     -->
@@ -19,7 +19,7 @@
   </resultMap>
 
   <select id="selectAllChildrenDict" resultMap="dict">
-    SELECT * FROM t_dict WHERE is_parent='0'
+    SELECT * FROM sys_dict WHERE is_parent='0'
   </select>
 
 </mapper>
