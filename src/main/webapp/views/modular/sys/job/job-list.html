@@ -65,8 +65,9 @@
                         actions.push('<a href="/sys/job/form?jobId=' + row.jobId + '" class="btnList" title="编辑任务"><i class="fa fa-pencil"></i></a>&nbsp;');
                     <%}%>
                     <%if(hasPermi('job:delete')){%>
-                        actions.push('<a href="${ctxPath}/sys/job/delete?id=' + row.jobId + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                        actions.push('<a href="${ctxPath}/sys/job/delete?ids=' + row.jobId + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
                     <%}%>
+                    actions.push('<a href="/sys/job/logList?jobId=' + row.jobId + '" class="btnList" title="查看日志"><i class="fa fa-file-text-o"></i></a>&nbsp;');
                     return actions.join('');
                 }
             }

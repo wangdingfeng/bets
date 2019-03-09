@@ -201,10 +201,17 @@ public class JobController extends BaseController {
         return ResponseResult.ok(sysCronClazz);
     }
 
+    /**
+     * 获取调度日志
+     * @param jobLogModel
+     * @param model
+     * @return
+     */
     @Log("获取调度日志信息")
     @RequestMapping("/logList")
     @RequiresPermissions("jobLog:list")
-    public String logList() {
+    public String logList(JobLogModel jobLogModel,Model model) {
+        model.addAttribute("jobLog",jobLogModel);
         return PAGE_SUFFIX+"/job-log-list";
     }
 

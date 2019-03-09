@@ -14,6 +14,7 @@
         <div class="box-body">
             <form id="searchForm" action="${ctxPath}/sys/job/logListData" method="post" class="form-inline hide">
                 <input id="pageSize" name="pageSize" type="hidden" value="50">
+                <input name="jobId" type="hidden" value="${jobLog.jobId}">
                 <div class="form-group">
                     <label class="control-label">方法名称:</label>
                     <div class="control-inline">
@@ -39,18 +40,12 @@
             {header: '任务ID', name: 'jobId', index: 'jobId', width: 100, align: "center"},
             {header: 'Bean名称', name: 'beanName', index: 'beanName', width: 100, align: "center"},
             {header: '方法名称', name: 'methodName', index: 'methodName', width: 100, align: "center"},
+            {header: '耗时（毫秒）', name: 'times', index: 'times', width: 100, align: "center"},
             {header: '参数', name: 'params', index: 'params', width: 100, align: "center"},
-            {
-                header: '状态',
-                name: 'status',
-                index: 'status',
-                width: 100,
-                align: "center",
-                formatter: function (val, obj, row, act) {
+            {header: '状态', name: 'status', index: 'status', width: 100, align: "center", formatter: function (val, obj, row, act) {
                     if (val === '1') return '<span class="label label-warning">失败</span>';
                     if (val === '0') return '<span class="label label-success">成功</span>';
-                }
-            },
+            }},
             {header: '创建时间', name: 'createTime', index: 'create_time', width: 100, align: "center"},
             {
                 header: '操作',

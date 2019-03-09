@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -194,7 +195,11 @@ public class UserController extends BaseController {
         model.addAttribute("user", user);
         //获取用户角色信息
         List<RoleModel> roleList = roleService.findUserRole(user.getUsername());
-        String roles = StringUtils.join(roleList,",");;
+        List<String> StringList = new ArrayList<>(5);
+        roleList.forEach(roleModel -> {
+            StringList.add(roleModel.getRoleName());
+        });
+        String roles = StringUtils.join(StringList,",");
         model.addAttribute("roles", roles);
         return PAGE_SUFFIX + "/user-info";
     }

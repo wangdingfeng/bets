@@ -82,7 +82,7 @@ public class JobServiceImpl extends ServiceImpl<JobModel> implements JobService 
         }else{
             jobModel.setBaseData(false);
             ScheduleUtils.updateScheduleJob(scheduler, jobModel);
-            super.updateAll(jobModel);
+            super.updateNotNull(jobModel);
         }
     }
 
