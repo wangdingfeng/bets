@@ -75,6 +75,9 @@ public class UserModel extends BaseModel {
     @Column(name = "avatar")
     private String avatar;
 
+    @Column(name = "login_ip")
+    private String loginIp;
+
 
     @Transient
     private String roleName;
@@ -271,5 +274,13 @@ public class UserModel extends BaseModel {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    public String getLoginIp() {
+        return loginIp;
+    }
+
+    public void setLoginIp(String loginIp) {
+        this.loginIp = loginIp;
     }
 }

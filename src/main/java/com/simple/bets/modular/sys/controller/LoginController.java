@@ -1,5 +1,6 @@
 package com.simple.bets.modular.sys.controller;
 
+import com.simple.bets.core.common.util.IPUtils;
 import com.simple.bets.core.common.util.MD5Utils;
 import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.annotation.Log;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,7 +40,7 @@ public class LoginController extends BaseController {
      */
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "modular/login";
     }
 
     /**
@@ -46,7 +49,7 @@ public class LoginController extends BaseController {
      * @return
      */
     @PostMapping("/login")
-    public String login(String username, String password, Boolean rememberMe, Model model) {
+    public String login(String username, String password, Boolean rememberMe, Model model, HttpServletRequest request) {
         // 密码 MD5 加密
         password = MD5Utils.encryptBasedDes(username.toLowerCase() + password);
         if (null == rememberMe) rememberMe = false;
@@ -56,7 +59,7 @@ public class LoginController extends BaseController {
             //如果已存在  退出账号重新登录
             if (subject != null) subject.logout();
             super.login(token);
-            this.userService.updateLoginTime(username);
+            this.userService.updateLoginInfo(username,request);
             return "redirect:/index";
         } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e) {
             logger.info(e.getMessage());
@@ -85,7 +88,7 @@ public class LoginController extends BaseController {
      */
     @RequestMapping("/welcome")
     public String welcome() {
-        return "welcome";
+        return "modular/welcome";
     }
 
     /**
@@ -103,6 +106,6 @@ public class LoginController extends BaseController {
         //获取当前用户菜单
         List<Tree<MenuModel>> menu = menuService.getUserMenu(user.getUsername());
         model.addAttribute("menu", menu);
-        return "index";
+        return "modular/index";
     }
 }

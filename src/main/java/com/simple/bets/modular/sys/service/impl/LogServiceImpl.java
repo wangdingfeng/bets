@@ -2,6 +2,7 @@ package com.simple.bets.modular.sys.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.simple.bets.core.common.util.AddressUtils;
 import com.simple.bets.modular.sys.model.LogModel;
 import com.simple.bets.modular.sys.service.LogService;
 import com.simple.bets.core.annotation.Log;
@@ -96,7 +97,7 @@ public class LogServiceImpl extends ServiceImpl<LogModel> implements LogService 
             log.setParams(params.toString());
         }
         log.setCreateTime(new Date());
-  /*      log.setLocation(AddressUtils.getCityInfo(log.getIp()));*/
+        log.setLocation(AddressUtils.getCityInfo(log.getIp()));
         // 保存系统日志
         save(log);
     }

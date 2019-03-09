@@ -1,6 +1,8 @@
 package com.simple.bets.core.common.util;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class IPUtils {
 
@@ -27,6 +29,26 @@ public class IPUtils {
 			ip = request.getRemoteAddr();
 		}
 		return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
+	}
+
+	/**
+	 *获取主机名
+	 * @return
+	 */
+	public static String getHostName() {
+		try {
+			return InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+		}
+		return "未知";
+	}
+
+	public static String getHostIp() {
+		try {
+			return InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+		}
+		return "127.0.0.1";
 	}
 
 }

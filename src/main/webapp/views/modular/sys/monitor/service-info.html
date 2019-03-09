@@ -1,0 +1,197 @@
+<%layout("/layout/body.html",{title:'服务器信息'}){%>
+<div class="content content-wrapper">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">CPU信息</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>属性</th>
+                            <th style="width:40px">值</th>
+                        </tr>
+                        <tr>
+                            <td>核心数</td>
+                            <td>${server.cpu.cpuNum}个</td>
+                        </tr>
+                        <tr>
+                            <td>用户使用率</td>
+                            <td>${server.cpu.used + '%'}</td>
+                        </tr>
+                        <tr>
+                            <td>系统使用率</td>
+                            <td>${server.cpu.sys + '%'}</td>
+                        </tr>
+                        <tr>
+                            <td>当前空闲率</td>
+                            <td>${server.cpu.free + '%'}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">内存信息</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>内存</th>
+                            <th>属性</th>
+                            <th style="width:40px">JVM</th>
+                        </tr>
+                        <tr>
+                            <td>总内存</td>
+                            <td>${server.mem.total + 'G'}</td>
+                            <td>${server.jvm.total + 'M'}</td>
+                        </tr>
+                        <tr>
+                            <td>已用内存</td>
+                            <td>${server.mem.used + 'G'}</td>
+                            <td>${server.jvm.used + 'M'}</td>
+                        </tr>
+                        <tr>
+                            <td>剩余内存</td>
+                            <td >${server.mem.free + 'G'}</td>
+                            <td>${server.jvm.free + 'M'}</td>
+                        </tr>
+                        <tr>
+                            <td>使用率</td>
+                            <td>${server.mem.usage > 80 ? 'text-danger': server.mem.usage}%</td>
+                            <td>${server.jvm.usage > 80 ? 'text-danger': server.jvm.usage}%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">服务器信息</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>服务器名称</td>
+                            <td>${server.sys.computerName}</td>
+                            <td>操作系统</td>
+                            <td>${server.sys.osName}</td>
+                        </tr>
+                        <tr>
+                            <td>服务器IP</td>
+                            <td>${server.sys.computerIp}</td>
+                            <td>系统架构</td>
+                            <td>${server.sys.osArch}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Java虚拟机信息</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Java名称</td>
+                            <td>${server.jvm.name}</td>
+                            <td>Java版本</td>
+                            <td>${server.jvm.version}</td>
+                        </tr>
+                        <tr>
+                            <td>启动时间</td>
+                            <td>${server.jvm.startTime}</td>
+                            <td>运行时长</td>
+                            <td>${server.jvm.runTime}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">安装路径</td>
+                            <td colspan="3" >${server.jvm.home}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">项目路径</td>
+                            <td colspan="3">${server.sys.userDir}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 box">
+            <div class="box-header with-border">
+                <h2 class="box-title" style="font-weight: 500">磁盘状态</h2>
+            </div>
+            <div class="box-body no-padding">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>盘符路径</th>
+                        <th>文件系统</th>
+                        <th>盘符类型</th>
+                        <th>总大小</th>
+                        <th>可用大小</th>
+                        <th>已用大小</th>
+                        <th>已用百分比</th>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <%for(sysFile in server.sysFiles){%>
+                    <tr>
+                        <td>${sysFile.dirName}</td>
+                        <td>${sysFile.sysTypeName}</td>
+                        <td>${sysFile.typeName}</td>
+                        <td>${sysFile.total}</td>
+                        <td>${sysFile.free}</td>
+                        <td>${sysFile.used}</td>
+                        <td>${sysFile.usage > 80 ? 'text-danger': sysFile.usage}%</td>
+                    </tr>
+                    <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<%}%>
+</script>

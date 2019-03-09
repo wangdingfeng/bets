@@ -49,5 +49,8 @@
 <script src="${ctxPath}/plugins/highchart/exporting.js"></script>
 <script src="${ctxPath}/plugins/highchart/highcharts-zh_CN.js"></script>
 <%}%>
-<!--自定义js-->
-<script src="${ctxPath}/js/app.js"></script>
+<%if(tool.argsIsExitsStr('layout',libs!)){%>
+<script src="${ctxPath}/plugins/jquery-plugin/jquery-ui-draggable-1.12.1.min.js"></script>
+<script src="${ctxPath}/plugins/jquery-plugin/jquery-ui-effect-1.12.1.min.js"></script>
+<script src="${ctxPath}/plugins/jquery-plugin/jquery.layout-latest.js"></script>
+<%}%>

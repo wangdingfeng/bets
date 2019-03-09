@@ -5,6 +5,8 @@
             <h3 class="box-title">日志管理</h3>
             <div class="box-tools pull-right">
                 <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+                <a href="#" class="btn btn-default btn-sm" id="btnDelLogs" title="批量删除"><i class="fa fa-trash"></i>
+                    批量删除</a>
             </div>
         </div>
         <div class="box-body">
@@ -31,6 +33,7 @@
         searchForm: $("#searchForm"),
         autoGridHeight: true, // 自动表格高度
         columnModel: [
+            {header: '主键', name: 'id', index: 'id', hidden: true},
             {header: '操作用户', name: 'username', index: 'username', width: 100, align: "center"},
             {header: '描述', name: 'operation', index: 'operation', width: 100, align: "center"},
             {header: '耗时（毫秒）', name: 'time', index: 'time', width: 100, align: "center"},
@@ -38,11 +41,43 @@
             {header: '参数', name: 'params', index: 'params', width: 100, align: "center"},
             {header: 'IP地址', name: 'ip', index: 'ip', width: 100, align: "center"},
             {header: '地点', name: 'location', index: 'location', width: 100, align: "center"},
-            {header: '操作时间', name: 'createTime', index: 'create_time', width: 100, align: "center"}
+            {header: '操作时间', name: 'createTime', index: 'create_time', width: 100, align: "center"},
+            {
+                header: '操作',
+                name: 'actions',
+                width: 40,
+                sortable: false,
+                title: false,
+                formatter: function (val, obj, row, act) {
+                    var actions = [];
+                    actions.push('<a href="${ctxPath}/sys/log/delete?ids=' + row.id + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    return actions.join('');
+                }
+            }
         ],
         // 加载成功后执行事件
         ajaxSuccess: function (data) {
 
         }
+    });
+    $('#btnDelLogs').click(function () {
+        //获取选中行
+        var selectRowId = $('#dataGrid').dataGrid('getSelectRows');
+        if (selectRowId == null || selectRowId.length == 0) {
+            bet.showMessage('请在列表选中要删除的数据');
+            return;
+        }
+        //获取行数据
+        var logIds = new Array();
+        for (var i = 0; i < selectRowId.length; i++) {
+            logIds[i] = $('#dataGrid').dataGrid('getRowData', selectRowId[i]).logId;
+        }
+        bet.ajax('${ctxPath}/sys/log/delete', {
+            ids: logIds.join(',')
+        }, function (data) {
+            if (data.success) $('#dataGrid').dataGrid('refresh');
+            bet.showMessage(data.message);
+
+        });
     });
 </script>

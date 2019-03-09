@@ -4,6 +4,8 @@ import com.simple.bets.modular.sys.model.UserModel;
 import com.simple.bets.modular.sys.model.UserWithRoleDTO;
 import com.simple.bets.core.base.service.IService;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 用户信息Service
  * @author wangdingfeng
@@ -31,7 +33,12 @@ public interface UserService extends IService<UserModel> {
      */
     UserModel saveOrUpdateUser(UserModel user);
 
-    void updateLoginTime(String userName);
+    /**
+     * 更新登录信息
+     * @param userName
+     * @param request
+     */
+    void updateLoginInfo(String userName, HttpServletRequest request);
 
     void updatePassword(String password);
 

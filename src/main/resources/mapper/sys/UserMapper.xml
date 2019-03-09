@@ -20,6 +20,7 @@
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
         <result column="user_status" jdbcType="CHAR" property="userStatus"/>
+        <result column="login_ip" jdbcType="VARCHAR" property="loginIp"/>
     </resultMap>
 
     <select id="findUserWithDept" resultType="com.simple.bets.modular.sys.model.UserModel"

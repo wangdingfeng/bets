@@ -9,20 +9,16 @@
             </div>
         </div>
         <div class="box-body">
-            <form id="searchForm" action="${ctxPath}/sys/job/listData" method="post" class="form-horizontal hide">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">方法名称</label>
-                            <div class="col-sm-8">
-                                <#input id="beanName" class="form-control required" value="${job.beanName!}" />
-                            </div>
-                        </div>
+            <form id="searchForm" action="${ctxPath}/sys/job/listData" method="post" class="form-inline hide">
+                <div class="form-group">
+                    <label class="control-label">方法名称:</label>
+                    <div class="control-inline">
+                        <#input id="beanName" class="form-control required" value="${job.beanName!}" />
                     </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
-                        <button type="reset" class="btn btn-default btn-sm">重置</button>
-                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
                 </div>
             </form>
             <table id="dataGrid"></table>
@@ -48,15 +44,17 @@
             {
                 header: '操作',
                 name: 'actions',
-                width: 120,
+                width: 100,
+                align: "center",
                 sortable: false,
                 title: false,
                 formatter: function (val, obj, row, act) {
                     var actions = [];
                     if(row.jobStatus == '0') actions.push('<a href="${ctxPath}/sys/job/pause?jobIds=' + row.jobId + '" class="btnList" title="暂停任务" data-confirm="确认要暂定任务吗？"><i class="fa fa-pause"></i></a>&nbsp;');
                     if(row.jobStatus == '1') actions.push('<a href="${ctxPath}/sys/job/resume?jobIds=' + row.jobId + '" class="btnList" title="开始任务" data-confirm="确认要开始任务吗？"><i class="fa fa-play"></i></a>&nbsp;');
+                    actions.push('<a href="${ctxPath}/sys/job/run?jobIds=' + row.jobId + '" class="btnList" title="执行一次任务" data-confirm="确认要执行一次任务吗？"><i class="fa fa-caret-square-o-right"></i></a>&nbsp;');
                     actions.push('<a href="/sys/job/form?jobId=' + row.jobId + '" class="btnList" title="编辑任务"><i class="fa fa-pencil"></i></a>&nbsp;');
-                    actions.push('<a href="${ctxPath}/sys/job/delete?id=' + row.id + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    actions.push('<a href="${ctxPath}/sys/job/delete?id=' + row.jobId + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
                     return actions.join('');
                 }
             }

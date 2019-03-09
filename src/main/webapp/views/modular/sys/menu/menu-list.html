@@ -8,7 +8,7 @@
                 <a href="#" class="btn btn-sm btn-default" id="btnExpandTreeNode" title="展开一级"><i class="fa fa-angle-double-down"></i> 展开</a>
                 <a href="#" class="btn btn-sm btn-default" id="btnCollapseTreeNode" title="折叠全部"><i class="fa fa-angle-double-up"></i> 折叠</a>
                 <a href="#" class="btn btn-sm btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
-                <a href="/sys/menu/form" class="btn btn-default btnTool btn-sm" title="新增菜单"><i class="fa fa-plus"></i> 新增字典</a>
+                <a href="/sys/menu/form" class="btn btn-default btnTool btn-sm" title="新增菜单"><i class="fa fa-plus"></i> 新增</a>
                 <a href="#" class="btn btn-sm btn-default" id="btnUpdateSort" title="保存排序"><i class="fa fa-sort-amount-asc"></i> 保存排序</a>
             </div>
         </div>
@@ -42,7 +42,7 @@
                         +row.id+'" class="btnList" data-title="编辑菜单">'+val+'</a>';
                 }},
             {header:'链接', name:'url', width:150},
-            {header:'是否是按钮', name:'type', width:150, formatter: function(val, obj, row, act){
+            {header:'是否是按钮', name:'type', width:80,align:"center", formatter: function(val, obj, row, act){
                     return bet.transDictLabel(${DictUtils.getDictListJson('menu_type')}, val, '<font color=#aaa>未设置</font>');
             }},
             {header:'创建时间', name:'createTime', width:150,align:"center"},

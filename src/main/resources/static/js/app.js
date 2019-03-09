@@ -136,7 +136,7 @@ var bet = {
             data = undefined
         }
         var sendAjax = function() {
-            bet.loading(loadingMessage == undefined ? "loading....." : loadingMessage);
+            bet.loading(loadingMessage == undefined ? "正在加载....." : loadingMessage);
             $.ajax({
                 type: "POST",
                 url: urlOrFun,

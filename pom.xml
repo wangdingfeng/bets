@@ -32,6 +32,8 @@
         <pagehelper.version>1.2.5</pagehelper.version>
         <dom4j.version>1.6.1</dom4j.version>
         <hutool.version>4.3.1</hutool.version>
+        <!--oshi-->
+        <oshi.version>3.9.1</oshi.version>
         <relativePath/>
     </properties>
 
@@ -268,6 +270,12 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
+        </dependency>
+        <!-- 获取系统信息 -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>${oshi.version}</version>
         </dependency>
 
     </dependencies>

@@ -4,7 +4,9 @@ import com.simple.bets.core.annotation.Log;
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.base.model.ResponseResult;
+import com.simple.bets.modular.sys.model.JobLogModel;
 import com.simple.bets.modular.sys.model.JobModel;
+import com.simple.bets.modular.sys.service.JobLogService;
 import com.simple.bets.modular.sys.service.JobService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.quartz.CronExpression;
@@ -26,6 +28,8 @@ public class JobController extends BaseController {
 
     @Autowired
     private JobService jobService;
+    @Autowired
+    private JobLogService jobLogService;
 
     /**
      * 定时任务列表页
@@ -134,7 +138,7 @@ public class JobController extends BaseController {
      */
     @Log("执行任务")
     @RequiresPermissions("job:run")
-    @RequestMapping("job/run")
+    @RequestMapping("/run")
     @ResponseBody
     public ResponseResult runJob(String jobIds) {
         try {
@@ -195,5 +199,47 @@ public class JobController extends BaseController {
     public ResponseResult getSysCronClazz(JobModel job) {
         List<JobModel> sysCronClazz = this.jobService.getSysCronClazz(job);
         return ResponseResult.ok(sysCronClazz);
+    }
+
+    @Log("获取调度日志信息")
+    @RequestMapping("/logList")
+    @RequiresPermissions("jobLog:list")
+    public String logList() {
+        return PAGE_SUFFIX+"/job-log-list";
+    }
+
+    /**
+     * 日志列表
+     *
+     * @param request
+     * @param response
+     * @param log
+     * @return
+     */
+    @RequestMapping("/logListData")
+    @RequiresPermissions("job:list")
+    @ResponseBody
+    public Page<JobLogModel> logListData(HttpServletRequest request, HttpServletResponse response, JobLogModel log) {
+        return jobLogService.queryPage(new Page<JobLogModel>(request, response), log);
+    }
+
+    /**
+     * 删除日志
+     *
+     * @param ids
+     * @return
+     */
+    @Log("删除调度日志")
+    @RequiresPermissions("jobLog:delete")
+    @RequestMapping("/deleteJobLog")
+    @ResponseBody
+    public ResponseResult deleteJobLog(String ids) {
+        try {
+            this.jobLogService.deleteBatch(ids);
+            return ResponseResult.ok("删除调度日志成功！");
+        } catch (Exception e) {
+            logger.error("删除调度日志失败", e);
+            return ResponseResult.error("删除调度日志失败，请联系网站管理员！");
+        }
     }
 }

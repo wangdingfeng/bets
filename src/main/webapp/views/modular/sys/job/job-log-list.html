@@ -5,26 +5,21 @@
             <h3 class="box-title">定时任务日志</h3>
             <div class="box-tools pull-right">
                 <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+                <a href="#" class="btn btn-default btn-sm" id="btnDelJobLogs" title="批量删除"><i class="fa fa-trash"></i>
+                    批量删除</a>
             </div>
         </div>
         <div class="box-body">
-            <form style="margin: 10px" id="searchForm" action="${ctxPath}/sys/jobLog/listData" method="post" class="form-horizontal hide">
-                <input id="pageNo" name="pageNo" type="hidden" value="0">
-                <input id="pageSize" name="pageSize" type="hidden" value="20">
-                <input id="orderBy" name="orderBy" type="hidden" value="">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">方法名称</label>
-                            <div class="col-sm-8">
-                                <input class="form-control width-120" type="text" name="methodName">
-                            </div>
-                        </div>
+            <form id="searchForm" action="${ctxPath}/sys/job/logListData" method="post" class="form-inline hide">
+                <div class="form-group">
+                    <label class="control-label">方法名称:</label>
+                    <div class="control-inline">
+                        <#input id="beanName" class="form-control required" value="${job.beanName!}" />
                     </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
-                        <button type="reset" class="btn btn-default btn-sm">重置</button>
-                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary" style="width: 60px">查询</button>
+                    <button type="reset" class="btn btn-default btn-sm">重置</button>
                 </div>
             </form>
             <table id="dataGrid"></table>
@@ -37,31 +32,61 @@
     $('#dataGrid').dataGrid({
         searchForm: $("#searchForm"),
         columnModel: [
+            {header: '主键', name: 'logId', index: 'logId', hidden: true},
             {header: '任务ID', name: 'jobId', index: 'jobId', width: 100, align: "center"},
             {header: 'Bean名称', name: 'beanName', index: 'beanName', width: 100, align: "center"},
             {header: '方法名称', name: 'methodName', index: 'methodName', width: 100, align: "center"},
             {header: '参数', name: 'params', index: 'params', width: 100, align: "center"},
-            {header: '状态', name: 'status', index: 'status', width: 100, align: "center",formatter: function(val, obj, row, act){
-                    if (val === '1') return '<span class="badge badge-danger">失败</span>';
-                    if (val === '0') return '<span class="badge badge-success">成功</span>';
-            }},
+            {
+                header: '状态',
+                name: 'status',
+                index: 'status',
+                width: 100,
+                align: "center",
+                formatter: function (val, obj, row, act) {
+                    if (val === '1') return '<span class="label label-warning">失败</span>';
+                    if (val === '0') return '<span class="label label-success">成功</span>';
+                }
+            },
             {header: '创建时间', name: 'createTime', index: 'create_time', width: 100, align: "center"},
             {
                 header: '操作',
                 name: 'actions',
-                width: 120,
+                width: 40,
                 sortable: false,
                 title: false,
                 formatter: function (val, obj, row, act) {
                     var actions = [];
-                    actions.push('<a href="${ctxPath}/sys/user/delete?id=' + row.userId + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    actions.push('<a href="${ctxPath}/sys/job/deleteJobLog?ids=' + row.logId + '" class="btnList" title="删除调度日志" data-confirm="确认要删除调度日志吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
                     return actions.join('');
                 }
             }
         ],
+        showCheckbox: true,
         // 加载成功后执行事件
         ajaxSuccess: function (data) {
 
         }
+    });
+
+    $('#btnDelJobLogs').click(function () {
+        //获取选中行
+        var selectRowId = $('#dataGrid').dataGrid('getSelectRows');
+        if (selectRowId == null || selectRowId.length == 0) {
+            bet.showMessage('请在列表选中要删除的数据');
+            return;
+        }
+        //获取行数据
+        var jobLogIds = new Array();
+        for (var i = 0; i < selectRowId.length; i++) {
+            jobLogIds[i] = $('#dataGrid').dataGrid('getRowData', selectRowId[i]).logId;
+        }
+        bet.ajax('${ctxPath}/sys/job/deleteJobLog', {
+            ids: jobLogIds.join(',')
+        }, function (data) {
+            if (data.success) $('#dataGrid').dataGrid('refresh');
+            bet.showMessage(data.message);
+
+        });
     });
 </script>

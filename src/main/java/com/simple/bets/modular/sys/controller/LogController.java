@@ -51,21 +51,13 @@ public class LogController extends BaseController {
         return logService.queryPage(new Page<LogModel>(request, response), log);
     }
 
-    @RequestMapping("log/excel")
-    @ResponseBody
-    public ResponseResult logExcel(LogModel log) {
-        try {
-            List<LogModel> list = this.logService.findAllLogs(log);
-            return FileUtil.createExcelByPOIKit("系统日志表", list, LogModel.class);
-        } catch (Exception e) {
-            logger.error("导出系统日志Excel失败", e);
-            return ResponseResult.error("导出Excel失败，请联系网站管理员！");
-        }
-    }
-
-
+    /**
+     * 删除日志数据
+     * @param ids
+     * @return
+     */
     @RequiresPermissions("log:delete")
-    @RequestMapping("log/delete")
+    @RequestMapping("/delete")
     @ResponseBody
     public ResponseResult deleteLogss(String ids) {
         try {

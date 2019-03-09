@@ -3,14 +3,18 @@ package com.simple.bets.modular.sys.service.impl;
 import com.simple.bets.core.common.util.AddressUtils;
 import com.simple.bets.modular.sys.model.UserModel;
 import com.simple.bets.modular.sys.model.UserOnlineModel;
-import com.simple.bets.modular.sys.service.SessionService;
+import com.simple.bets.modular.sys.service.MonitorService;
+import com.simple.bets.core.common.vo.server.ServerInfo;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import oshi.SystemInfo;
+import oshi.hardware.HardwareAbstractionLayer;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,8 +24,8 @@ import java.util.List;
  * @Description shiro 对象管理
  * @Date 14:42 2019/2/2
  **/
-@Service("sessionService")
-public class SessionServiceImpl implements SessionService {
+@Service("monitorServiceImpl")
+public class MonitorServiceImpl implements MonitorService {
 
     @Autowired
     private SessionDAO sessionDAO;
@@ -65,5 +69,23 @@ public class SessionServiceImpl implements SessionService {
         sessionDAO.delete(session);
         return true;
     }
+
+    @Override
+    public ServerInfo getServerInfo() {
+        ServerInfo serverInfo =new ServerInfo();
+        try {
+            SystemInfo si = new SystemInfo();
+            HardwareAbstractionLayer hal = si.getHardware();
+            serverInfo.setCpuInfo(hal.getProcessor());
+            serverInfo.setMemInfo(hal.getMemory());
+            serverInfo.setSysInfo();
+            serverInfo.setJvmInfo();
+            serverInfo.setSysFiles(si.getOperatingSystem());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return serverInfo;
+    }
+
 
 }

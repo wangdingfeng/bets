@@ -1,5 +1,6 @@
 package com.simple.bets.modular.sys.service.impl;
 
+import com.simple.bets.core.common.util.IPUtils;
 import com.simple.bets.core.common.util.MD5Utils;
 import com.simple.bets.modular.sys.dao.UserMapper;
 import com.simple.bets.modular.sys.dao.UserRoleMapper;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -81,12 +83,13 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
 
     @Override
     @Transactional
-    public void updateLoginTime(String userName) {
+    public void updateLoginInfo(String userName, HttpServletRequest request) {
         Example example = new Example(UserModel.class);
         example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
-        UserModel user = new UserModel();
-        user.setLastLoginTime(new Date());
-        this.userMapper.updateByExampleSelective(user, example);
+        UserModel updateUser = new UserModel();
+        updateUser.setLoginIp(IPUtils.getIpAddr(request));
+        updateUser.setLastLoginTime(new Date());
+        this.userMapper.updateByExampleSelective(updateUser, example);
     }
 
     @Override

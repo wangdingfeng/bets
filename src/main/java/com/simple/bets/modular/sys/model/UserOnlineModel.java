@@ -69,7 +69,7 @@ public class UserOnlineModel implements Serializable{
 	}
 
 	public void setHost(String host) {
-		this.host = host;
+		this.host = ("0:0:0:0:0:0:0:1".equals(host) ? "127.0.0.1":host);
 	}
 
 	public String getSystemHost() {

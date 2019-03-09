@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="${ctxPath}/plugins/toastr/toastr.min.css">
 <!-- 进度条 -->
 <link rel="stylesheet" href="${ctxPath}/plugins/pace-master/themes/blue/pace-theme-flash.css">
+<%if(tool.argsIsExitsStr('tree',libs!)){%>
+<!--ztree-->
+<link rel="stylesheet" href="${ctxPath}/plugins/ztree/bootstrapztree.css">
+<%}%>
 <%if(tool.argsIsExitsStr('jqgrid',libs!)){%>
 <!--jqgrid-->
 <link rel="stylesheet" href="${ctxPath}/plugins/jqgrid/4.7/css/ui.jqgrid.css">
@@ -20,5 +24,9 @@
 <%if(tool.argsIsExitsStr('cropper',libs!)){%>
 <link rel="stylesheet" href="${ctxPath}/plugins/cropper/cropper.css">
 <%}%>
-<!--ztree-->
-<link rel="stylesheet" href="${ctxPath}/plugins/ztree/bootstrapztree.css">
+<%if(tool.argsIsExitsStr('cropper',libs!)){%>
+<link rel="stylesheet" href="${ctxPath}/plugins/cropper/cropper.css">
+<%}%>
+<%if(tool.argsIsExitsStr('layout',libs!)){%>
+<link rel="stylesheet" href="${ctxPath}/plugins/jquery-plugin/jquery.layout-latest.css">
+<%}%>
