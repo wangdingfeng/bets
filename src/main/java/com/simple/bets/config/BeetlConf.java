@@ -5,10 +5,12 @@ import org.beetl.core.resource.WebAppResourceLoader;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
 
@@ -27,6 +29,9 @@ public class BeetlConf {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    protected ResourceLoader resourceLoader;
+
     /**
      * beetl配置
      *
@@ -35,13 +40,11 @@ public class BeetlConf {
     @Bean(initMethod = "init", name = "beetlConfig")
     public BeetlConfiguration getBeetlGroupUtilConfiguration() {
         BeetlConfiguration beetlGroupUtilConfiguration = new BeetlConfiguration();
-        ResourcePatternResolver patternResolver = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader());
         try {
-            // WebAppResourceLoader 配置root路径是关键
-            WebAppResourceLoader webAppResourceLoader =
-                    new WebAppResourceLoader(patternResolver.getResource("classpath:/").getFile().getPath());
-            beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
-        } catch (IOException e) {
+            // 配置beetl路径
+            ResourcePatternResolver resouce = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
+            beetlGroupUtilConfiguration.setConfigFileResource(resouce.getResource("classpath:beetl.properties"));
+        } catch (Exception e) {
             logger.error("beetl配置不存在，请查看classpath下是否有此配置", e);
         }
         logger.info("加载beetl.properties配置成功");
