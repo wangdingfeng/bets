@@ -40,7 +40,7 @@ public class LoginController extends BaseController {
      */
     @GetMapping("/login")
     public String login() {
-        return "modular/login";
+        return "login";
     }
 
     /**
@@ -88,7 +88,7 @@ public class LoginController extends BaseController {
      */
     @RequestMapping("/welcome")
     public String welcome() {
-        return "modular/welcome";
+        return "welcome";
     }
 
     /**
@@ -106,6 +106,6 @@ public class LoginController extends BaseController {
         //获取当前用户菜单
         List<Tree<MenuModel>> menu = menuService.getUserMenu(user.getUsername());
         model.addAttribute("menu", menu);
-        return "modular/index";
+        return "index";
     }
 }
