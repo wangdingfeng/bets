@@ -280,6 +280,67 @@ var App = function () {
         scrollTop: function () {
             App.scrollTo();
         },
+        // 遮罩层
+        blockUI: function (options) {
+            options = $.extend(true, {}, options);
+            var html = '';
+            if (options.animate) {
+                html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '">' + '<div class="block-spinner-bar"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>' + '</div>';
+            }else {
+                html = '<div class="loading-message ' + (options.boxed ? 'loading-message-boxed' : '') + '"><img src="' + this.getGlobalImgPath() + 'loading/loading-spinner-grey.gif" align=""><span>&nbsp;&nbsp;' + (options.message ? options.message : '加载中...') + '</span></div>';
+            }
+            if (options.target) { // element blocking
+                var el = $(options.target);
+                if (el.height() <= ($(window).height())) {
+                    options.cenrerY = true;
+                }
+                el.block({
+                    message: html,
+                    baseZ: options.zIndex ? options.zIndex : 1000,
+                    centerY: options.cenrerY !== undefined ? options.cenrerY : false,
+                    css: {
+                        top: '10%',
+                        border: '0',
+                        padding: '0',
+                        backgroundColor: 'none'
+                    },
+                    overlayCSS: {
+                        backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                        opacity: options.boxed ? 0.05 : 0.1,
+                        cursor: 'wait'
+                    }
+                });
+            } else { // page blocking
+                $.blockUI({
+                    message: html,
+                    baseZ: options.zIndex ? options.zIndex : 1000,
+                    css: {
+                        border: '0',
+                        padding: '0',
+                        backgroundColor: 'none'
+                    },
+                    overlayCSS: {
+                        backgroundColor: options.overlayColor ? options.overlayColor : '#555',
+                        opacity: options.boxed ? 0.05 : 0.1,
+                        cursor: 'wait'
+                    }
+                });
+            }
+        },
+
+        // 关闭遮罩层
+        unblockUI: function (target) {
+            if (target) {
+                $(target).unblock({
+                    onUnblock: function () {
+                        $(target).css('position', '');
+                        $(target).css('zoom', '');
+                    }
+                });
+            } else {
+                $.unblockUI();
+            }
+        },
         // 检查设备触摸支持
         isTouchDevice: function () {
             try {
@@ -726,9 +787,23 @@ var addTabs = function (options) {
             //是否指定TAB内容
             $tabPanel.append(options.content);
         } else {
+            //没有内容，使用IFRAME打开链接
+            //table 刷新会营销 加载显示 所以 列表页的加载方式 修改为 table的加载
+            if(options.url.search("list") == -1){
+                App.blockUI({
+                    target: '#tab-content',
+                    boxed: true,
+                    message: '加载中......'
+                });
+            }
+
             var $iframe = $("<iframe></iframe>").attr("src", options.url).css("width", "100%").attr("frameborder", "no").attr("id", "iframe_" + pageId).addClass("tab_iframe").attr(pageIdField, pageId);
             //iframe 加载完成事件
             $iframe.load(function () {
+                if(options.url.search("list") == -1){
+                    //没有内容，使用IFRAME打开链接
+                    App.unblockUI("#tab-content");
+                }
                 App.fixIframeContent();//修正高度
             });
 
@@ -832,6 +907,13 @@ function refreshTabById(pageId) {
         $iframe.attr("src", url);// 跨域状况下，重新设置url
     } else {
         $iframe[0].contentWindow.location.reload(true);//带参数刷新
+    }
+    if(url.search("list") == -1){
+        App.blockUI({
+            target: '#tab-content',
+            boxed: true,
+            message: '加载中......'
+        });
     }
 }
 

@@ -37,7 +37,7 @@ public class ScheduleConfig {
         prop.put("org.quartz.jobStore.maxMisfiresToHandleAtATime", "1");
 
         prop.put("org.quartz.jobStore.misfireThreshold", "12000");
-        prop.put("org.quartz.jobStore.tablePrefix", "QRTZ_");
+        prop.put("org.quartz.jobStore.tablePrefix", "SYS_QRTZ_");
         factory.setQuartzProperties(prop);
 
         factory.setSchedulerName("BetsScheduler");
