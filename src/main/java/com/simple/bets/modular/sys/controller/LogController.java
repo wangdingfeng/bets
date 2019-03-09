@@ -1,5 +1,6 @@
 package com.simple.bets.modular.sys.controller;
 
+import com.simple.bets.core.annotation.Log;
 import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.base.controller.BaseController;
@@ -34,6 +35,7 @@ public class LogController extends BaseController {
      *
      * @return
      */
+    @Log("获取系统日志")
     @RequestMapping("/list")
     @RequiresPermissions("log:list")
     public String list() {
@@ -56,6 +58,7 @@ public class LogController extends BaseController {
      * @param ids
      * @return
      */
+    @Log("删除系统日志")
     @RequiresPermissions("log:delete")
     @RequestMapping("/delete")
     @ResponseBody

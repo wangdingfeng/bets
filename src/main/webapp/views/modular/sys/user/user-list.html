@@ -5,7 +5,9 @@
             <h3 class="box-title">用户管理</h3>
             <div class="box-tools pull-right">
                 <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
-                <a href="/sys/user/form" class="btn btn-default btnTool btn-sm" title="新增用户"><i class="fa fa-plus"></i> 新增用户</a>
+                <%if(hasPermi('user:edit')){%>
+                    <a href="/sys/user/form" class="btn btn-default btnTool btn-sm" title="新增用户"><i class="fa fa-plus"></i> 新增用户</a>
+                <%}%>
             </div>
         </div>
         <div class="box-body">
@@ -64,10 +66,14 @@
                     title: false,
                     formatter: function (val, obj, row, act) {
                         var actions = [];
-                        actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="编辑用户"><i class="fa fa-pencil"></i></a>&nbsp;');
-                        if(row.userStatus == '1') actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="停用用户"><i class="icon-lock" style="color: red"></i></a>&nbsp;');
-                        if(row.userStatus == '0') actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="启用用户"><i class="icon-lock-open"></i></a>&nbsp;');
-                        actions.push('<a href="${ctxPath}/sys/user/delete?id=' + row.userId + '" class="btnList" title="删除用户" data-confirm="确认要删除用户信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                        <%if(hasPermi('user:edit')){%>
+                            actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="编辑用户"><i class="fa fa-pencil"></i></a>&nbsp;');
+                            if(row.userStatus == '1') actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="停用用户"><i class="icon-lock" style="color: red"></i></a>&nbsp;');
+                            if(row.userStatus == '0') actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="启用用户"><i class="icon-lock-open"></i></a>&nbsp;');
+                         <%}%>
+                        <%if(hasPermi('user:delete')){%>
+                                actions.push('<a href="${ctxPath}/sys/user/delete?id=' + row.userId + '" class="btnList" title="删除用户" data-confirm="确认要删除用户信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                         <%}%>
                         return actions.join('');
                     }
                 }

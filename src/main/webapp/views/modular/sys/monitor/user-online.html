@@ -33,7 +33,9 @@
                 align:'center',
                 formatter: function (val, obj, row, act) {
                     var actions = [];
-                    actions.push('<a href="${ctxPath}/sys/session/forceLogout?id=' + row.id + '" class="btnList" title="踢出用户" data-confirm="确认要踢出该用户吗？"><i class="fa fa-sign-out"></i></a>&nbsp;');
+                    <%if(hasPermi('user:kickout')){%>
+                        actions.push('<a href="${ctxPath}/sys/session/forceLogout?id=' + row.id + '" class="btnList" title="踢出用户" data-confirm="确认要踢出该用户吗？"><i class="fa fa-sign-out"></i></a>&nbsp;');
+                     <%}%>
                     return actions.join('');
                 }
             }

@@ -5,7 +5,9 @@
             <h3 class="box-title">字典管理</h3>
             <div class="box-tools pull-right">
                 <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
+                <%if(hasPermi('dict:edit')){%>
                 <a href="/sys/dict/form" class="btn btn-default btnTool btn-sm" title="新增字典"><i class="fa fa-plus"></i> 新增字典</a>
+                <%}%>
             </div>
         </div>
         <div class="box-body">
@@ -48,9 +50,13 @@
                 title: false,
                 formatter: function (val, obj, rows, act) {
                     var actions = [];
-                    actions.push('<a href="/sys/dict/form?dictId=' + rows.dictId + '" class="btnList" title="编辑字典信息"><i class="fa fa-pencil"></i></a>&nbsp;');
-                    actions.push('<a href="/sys/dict/dictChildren?dictId=' + rows.dictId + '" class="btnList" title="管理子字典"><i class="fa fa-navicon"></i></a>&nbsp;');
-                    actions.push('<a href="${ctxPath}/sys/dict/delete?dictId=' + rows.dictId + '" class="btnList" title="删除字典信息" data-confirm="确认要删除字典信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    <%if(hasPermi('dict:edit')){%>
+                        actions.push('<a href="/sys/dict/form?dictId=' + rows.dictId + '" class="btnList" title="编辑字典信息"><i class="fa fa-pencil"></i></a>&nbsp;');
+                        actions.push('<a href="/sys/dict/dictChildren?dictId=' + rows.dictId + '" class="btnList" title="管理子字典"><i class="fa fa-navicon"></i></a>&nbsp;');
+                    <%}%>
+                    <%if(hasPermi('dict:edit')){%>
+                        actions.push('<a href="${ctxPath}/sys/dict/delete?dictId=' + rows.dictId + '" class="btnList" title="删除字典信息" data-confirm="确认要删除字典信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    <%}%>
                     return actions.join('');
                 }
             }

@@ -98,7 +98,7 @@ public class JobController extends BaseController {
      */
     @Log("编辑任务 ")
     @RequestMapping("/saveOrUpdate")
-    @RequiresPermissions("job:add")
+    @RequiresPermissions("job:edit")
     @ResponseBody
     public ResponseResult saveOrUpdate(JobModel job) {
         try {

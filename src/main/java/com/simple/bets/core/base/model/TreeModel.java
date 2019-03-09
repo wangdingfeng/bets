@@ -30,9 +30,7 @@ public abstract class TreeModel extends BaseModel {
 
 	public TreeModel() {
 		super();
-		this.sort = 30;
 	}
-
 	public Long getParentId() {
 		return parentId;
 	}

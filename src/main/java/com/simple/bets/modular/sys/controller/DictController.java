@@ -91,7 +91,7 @@ public class DictController extends BaseController {
      * @param dict
      * @return
      */
-    @Log("新增|更新字典数据")
+    @Log("新增|更新字典")
     @RequiresPermissions("dict:edit")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody

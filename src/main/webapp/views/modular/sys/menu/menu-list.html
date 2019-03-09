@@ -8,12 +8,14 @@
                 <a href="#" class="btn btn-sm btn-default" id="btnExpandTreeNode" title="展开一级"><i class="fa fa-angle-double-down"></i> 展开</a>
                 <a href="#" class="btn btn-sm btn-default" id="btnCollapseTreeNode" title="折叠全部"><i class="fa fa-angle-double-up"></i> 折叠</a>
                 <a href="#" class="btn btn-sm btn-default" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
-                <a href="/sys/menu/form" class="btn btn-default btnTool btn-sm" title="新增菜单"><i class="fa fa-plus"></i> 新增</a>
-                <a href="#" class="btn btn-sm btn-default" id="btnUpdateSort" title="保存排序"><i class="fa fa-sort-amount-asc"></i> 保存排序</a>
+                <%if(hasPermi('menu:edit')){%>
+                    <a href="/sys/menu/form" class="btn btn-default btnTool btn-sm" title="新增菜单"><i class="fa fa-plus"></i> 新增</a>
+                    <a href="#" class="btn btn-sm btn-default" id="btnUpdateSort" title="保存排序"><i class="fa fa-sort-amount-asc"></i> 保存排序</a>
+                <%}%>
             </div>
         </div>
         <div class="box-body">
-            <form style="margin: 10px" id="searchForm" action="${ctxPath}/sys/menu/listData" method="post" class="form-inline hide">
+            <form id="searchForm" action="${ctxPath}/sys/menu/listData" method="post" class="form-inline hide">
                 <div class="form-group">
                     <label class="control-label">菜单名称：</label>
                     <div class="control-inline">
@@ -55,9 +57,13 @@
             {header:'权限标识', name:'perms', width:150},
             {header:'操作', name:'actions', width:100, sortable:false, align:"center", formatter: function(val, obj, row, act){
                     var actions = [];
-                    actions.push('<a href="/sys/menu/form?id='+row.id+'" class="btnList" title="编辑菜单"><i class="fa fa-pencil"></i></a>&nbsp;');
-                    actions.push('<a href="/sys/menu/delete?id='+row.id+'" class="btnList" title="删除菜单" data-confirm="确认要删除该菜单及所有子菜单吗？" data-deltreenode="'+row.id+'"><i class="fa fa-trash-o"></i></a>&nbsp;');
-                    actions.push('<a href="/sys/menu/form?parentId='+row.id+'" class="btnList" title="新增下级菜单"><i class="fa fa-plus-square"></i></a>&nbsp;');
+                    <%if(hasPermi('menu:edit')){%>
+                            actions.push('<a href="/sys/menu/form?id='+row.id+'" class="btnList" title="编辑菜单"><i class="fa fa-pencil"></i></a>&nbsp;');
+                            actions.push('<a href="/sys/menu/form?parentId='+row.id+'" class="btnList" title="新增下级菜单"><i class="fa fa-plus-square"></i></a>&nbsp;');
+                    <%}%>
+                    <%if(hasPermi('menu:delete')){%>
+                        actions.push('<a href="/sys/menu/delete?id='+row.id+'" class="btnList" title="删除菜单" data-confirm="确认要删除该菜单及所有子菜单吗？" data-deltreenode="'+row.id+'"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    <%}%>
                     return actions.join('');
                 }}
         ],

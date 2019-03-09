@@ -10,8 +10,10 @@
                         class="fa fa-angle-double-down"></i> 展开</a>
                 <a href="#" class="btn btn-default btn-sm" id="btnCollapseTreeNode" title="折叠全部"><i
                         class="fa fa-angle-double-up"></i> 折叠</a>
-                <a href="/sys/office/form" class="btn btn-default btnTool btn-sm" title="添加机构"><i class="fa fa-plus"></i>
-                    添加部门</a>
+                <%if(hasPermi('office:edit')){%>
+                    <a href="/sys/office/form" class="btn btn-default btnTool btn-sm" title="添加机构"><i class="fa fa-plus"></i>
+                        添加部门</a>
+                <%}%>
             </div>
         </div>
         <div class="box-body">
@@ -46,9 +48,13 @@
                 title: false,
                 formatter: function (val, obj, row, act) {
                     var actions = [];
-                    actions.push('<a href="/sys/office/form?id=' + row.id + '" class="btnList" title="修改机构信息"><i class="fa fa-pencil"></i></a>');
-                    actions.push('<a href="${ctxPath}/sys/office/delete?id=' + row.id + '" class="btnList" title="删除机构" data-confirm="要删除该机构及所有子机构项吗？"><i class="fa fa-trash-o"></i></a>');
-                    actions.push('<a href="/sys/office/form?parentId=' + row.id + '" class="btnList" title="添加下级机构"><i class="fa fa-plus-square"></i></a>');
+                    <%if(hasPermi('office:edit')){%>
+                        actions.push('<a href="/sys/office/form?id=' + row.id + '" class="btnList" title="修改机构信息"><i class="fa fa-pencil"></i></a>');
+                        actions.push('<a href="/sys/office/form?parentId=' + row.id + '" class="btnList" title="添加下级机构"><i class="fa fa-plus-square"></i></a>');
+                     <%}%>
+                    <%if(hasPermi('office:delete')){%>
+                        actions.push('<a href="${ctxPath}/sys/office/delete?id=' + row.id + '" class="btnList" title="删除机构" data-confirm="要删除该机构及所有子机构项吗？"><i class="fa fa-trash-o"></i></a>');
+                    <%}%>
                     return actions.join('');
                 }
             }

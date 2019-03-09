@@ -5,7 +5,9 @@
             <h3 class="box-title">定时任务管理</h3>
             <div class="box-tools pull-right">
                 <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
-                <a href="sys/job/form" class="btn btn-default btnTool btn-sm" title="新增任务"><i class="fa fa-plus"></i> 新增</a>
+                <%if(hasPermi('job:edit')){%>
+                    <a href="sys/job/form" class="btn btn-default btnTool btn-sm" title="新增任务"><i class="fa fa-plus"></i> 新增</a>
+                <%}%>
             </div>
         </div>
         <div class="box-body">
@@ -50,11 +52,21 @@
                 title: false,
                 formatter: function (val, obj, row, act) {
                     var actions = [];
-                    if(row.jobStatus == '0') actions.push('<a href="${ctxPath}/sys/job/pause?jobIds=' + row.jobId + '" class="btnList" title="暂停任务" data-confirm="确认要暂定任务吗？"><i class="fa fa-pause"></i></a>&nbsp;');
-                    if(row.jobStatus == '1') actions.push('<a href="${ctxPath}/sys/job/resume?jobIds=' + row.jobId + '" class="btnList" title="开始任务" data-confirm="确认要开始任务吗？"><i class="fa fa-play"></i></a>&nbsp;');
-                    actions.push('<a href="${ctxPath}/sys/job/run?jobIds=' + row.jobId + '" class="btnList" title="执行一次任务" data-confirm="确认要执行一次任务吗？"><i class="fa fa-caret-square-o-right"></i></a>&nbsp;');
-                    actions.push('<a href="/sys/job/form?jobId=' + row.jobId + '" class="btnList" title="编辑任务"><i class="fa fa-pencil"></i></a>&nbsp;');
-                    actions.push('<a href="${ctxPath}/sys/job/delete?id=' + row.jobId + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    <%if(hasPermi('job:resume')){%>
+                        if(row.jobStatus == '0') actions.push('<a href="${ctxPath}/sys/job/pause?jobIds=' + row.jobId + '" class="btnList" title="暂停任务" data-confirm="确认要暂定任务吗？"><i class="fa fa-pause"></i></a>&nbsp;');
+                    <%}%>
+                    <%if(hasPermi('job:pause')){%>
+                        if(row.jobStatus == '1') actions.push('<a href="${ctxPath}/sys/job/resume?jobIds=' + row.jobId + '" class="btnList" title="开始任务" data-confirm="确认要开始任务吗？"><i class="fa fa-play"></i></a>&nbsp;');
+                    <%}%>
+                    <%if(hasPermi('job:run')){%>
+                        actions.push('<a href="${ctxPath}/sys/job/run?jobIds=' + row.jobId + '" class="btnList" title="执行一次任务" data-confirm="确认要执行一次任务吗？"><i class="fa fa-caret-square-o-right"></i></a>&nbsp;');
+                    <%}%>
+                    <%if(hasPermi('job:edit')){%>
+                        actions.push('<a href="/sys/job/form?jobId=' + row.jobId + '" class="btnList" title="编辑任务"><i class="fa fa-pencil"></i></a>&nbsp;');
+                    <%}%>
+                    <%if(hasPermi('job:delete')){%>
+                        actions.push('<a href="${ctxPath}/sys/job/delete?id=' + row.jobId + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    <%}%>
                     return actions.join('');
                 }
             }

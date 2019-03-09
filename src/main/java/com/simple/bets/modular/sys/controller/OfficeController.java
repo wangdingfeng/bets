@@ -5,6 +5,7 @@ import com.simple.bets.core.base.model.ResponseResult;
 import com.simple.bets.core.base.model.Tree;
 import com.simple.bets.modular.sys.model.OfficeModel;
 import com.simple.bets.modular.sys.service.OfficeService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,11 @@ public class OfficeController {
      *
      * @return
      */
+    @Log("部门列表")
+    @RequiresPermissions("office:list")
     @RequestMapping("/list")
-    public String list() {
+    public String list(OfficeModel officeModel,Model model) {
+        model.addAttribute("office",officeModel);
         return PAGE_SUFFIX + "/office-list";
     }
 
@@ -78,7 +82,8 @@ public class OfficeController {
      * @param office
      * @return
      */
-    @Log("编辑部门")
+    @Log("保存|编辑部门")
+    @RequiresPermissions("office:edit")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
     public ResponseResult saveOrUpdate(OfficeModel office) {

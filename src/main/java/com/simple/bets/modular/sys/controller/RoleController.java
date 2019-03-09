@@ -82,8 +82,6 @@ public class RoleController extends BaseController {
      * @param model
      * @return
      */
-    @Log("新增|编辑-角色信息")
-    @RequiresPermissions("role:add")
     @RequestMapping("/form")
     public String form(RoleModel role, Model model) {
         if (null != role.getRoleId()) {
@@ -104,6 +102,7 @@ public class RoleController extends BaseController {
      * @return
      */
     @Log("保存|更新角色")
+    @RequiresPermissions("role:edit")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
     public ResponseResult saveOrUpdate(RoleModel role) {
@@ -124,18 +123,6 @@ public class RoleController extends BaseController {
             return ResponseResult.error("操作角色信息失败，请联系网站管理员！");
         }
         return ResponseResult.ok("保存成功");
-    }
-
-    @RequestMapping("/excel")
-    @ResponseBody
-    public ResponseResult roleExcel(RoleModel role) {
-        try {
-            List<RoleModel> list = this.roleService.findAllRole(role);
-            return FileUtil.createExcelByPOIKit("角色表", list, RoleModel.class);
-        } catch (Exception e) {
-            logger.error("导出角色信息Excel失败", e);
-            return ResponseResult.error("导出Excel失败，请联系网站管理员！");
-        }
     }
 
     /**
@@ -227,6 +214,7 @@ public class RoleController extends BaseController {
      * @param role
      * @return
      */
+    @Log("授权角色")
     @RequestMapping("/assignRole")
     @ResponseBody
     public ResponseResult assignRole(RoleModel role) {
@@ -245,6 +233,7 @@ public class RoleController extends BaseController {
      * @param role
      * @return
      */
+    @Log("删除用户角色")
     @RequestMapping("/deleteUserRole")
     @ResponseBody
     public ResponseResult deleteUserRole(RoleModel role) {

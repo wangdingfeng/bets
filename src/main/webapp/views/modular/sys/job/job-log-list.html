@@ -5,12 +5,15 @@
             <h3 class="box-title">定时任务日志</h3>
             <div class="box-tools pull-right">
                 <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
-                <a href="#" class="btn btn-default btn-sm" id="btnDelJobLogs" title="批量删除"><i class="fa fa-trash"></i>
-                    批量删除</a>
+                <%if(hasPermi('jobLog:delete')){%>
+                    <a href="#" class="btn btn-default btn-sm" id="btnDelJobLogs" title="批量删除"><i class="fa fa-trash"></i>
+                        批量删除</a>
+                <%}%>
             </div>
         </div>
         <div class="box-body">
             <form id="searchForm" action="${ctxPath}/sys/job/logListData" method="post" class="form-inline hide">
+                <input id="pageSize" name="pageSize" type="hidden" value="50">
                 <div class="form-group">
                     <label class="control-label">方法名称:</label>
                     <div class="control-inline">
@@ -57,7 +60,9 @@
                 title: false,
                 formatter: function (val, obj, row, act) {
                     var actions = [];
-                    actions.push('<a href="${ctxPath}/sys/job/deleteJobLog?ids=' + row.logId + '" class="btnList" title="删除调度日志" data-confirm="确认要删除调度日志吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                    <%if(hasPermi('jobLog:delete')){%>
+                        actions.push('<a href="${ctxPath}/sys/job/deleteJobLog?ids=' + row.logId + '" class="btnList" title="删除调度日志" data-confirm="确认要删除调度日志吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                     <%}%>
                     return actions.join('');
                 }
             }

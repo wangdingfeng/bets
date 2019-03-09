@@ -42,6 +42,12 @@ public class UserController extends BaseController {
     @Autowired
     private OfficeService officeService;
 
+    /**
+     * 查看用户列表
+     * @param model
+     * @return
+     */
+    @Log("查看用户列表")
     @RequestMapping("/list")
     @RequiresPermissions("user:list")
     public String list(Model model) {
@@ -95,13 +101,12 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 保存更新用户
-     *
+     *保存更新用户
      * @param user
      * @return
      */
-    @Log("新增用户")
-    @RequiresPermissions("user:add")
+    @Log("保存更新用户")
+    @RequiresPermissions("user:edit")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
     public ResponseResult saveOrUpdate(UserModel user) {
@@ -158,10 +163,10 @@ public class UserController extends BaseController {
 
     /**
      * 修改密码
-     *
      * @param newPassword
      * @return
      */
+    @Log("修改密码")
     @RequestMapping("/updatePassword")
     @ResponseBody
     public ResponseResult updatePassword(String newPassword) {
@@ -189,17 +194,13 @@ public class UserController extends BaseController {
         model.addAttribute("user", user);
         //获取用户角色信息
         List<RoleModel> roleList = roleService.findUserRole(user.getUsername());
-        String roles = "";
-        for (RoleModel role : roleList) {
-            roles += role.getRoleName() + ",";
-        }
+        String roles = StringUtils.join(roleList,",");;
         model.addAttribute("roles", roles);
         return PAGE_SUFFIX + "/user-info";
     }
 
     /**
      * 处理头像
-     *
      * @return
      */
     @RequestMapping("/dealAvatar")
@@ -212,10 +213,10 @@ public class UserController extends BaseController {
 
     /**
      * 更新个人信息
-     *
      * @param user
      * @return
      */
+    @Log("更新个人信息")
     @RequestMapping("/updateUserProfile")
     @ResponseBody
     public ResponseResult updateUserProfile(UserModel user) {
@@ -233,6 +234,11 @@ public class UserController extends BaseController {
         }
     }
 
+    /**
+     * 获取用户信息
+     * @param userId
+     * @return
+     */
     @RequestMapping("/getUserProfile")
     @ResponseBody
     public ResponseResult getUserProfile(Long userId) {
@@ -246,6 +252,12 @@ public class UserController extends BaseController {
         }
     }
 
+    /**
+     * 更换头像
+     * @param imgName
+     * @return
+     */
+    @Log("更换头像")
     @RequestMapping("/changeAvatar")
     @ResponseBody
     public ResponseResult changeAvatar(String imgName) {

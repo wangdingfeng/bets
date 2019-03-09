@@ -72,15 +72,15 @@ public class MenuController extends BaseController {
     public String form(MenuModel menu, Model model) {
         if (null != menu.getId()) {
             menu = menuService.findById(menu.getId());
-        }
-        // 获取排序号，最末节点排序号+30
-        if (null != menu.getId()) {
+            // 获取排序号，最末节点排序号+30
             List<MenuModel> list = new ArrayList<>();
             List<MenuModel> sourcelist = menuService.findAllMenus(new MenuModel());
             MenuModel.sortList(list, sourcelist, menu.getParentId(), false);
             if (list.size() > 0) {
                 menu.setSort(list.get(list.size() - 1).getSort() + 30);
             }
+        }else{
+            menu.setSort(30);
         }
         model.addAttribute("menu", menu);
         return PAGE_SUFFIX + "/menu-form";
@@ -92,6 +92,7 @@ public class MenuController extends BaseController {
      * @param menu
      * @return
      */
+    @Log("保存|更新菜单")
     @RequestMapping("/saveOrUpdate")
     @ResponseBody
     public ResponseResult saveOrUpdate(MenuModel menu) {
@@ -103,10 +104,10 @@ public class MenuController extends BaseController {
         }
         try {
             menuService.saveOrUpdate(menu);
-            return ResponseResult.ok("新增" + name + "成功！");
+            return ResponseResult.ok("操作" + name + "成功！");
         } catch (Exception e) {
-            logger.error("新增" + name + "失败", e);
-            return ResponseResult.error("新增" + name + "失败，请联系网站管理员！");
+            logger.error("操作" + name + "失败", e);
+            return ResponseResult.error("操作" + name + "失败，请联系网站管理员！");
         }
     }
 
@@ -159,6 +160,7 @@ public class MenuController extends BaseController {
     /**
      * 批量修改菜单排序
      */
+    @Log("批量修改菜单排序")
     @RequestMapping(value = "updateSort")
     @ResponseBody
     public ResponseResult updateSort(Long[] ids, Integer[] sorts) {

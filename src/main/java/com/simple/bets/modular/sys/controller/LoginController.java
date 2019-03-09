@@ -48,6 +48,7 @@ public class LoginController extends BaseController {
      *
      * @return
      */
+    @Log("用户登录")
     @PostMapping("/login")
     public String login(String username, String password, Boolean rememberMe, Model model, HttpServletRequest request) {
         // 密码 MD5 加密
