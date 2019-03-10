@@ -32,3 +32,10 @@ AdminBets是一个简单的脚手架权限管理系统。项目基础框架采�
 
 ### 预览
 ![image](https://github.com/wangdingfeng/bets/blob/master/img/WX20190310-142602%402x.png)
+![image](https://github.com/wangdingfeng/bets/blob/master/img/WX20190310-142648%402x.png)
+![image](https://github.com/wangdingfeng/bets/blob/master/img/WX20190310-142718%402x.png)
+![image](https://github.com/wangdingfeng/bets/blob/master/img/WX20190310-142752%402x.png)
+![image](https://github.com/wangdingfeng/bets/blob/master/img/WX20190310-142904%402x.png)
+![image](https://github.com/wangdingfeng/bets/blob/master/img/WX20190310-142938%402x.png)
+![image](https://github.com/wangdingfeng/bets/blob/master/img/WX20190310-142959%402x.png)
+![image](https://github.com/wangdingfeng/bets/blob/master/img/WX20190310-143034%402x.png)
