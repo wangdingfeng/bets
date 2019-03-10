@@ -20,7 +20,7 @@
                                 <span class="required " aria-required="true">*</span> 上级部门
                             </label>
                             <div class="col-sm-8">
-                                <#treeInput id="parentOfficeId" name="" class="required" url='/office/getOfficeTree'
+                                <#treeInput id="parentOfficeId" name="" class="required" url='/sys/office/getOfficeTree'
                                 hiddenName="parentId" hiddenValue='${office.parentId!}'/>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
                                 备注
