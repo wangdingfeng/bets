@@ -29,3 +29,6 @@ AdminBets是一个简单的脚手架权限管理系统。项目基础框架采�
 
 ### 特别感谢
 项目中采用的table插件是由jeesite4坐着封装的jqgrid插件，前端有的内容确实参考了jeesite4，所以页面布局会比较相似jeesite4。jeesite请移步：https://jeesite.gitee.io/
+
+### 预览
+![image](https://github.com/wangdingfeng/bets/blob/master/img/WX20190310-142602%402x.png)
