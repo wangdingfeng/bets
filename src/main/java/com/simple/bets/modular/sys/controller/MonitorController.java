@@ -69,6 +69,9 @@ public class MonitorController extends BaseController {
     @RequestMapping("/sys/session/forceLogout")
     public ResponseResult forceLogout(String id) {
         try {
+            if(id.equals(getSubject().getSession().getId())){
+                return ResponseResult.error("不允许踢出当前用户");
+            }
             monitorService.forceLogout(id);
             return ResponseResult.ok("操作成功");
         } catch (Exception e) {
