@@ -7,8 +7,7 @@
                 <div class="box-body box-profile">
                     <img id="avatarImg" class="profile-user-img img-responsive img-circle"
                          src="${user.avatar}"
-                         onError="this.src='${ctxStatic}/img/avatar04.png';this.onError=null;"/>
-                    <input id="imageBase64" name="imageBase64" type="hidden" value="" class=""/>
+                         onError="this.src='${ctxPath}/img/avatar04.png';this.onError=null;"/>
                     <script>
                         $("#avatarImg").click(function () {
                             bet.layer.open({
@@ -20,7 +19,7 @@
                                 content: '${ctxPath}/sys/user/dealAvatar',
                                 contentFormData: {
                                     circle: 'true',
-                                    imageDefaultSrc: '${ctxStatic}/img/avatar04.png'
+                                    imageDefaultSrc: '${ctxPath}/img/avatar04.png'
                                 },
                                 btn: ['<i class="fa fa-check"></i> 确定',
                                     '<i class="fa fa-eraser"></i> 清除',
@@ -38,7 +37,7 @@
                                     bet.layer.close(index);
                                 },
                                 btn2: function (index, layero) {
-                                    $("#avatarImg").attr("src", "${ctxStatic}/img/avatar04.png");
+                                    $("#avatarImg").attr("src", "${ctxPath}/img/avatar04.png");
                                     $("#imageBase64").val("EMPTY").change();
                                 }
                             });
@@ -79,6 +78,7 @@
                                 <form style="margin: 10px" id="inputForm" class="form-horizontal">
                                     <input name="userId" type="hidden" value="${user.userId}"/>
                                     <input name="username" type="hidden" value="${user.username}"/>
+                                    <input id="imageBase64" name="imageBase64" type="hidden" value="" class=""/>
                                     <div class="row">
                                         <div class="form-group">
                                             <label class="control-label col-sm-4" title="电话">
