@@ -205,7 +205,7 @@ public class RoleController extends BaseController {
         model.addAttribute("checkbox", checkbox);
         model.addAttribute("role", role);
 
-        return PAGE_SUFFIX + "/selectUserToRole";
+        return PAGE_SUFFIX + "/select-user-role";
     }
 
     /**

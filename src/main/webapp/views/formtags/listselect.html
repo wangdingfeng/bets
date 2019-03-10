@@ -1,17 +1,29 @@
-<div class="input-group treeselect" id="${id}Div" data-url="${url}">
-    <input id="${id}Code" type="hidden" name="" value="" class="isReset">
-    <input id="${id}Name" type="text" name="" value="" class="form-control  " readonly="readonly"><span class="input-group-btn"><a id="${id}Button" href="javascript:" class="btn btn-default "><i class="fa fa-search"></i></a>
+<%
+    var p={
+        id:id!"",
+        url:url!"",
+        title:title!"选择列表",//dialog标题
+        checkbox:checkbox!"true",//是否多选
+        itemCode:itemCode!"",//保存的id
+        itemName:itemName!""//保存的name
+    };
+%>
+<div class="input-group treeselect" id="${p.id}Div" data-url="${p.url}">
+    <input id="${p.id}Code" type="hidden" name="" value="" class="isReset">
+    <input id="${p.id}Name" type="text" name="" value="" class="form-control  " readonly="readonly"><span
+        class="input-group-btn"><a id="${p.id}Button" href="javascript:" class="btn btn-default "><i
+        class="fa fa-search"></i></a>
 	</span>
 </div>
 <script>
 
-    $("#${id}Button,#${id}Name").click(function(){
-        if ($("#${id}Button").hasClass("disabled")){
+    $("#${id}Button,#${p.id}Name").click(function () {
+        if ($("#${p.id}Button").hasClass("disabled")) {
             return true;
         }
         var selectData = {},
-            boxWidth = $(top.window).width() - 100,
-            boxHeight = $(top.window).height() - 100;
+            boxWidth = $(top.window).width() - 600,
+            boxHeight = $(top.window).height() - 300;
 
         boxWidth = boxWidth < 350 ? 350 : boxWidth;
         boxHeight = boxHeight < 250 ? 250 : boxHeight;
@@ -30,42 +42,44 @@
             type: 2,
             maxmin: true,
             shadeClose: true,
-            title: '用户选择',
-            area: [boxWidth+'px', boxHeight+'px'],
-            content: ($('#${id}Div').attr('data-url')+"&checkbox=${checkbox}&selectData=" + bet.encodeURI(JSON.stringify(selectData))),
-            success: function(layero, index){
-                if ($(bet.layer.window).width() < boxWidth || $(bet.layer.window).height() < boxHeight){
+            scrollbar: false,
+            title: "${p.title}",
+            area: [boxWidth + 'px', boxHeight + 'px'],
+            content: ($('#${p.id}Div').attr('data-url') + "&checkbox=${p.checkbox}&selectData=" + bet.encodeURI(JSON.stringify(selectData))),
+            success: function (layero, index) {
+                if ($(bet.layer.window).width() < boxWidth || $(bet.layer.window).height() < boxHeight) {
                     bet.layer.full(index);
                 }
             },
             btn: ['<i class="fa fa-check"></i> 确定', '<i class="fa fa-close"></i> 关闭'],
-            btn1: function(index, layero){
+            btn1: function (index, layero) {
                 var win = bet.layer.iframeWindow(index);
                 selectData = win.getSelectData();
-                console.info(selectData);
-
                 // 点击确定，获取用户选择数据
                 var codes = [], names = [];
-                $.each(selectData, function(key, value){
-                    codes.push(value['${itemCode}']);
-                    names.push(value['${itemName}']);
+                $.each(selectData, function (key, value) {
+                    codes.push(value['${p.itemCode}']);
+                    names.push(value['${p.itemName}']);
                 });
 
-                $('#${id}Code').val(codes.join(',')).change();
-                $('#${id}Name').val(names.join(',')).change();
+                $('#${p.id}Code').val(codes.join(',')).change();
+                $('#${p.id}Name').val(names.join(',')).change();
 
-                bet.print($('#${id}Code').val());
-                bet.print($('#${id}Name').val());
+                bet.print($('#${p.id}Code').val());
+                bet.print($('#${p.id}Name').val());
 
-                try { $('#${id}Code,#${id}Name').valid(); }catch(e){}
-                if(typeof listselectCallback == 'function'){
-                    listselectCallback('${id}', 'ok', index, layero, selectData);
+                try {
+                    $('#${p.id}Code,#${p.id}Name').valid();
+                } catch (e) {
+                }
+                if (typeof listselectCallback == 'function') {
+                    listselectCallback('${p.id}', 'ok', index, layero, selectData);
                 }
                 bet.layer.close(index);
             },
-            btn2: function(index, layero){
-                if(typeof listselectCallback == 'function'){
-                    listselectCallback('${id}', 'cancel', index, layero);
+            btn2: function (index, layero) {
+                if (typeof listselectCallback == 'function') {
+                    listselectCallback('${p.id}', 'cancel', index, layero);
                 }
             }
         };

@@ -1,12 +1,11 @@
 <%
+	var p = {
+		id:id!"",
+		name:name!"",
+		value:value!""
+	};
 
-var p = {
-id:id!"",
-name:name!"",
-value:value!""
-};
-
-var icon = isEmpty(value)?"fa fa-fw":value;
+	var icon = isEmpty(value)?"fa fa-fw":value;
 %>
 
 <div class="input-group">
@@ -41,17 +40,17 @@ var icon = isEmpty(value)?"fa fa-fw":value;
                 var win = bet.layer.iframeWindow(index);
                 var icon = win.$("#icon").val();
                 if (icon != null && icon != "") {
-                    $("#${id}Icon").attr("class", icon);
+                    $("#${p.id}Icon").attr("class", icon);
                     //$("#${id}IconLabel").text(icon);
-                    $("#${id}").val(icon);
+                    $("#${p.id}").val(icon);
                 }
 
                 bet.layer.close(index);
             },
             btn2: function (index, layero) {
-                $("#${id}Icon").attr("class", "");
+                $("#${p.id}Icon").attr("class", "");
                 //$("#${id}IconLabel").text("无");
-                $("#${id}").val("");
+                $("#${p.id}").val("");
             }
         });
     });

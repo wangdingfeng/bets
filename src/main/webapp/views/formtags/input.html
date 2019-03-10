@@ -1,16 +1,31 @@
+<%
+    var p ={
+        id:id!"",
+        type:type!"text",
+        name:name!id,
+        value:value!"",
+        class:class!"form-control",
+        inputIcon:inputIcon!"",//图标
+        readonly:readonly!"",
+        style:style!"",//控件自定义样式
+        autocomplete:autocomplete!"",//输入框缓存
+        hidden:hidden!"",//隐藏域
+        hiddenValue:hiddenValue!""//隐藏域值
+    };
 
-		<%if(isNotEmpty(inputIcon)){%>
-		<div class="input-group" readonly="readonly">
-			<div class="input-group-addon">
-				<i class="${inputIcon}"></i>
-			</div>
-			<%}%>
-			<input type="${type!'text'}" class="${class!''}" id="${id !''}" name="${id !''}" value="${value!''}" ${isNotEmpty(readonly) ? 'readonly':''} onclick="${clickFun!''}" style="${style!''}" autocomplete="${autocomplete!}" >
-			<%if(isNotEmpty(hidden)){%>
-			<input class="form-control" type="hidden" id="${hidden}" value="${hiddenValue!}">
-			<%}%>
-		<%if(isNotEmpty(inputIcon)){%>
-			</div>
-		<%}%>
+%>
+<%if(isNotEmpty(p.inputIcon)){%>
+<div class="input-group" readonly="readonly">
+    <div class="input-group-addon">
+        <i class="${p.inputIcon}"></i>
+    </div>
+    <%}%>
+    <input type="${p.type}" class="${p.class}" id="${p.id}" name="${p.name}" value="${p.value}" ${p.readonly} style="${p.style}" autocomplete="${p.autocomplete}" >
+    <%if(isNotEmpty(p.hidden)){%>
+        <input class="form-control" type="hidden" id="${hidden}" value="${hiddenValue!}">
+    <%}%>
+    <%if(isNotEmpty(p.inputIcon)){%>
+</div>
+<%}%>
 
 

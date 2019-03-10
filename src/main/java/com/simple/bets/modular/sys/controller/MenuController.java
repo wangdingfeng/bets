@@ -154,7 +154,7 @@ public class MenuController extends BaseController {
     @RequestMapping("/iconselect")
     public String iconselect(HttpServletRequest request, Model model) {
         model.addAttribute("value", request.getParameter("value"));
-        return PAGE_SUFFIX + "/tagIconselect";
+        return PAGE_SUFFIX + "/tag-icon-select";
     }
 
     /**

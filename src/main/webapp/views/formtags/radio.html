@@ -3,13 +3,14 @@
 		id: id!name,
 		class:class!"",
 		name:name!'',
-		dictType:dictType!''
+		dictType:dictType!'',
+		disabled:disabled!''//不可编辑
 	};
 	var dictList = DictUtils.getDictList(dictType);
 %>
 <span class="icheck">
 <%for(dict in dictList) {%>
-	<label id="${id}"><input type="radio" name="${name}" class="${class}" value="${dict.dictValue}" ${dict.dictValue == value ? 'checked':''}/> ${dict.dictLabel} </label>
+	<label id="${p.id}"><input type="radio" name="${p.name}" class="${p.class}" value="${dict.dictValue}" ${dict.dictValue == value ? 'checked':''} ${p.disabled}/> ${dict.dictLabel} </label>
 <%}%>
 </span>
 	

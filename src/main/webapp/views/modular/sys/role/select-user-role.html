@@ -52,10 +52,7 @@
                         return bet.transDictLabel(${DictUtils.getDictListJson('sex')}, val, '<font color=#aaa>未设置</font>');
                     }
                 },
-                {header: '电子邮件', name: 'email', index: 'email', width: 100, align: "center"},
-                {header: '电话', name: 'mobile', index: 'mobile', width: 100, align: "center"},
                 {header: '部门', name: 'deptName', index: 'dept_name', width: 100, align: "center"},
-                {header: '备注', name: 'remarks', index: 'remarks', width: 100, align: "center"},
                 {header: '用户状态', name: 'userStatus', index: 'user_status', width: 80, align: "center",formatter: function(val, obj, row, act){
                         if(val == '0'){
                             return '<i class="icon-lock " title="正常" style="color: red"></i>';

@@ -1,3 +1,15 @@
-
-
-<textarea id="${id}" name="${id}" cols="${cols!''}" rows="${rows}" class="${class}" >${value!''}</textarea>
+<%
+    var p={
+        id:id!"",
+        name:name!id,
+        class:class!"form-control",
+        style:style!"",
+        cols:cols!"",
+        rows:rows!"",
+        value:value!"",
+        disabled:disabled!"",//规定禁用该文本区
+        maxlength:maxlength!"number",//规定文本区域的最大字符数
+        readonly:readonly!"" //	规定文本区为只读
+    };
+%>
+<textarea id="${p.id}" name="${p.name}" class="${p.class}" cols="${p.cols}" rows="${p.rows}"  ${p.readonly} ${p.disabled} style="${p.style}">${p.value}</textarea>
