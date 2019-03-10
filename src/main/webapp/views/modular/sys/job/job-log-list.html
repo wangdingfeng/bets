@@ -6,7 +6,7 @@
             <div class="box-tools pull-right">
                 <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
                 <%if(hasPermi('jobLog:delete')){%>
-                    <a href="#" class="btn btn-default btn-sm" id="btnDelJobLogs" title="批量删除"><i class="fa fa-trash"></i>
+                    <a href="javascript:void(0)" class="btn btn-default btn-sm" id="btnDelJobLogs" title="批量删除"><i class="fa fa-trash"></i>
                         批量删除</a>
                 <%}%>
             </div>
@@ -84,8 +84,12 @@
         bet.ajax('${ctxPath}/sys/job/deleteJobLog', {
             ids: jobLogIds.join(',')
         }, function (data) {
-            if (data.success) $('#dataGrid').dataGrid('refresh');
-            bet.showMessage(data.message);
+            if (data.success){
+                $('#dataGrid').dataGrid('refresh');
+                bet.showMessage(data.message);
+            }else{
+                bet.showErrorMessage(data.message);
+            }
 
         });
     });

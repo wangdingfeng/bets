@@ -6,7 +6,7 @@
             <div class="box-tools pull-right">
                 <a href="#" class="btn btn-default btn-sm" id="btnSearch" title="查询"><i class="fa fa-filter"></i> 查询</a>
                 <%if(hasPermi('log:delete')){%>
-                    <a href="#" class="btn btn-default btn-sm" id="btnDelLogs" title="批量删除"><i class="fa fa-trash"></i>
+                    <a href="javascript:void(0)" class="btn btn-default btn-sm" id="btnDelLogs" title="批量删除"><i class="fa fa-trash"></i>
                         批量删除</a>
                 <%}%>
             </div>
@@ -76,13 +76,17 @@
         //获取行数据
         var logIds = new Array();
         for (var i = 0; i < selectRowId.length; i++) {
-            logIds[i] = $('#dataGrid').dataGrid('getRowData', selectRowId[i]).logId;
+            logIds[i] = $('#dataGrid').dataGrid('getRowData', selectRowId[i]).id;
         }
         bet.ajax('${ctxPath}/sys/log/delete', {
             ids: logIds.join(',')
         }, function (data) {
-            if (data.success) $('#dataGrid').dataGrid('refresh');
-            bet.showMessage(data.message);
+            if (data.success){
+                $('#dataGrid').dataGrid('refresh');
+                bet.showMessage(data.message);
+            }else{
+                bet.showErrorMessage(data.message);
+            }
 
         });
     });
