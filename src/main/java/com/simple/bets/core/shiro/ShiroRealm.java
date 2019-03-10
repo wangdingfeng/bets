@@ -1,5 +1,6 @@
 package com.simple.bets.core.shiro;
 
+import com.simple.bets.core.common.util.BetsConstant;
 import com.simple.bets.modular.sys.model.MenuModel;
 import com.simple.bets.modular.sys.model.RoleModel;
 import com.simple.bets.modular.sys.model.UserModel;
@@ -43,12 +44,6 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
-    //用户登录次数计数  redisKey 前缀
-    private String SHIRO_LOGIN_COUNT = "shiro_login_count_";
-
-    //用户登录是否被锁定    一小时 redisKey 前缀
-    private String SHIRO_IS_LOCK = "shiro_is_lock_";
-
     /**
      * 授权模块，获取用户角色和权限
      *
@@ -90,15 +85,16 @@ public class ShiroRealm extends AuthorizingRealm {
 
         //访问一次，计数一次
         ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
-        opsForValue.increment(SHIRO_LOGIN_COUNT+userName, 1);
+        opsForValue.increment(BetsConstant.SHIRO_LOGIN_COUNT+userName, 1);
         //计数大于5时，设置用户被锁定一小时
-        if(Integer.parseInt(opsForValue.get(SHIRO_LOGIN_COUNT+userName))>=5){
-            opsForValue.set(SHIRO_IS_LOCK+userName, "LOCK");
-            stringRedisTemplate.expire(SHIRO_IS_LOCK+userName, 1, TimeUnit.HOURS);
+        Integer count = Integer.parseInt(opsForValue.get(BetsConstant.SHIRO_LOGIN_COUNT+userName));
+        if(count >= 5){
+            opsForValue.set(BetsConstant.SHIRO_IS_LOCK+userName, "LOCK");
+            stringRedisTemplate.expire(BetsConstant.SHIRO_IS_LOCK+userName, 1, TimeUnit.HOURS);
         }
-        if ("LOCK".equals(opsForValue.get(SHIRO_IS_LOCK+userName))){
+        if ("LOCK".equals(opsForValue.get(BetsConstant.SHIRO_IS_LOCK+userName))){
             logger.info("由于密码输入错误次数大于5次，帐号已经禁止登录,请一个小时后重试！");
-            throw new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录,请一个小时后重试！请联系管理员");
+            throw new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录,请一个小时后重试！或者联系管理员");
         }
 
         // 通过用户名到数据库查询用户信息
@@ -107,11 +103,11 @@ public class ShiroRealm extends AuthorizingRealm {
         if (user == null)
             throw new UnknownAccountException("用户名或密码错误！");
         if (!password.equals(user.getPassword()))
-            throw new IncorrectCredentialsException("用户名或密码错误！");
+            throw new IncorrectCredentialsException("用户名或密码错误！您还有"+(5-count)+"次机会！");
         if (UserModel.STATUS_LOCK.equals(user.getUserStatus()))
             throw new LockedAccountException("账号已被锁定,请联系管理员！");
         //清空登录计数
-        opsForValue.set(SHIRO_LOGIN_COUNT+userName, "0");
+        opsForValue.set(BetsConstant.SHIRO_LOGIN_COUNT+userName, "0");
         return new SimpleAuthenticationInfo(user, password, getName());
     }
 

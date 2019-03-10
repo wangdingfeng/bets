@@ -68,11 +68,12 @@
                         var actions = [];
                         <%if(hasPermi('user:edit')){%>
                             actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="编辑用户"><i class="fa fa-pencil"></i></a>&nbsp;');
-                            if(row.userStatus == '1') actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="停用用户"><i class="icon-lock" style="color: red"></i></a>&nbsp;');
-                            if(row.userStatus == '0') actions.push('<a href="/sys/user/form?userId=' + row.userId + '" class="btnList" title="启用用户"><i class="icon-lock-open"></i></a>&nbsp;');
+                            if(row.userStatus == '1') actions.push('<a href="/sys/user/updateUserStatus?userId=' + row.userId + '&userStatus=0" class="btnList" title="停用用户" data-confirm="确认要停用用户吗？"><i class="icon-lock" style="color: red"></i></a>&nbsp;');
+                            if(row.userStatus == '0') actions.push('<a href="/sys/user/updateUserStatus?userId=' + row.userId + '&userStatus=1" class="btnList" title="启用用户" data-confirm="确认要启用用户吗？"><i class="icon-lock-open"></i></a>&nbsp;');
+                            actions.push('<a href="/sys/user/resetPassword?userId=' + row.userId+'&username='+row.username+'" class="btnList" title="重置用户密码" data-confirm="确认要重置用户密码吗？"><i class="fa fa-retweet"></i></a>&nbsp;');
                          <%}%>
                         <%if(hasPermi('user:delete')){%>
-                                actions.push('<a href="${ctxPath}/sys/user/delete?id=' + row.userId + '" class="btnList" title="删除用户" data-confirm="确认要删除用户信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
+                             actions.push('<a href="${ctxPath}/sys/user/delete?id=' + row.userId + '" class="btnList" title="删除用户" data-confirm="确认要删除用户信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');
                          <%}%>
                         return actions.join('');
                     }

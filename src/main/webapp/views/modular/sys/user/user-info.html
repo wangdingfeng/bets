@@ -7,7 +7,7 @@
                 <div class="box-body box-profile">
                     <img id="avatarImg" class="profile-user-img img-responsive img-circle"
                          src="${user.avatar}"
-                         onError="this.src='${ctxPath}/img/avatar04.png';this.onError=null;"/>
+                         onError="this.src='${ctxStatic}/img/avatar04.png';this.onError=null;"/>
                     <input id="imageBase64" name="imageBase64" type="hidden" value="" class=""/>
                     <script>
                         $("#avatarImg").click(function () {
@@ -20,7 +20,7 @@
                                 content: '${ctxPath}/sys/user/dealAvatar',
                                 contentFormData: {
                                     circle: 'true',
-                                    imageDefaultSrc: '${ctxPath}/img/avatar04.png'
+                                    imageDefaultSrc: '${ctxStatic}/img/avatar04.png'
                                 },
                                 btn: ['<i class="fa fa-check"></i> 确定',
                                     '<i class="fa fa-eraser"></i> 清除',
@@ -38,7 +38,7 @@
                                     bet.layer.close(index);
                                 },
                                 btn2: function (index, layero) {
-                                    $("#avatarImg").attr("src", "${ctxPath}/img/avatar04.png");
+                                    $("#avatarImg").attr("src", "${ctxStatic}/img/avatar04.png");
                                     $("#imageBase64").val("EMPTY").change();
                                 }
                             });
@@ -149,31 +149,31 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="password">
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" id="passwordFrom">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">旧密码</label>
                                     <div class="col-sm-10">
-                                        <#input id="password" class="form-control required" underline="true" type="password"
+                                        <#input id="oldPassword" class="form-control required" underline="true" type="password"
                                         inputIcon="fa fa-key"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">新密码</label>
                                     <div class="col-sm-10">
-                                        <#input id="npassword" class="form-control required" underline="true" type="password"
+                                        <#input id="newPassword" class="form-control required" underline="true" type="password"
                                         inputIcon="fa fa-key"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">确认密码</label>
                                     <div class="col-sm-10">
-                                        <#input id="qnpassword" class="form-control required" underline="true" type="password"
+                                        <#input id="qPassword" class="form-control required" underline="true" type="password"
                                         inputIcon="fa fa-key"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i
+                                        <button type="submit" class="btn btn-sm btn-primary"><i
                                                 class="fa fa-check"></i> 确认修改
                                     </div>
                                 </div>
@@ -187,10 +187,22 @@
 </div>
 <% } %>
 <script>
-    //提交用户表单
+    //修改用户信息
     $("#inputForm").validate({
         submitHandler: function (form) {
             bet.ajax("${ctxPath}/sys/user/updateUserProfile", $(form).serializeArray(), function (data) {
+                if (data.success) {
+                    bet.showMessage(data.message);
+                } else {
+                    bet.showErrorMessage(data.message);
+                }
+            });
+        }
+    });
+    //修改用户密码
+    $("#passwordFrom").validate({
+        submitHandler: function (form) {
+            bet.ajax("${ctxPath}/sys/user/updatePassword", $(form).serializeArray(), function (data) {
                 if (data.success) {
                     bet.showMessage(data.message);
                 } else {

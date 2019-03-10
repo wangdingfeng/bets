@@ -1,23 +1,23 @@
 package com.simple.bets.modular.sys.service.impl;
 
+import com.simple.bets.core.common.exception.ServiceException;
+import com.simple.bets.core.common.util.BetsConstant;
 import com.simple.bets.core.common.util.IPUtils;
 import com.simple.bets.core.common.util.MD5Utils;
 import com.simple.bets.modular.sys.dao.UserMapper;
-import com.simple.bets.modular.sys.dao.UserRoleMapper;
 import com.simple.bets.modular.sys.model.UserModel;
-import com.simple.bets.modular.sys.model.UserRoleModel;
 import com.simple.bets.modular.sys.model.UserWithRoleDTO;
 import com.simple.bets.core.base.service.impl.ServiceImpl;
 import com.simple.bets.modular.sys.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,9 +34,8 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
 
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
-    private UserRoleMapper userRoleMapper;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public UserModel findByName(String userName) {
@@ -72,15 +71,6 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
         return user;
     }
 
-    private void setUserRoles(UserModel user, Long[] roles) {
-        Arrays.stream(roles).forEach(roleId -> {
-            UserRoleModel ur = new UserRoleModel();
-            ur.setUserId(user.getUserId());
-            ur.setRoleId(roleId);
-            this.userRoleMapper.insert(ur);
-        });
-    }
-
     @Override
     @Transactional
     public void updateLoginInfo(String userName, HttpServletRequest request) {
@@ -94,12 +84,20 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
 
     @Override
     @Transactional
-    public void updatePassword(String password) {
+    public void updatePassword(String oldPassword,String newPassword) {
         UserModel user = (UserModel) SecurityUtils.getSubject().getPrincipal();
+        String newPasswordMD5 = MD5Utils.encryptBasedDes(user.getUsername().toLowerCase() + newPassword);
+        //校验密码是否正确
+        if(!MD5Utils.decryptBasedDes(user.getPassword()).equals(user.getUsername().toLowerCase()+oldPassword)){
+            throw new ServiceException("原始密码不正确");
+        }
+        //校验新密码和旧密码是否相同
+        if(newPasswordMD5.equals(user.getPassword())){
+            throw new ServiceException("新密码和旧密码相同");
+        }
         Example example = new Example(UserModel.class);
         example.createCriteria().andCondition("username=", user.getUsername());
-        String newPassword = MD5Utils.encryptBasedDes(user.getUsername().toLowerCase() + password);
-        user.setPassword(newPassword);
+        user.setPassword(newPasswordMD5);
         this.userMapper.updateByExampleSelective(user, example);
     }
 
@@ -125,6 +123,23 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
         user.setUsername(null);
         user.setPassword(null);
         this.updateNotNull(user);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void updateUserStatus(UserModel userModel) {
+        super.updateNotNull(userModel);
+    }
+
+    @Override
+    public void resetPassword(UserModel userModel) {
+        //判断用户是否被锁
+        if(stringRedisTemplate.hasKey(BetsConstant.SHIRO_IS_LOCK+userModel.getUsername())){
+            stringRedisTemplate.delete(BetsConstant.SHIRO_LOGIN_COUNT+userModel.getUsername());
+            stringRedisTemplate.delete(BetsConstant.SHIRO_IS_LOCK+userModel.getUsername());
+        }
+        userModel.setPassword(MD5Utils.encryptBasedDes(userModel.getUsername().toLowerCase() + BetsConstant.RESET_PASSWORD));
+        super.updateNotNull(userModel);
     }
 
 }

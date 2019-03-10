@@ -142,6 +142,7 @@ bets:
     logoutUrl: /logout
     # 未授权跳转 url
     unauthorizedUrl: /403
+#beetl模板路径
 beetl:
   root:
     path: /views/

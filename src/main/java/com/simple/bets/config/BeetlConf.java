@@ -1,20 +1,19 @@
 package com.simple.bets.config;
 
 import com.simple.bets.core.beetl.BeetlConfiguration;
-import org.beetl.core.resource.WebAppResourceLoader;
+import org.beetl.core.resource.ClasspathResourceLoader;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
 
-import java.io.IOException;
 
 /**
  * @ClassName: BeetlConfig
@@ -32,6 +31,9 @@ public class BeetlConf {
     @Autowired
     protected ResourceLoader resourceLoader;
 
+    @Value("${beetl.root.path}")
+    String templatesPath;
+
     /**
      * beetl配置
      *
@@ -40,10 +42,19 @@ public class BeetlConf {
     @Bean(initMethod = "init", name = "beetlConfig")
     public BeetlConfiguration getBeetlGroupUtilConfiguration() {
         BeetlConfiguration beetlGroupUtilConfiguration = new BeetlConfiguration();
+        // 配置beetl路径
         try {
-            // 配置beetl路径
+            //获取Spring Boot 的ClassLoader
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            if(loader==null){
+                loader = BeetlConfiguration.class.getClassLoader();
+            }
             ResourcePatternResolver resouce = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
             beetlGroupUtilConfiguration.setConfigFileResource(resouce.getResource("classpath:beetl.properties"));
+            //配置模板路径 以适应jar包启动形式
+            ClasspathResourceLoader cploder = new ClasspathResourceLoader(loader, templatesPath);
+            beetlGroupUtilConfiguration.setResourceLoader(cploder);
+            beetlGroupUtilConfiguration.init();
         } catch (Exception e) {
             logger.error("beetl配置不存在，请查看classpath下是否有此配置", e);
         }

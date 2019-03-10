@@ -62,9 +62,11 @@ public class LoginController extends BaseController {
         } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e) {
             logger.info(e.getMessage());
             model.addAttribute("error", e.getMessage());
+            model.addAttribute("username",username);
             return "login";
         } catch (AuthenticationException e) {
             model.addAttribute("error", e.getMessage());
+            model.addAttribute("username",username);
             return "login";
         }
     }

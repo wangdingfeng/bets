@@ -1,6 +1,7 @@
 package com.simple.bets.modular.sys.controller;
 
 import cn.hutool.core.util.RandomUtil;
+import com.simple.bets.core.common.exception.ServiceException;
 import com.simple.bets.core.common.util.ImageBase64Util;
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.base.controller.BaseController;
@@ -164,17 +165,23 @@ public class UserController extends BaseController {
 
     /**
      * 修改密码
-     * @param newPassword
+     * @param oldPassword
      * @return
      */
     @Log("修改密码")
     @RequestMapping("/updatePassword")
     @ResponseBody
-    public ResponseResult updatePassword(String newPassword) {
+    public ResponseResult updatePassword(String oldPassword,String newPassword,String qPassword) {
         try {
-            this.userService.updatePassword(newPassword);
+            if(!newPassword.equals(qPassword)){
+                return ResponseResult.error("两次输入密码不一样，请重新输入！");
+            }
+            this.userService.updatePassword(oldPassword,newPassword);
             return ResponseResult.ok("更改密码成功！");
-        } catch (Exception e) {
+        }catch (ServiceException e){
+            logger.error(e.getMessage());
+            return ResponseResult.error(e.getMessage());
+        }catch (Exception e) {
             logger.error("修改密码失败", e);
             return ResponseResult.error("更改密码失败，请联系网站管理员！");
         }
@@ -276,6 +283,42 @@ public class UserController extends BaseController {
         } catch (Exception e) {
             logger.error("更换头像失败", e);
             return ResponseResult.error("更新头像失败，请联系网站管理员！");
+        }
+    }
+
+    /**
+     * 修改用户状态
+     * @param userModel
+     * @return
+     */
+    @Log("修改用户状态")
+    @RequestMapping("/updateUserStatus")
+    @ResponseBody
+    public ResponseResult updateUserStatus(UserModel userModel){
+        try {
+            userService.updateUserStatus(userModel);
+            return ResponseResult.ok("修改成功");
+        } catch (Exception e) {
+            logger.error("修改用户状态失败", e);
+            return ResponseResult.error("操作用户状态失败，请联系网站管理员！");
+        }
+    }
+
+    /**
+     * 重置用户初始密码
+     * @param userModel
+     * @return
+     */
+    @Log("重置用户初始密码")
+    @RequestMapping("/resetPassword")
+    @ResponseBody
+    public ResponseResult resetPassword(UserModel userModel){
+        try {
+            userService.resetPassword(userModel);
+            return ResponseResult.ok("重置成功");
+        } catch (Exception e) {
+            logger.error("重置用户失败", e);
+            return ResponseResult.error("重置用户失败，请联系网站管理员！");
         }
     }
 }
