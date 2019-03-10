@@ -71,7 +71,7 @@ public abstract class BaseModel implements Serializable {
         this.creator = creator;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }
@@ -88,7 +88,7 @@ public abstract class BaseModel implements Serializable {
         this.operator = operator;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
     public Date getModifyTime() {
         return modifyTime;
     }
