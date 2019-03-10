@@ -70,18 +70,21 @@ public class MenuController extends BaseController {
      **/
     @RequestMapping("/form")
     public String form(MenuModel menu, Model model) {
-        if (null != menu.getId()) {
+        if (null != menu.getId() ) {
             menu = menuService.findById(menu.getId());
-            // 获取排序号，最末节点排序号+30
+        }
+        // 获取排序号，最末节点排序号+30
+        if(null == menu.getSort()){
             List<MenuModel> list = new ArrayList<>();
-            List<MenuModel> sourcelist = menuService.findAllMenus(new MenuModel());
+            MenuModel childMenu = new MenuModel();
+            childMenu.setParentId(menu.getParentId());
+            List<MenuModel> sourcelist = menuService.findAllMenus(childMenu);
             MenuModel.sortList(list, sourcelist, menu.getParentId(), false);
             if (list.size() > 0) {
                 menu.setSort(list.get(list.size() - 1).getSort() + 30);
             }
-        }else{
-            menu.setSort(30);
         }
+
         model.addAttribute("menu", menu);
         return PAGE_SUFFIX + "/menu-form";
     }
