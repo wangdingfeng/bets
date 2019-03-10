@@ -16,7 +16,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="status" jdbcType="CHAR" property="status" />
-    <result column="crate_time" jdbcType="TIMESTAMP" property="crateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
     <result column="sex" jdbcType="CHAR" property="sex" />
