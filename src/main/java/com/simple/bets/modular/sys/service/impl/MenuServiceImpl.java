@@ -50,13 +50,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuModel> implements MenuServi
         try {
             Example example = new Example(MenuModel.class);
             Criteria criteria = example.createCriteria();
-            if (StringUtils.isNotBlank(menu.getMenuName())) {
-                criteria.andCondition("menu_name=", menu.getMenuName());
+            if(null != menu.getParentId()){
+                criteria.andCondition("parent_id=", menu.getParentId());
             }
-            if (StringUtils.isNotBlank(menu.getType())) {
-                criteria.andCondition("type=", Long.valueOf(menu.getType()));
-            }
-            criteria.andCondition("parent_id=", null != menu.getParentId() ? menu.getParentId() : 0);
             example.setOrderByClause("id");
             return this.selectByExample(example);
         } catch (NumberFormatException e) {
