@@ -56,9 +56,8 @@
                                 <span class="required " aria-required="true">*</span> 生日
                             </label>
                             <div class="col-sm-8">
-                                <input name="birthday" class="form-control required" underline="true" type="text"
-                                       value="${user.birthday!,'yyyy-MM-dd'}" inputIcon="fa fa-calendar"
-                                       onclick="WdatePicker({dateFt:'yyyy-MM-dd'})" autocomplete="true">
+                                <#input id="birthday" class="form-control required" value="${user.birthday!}"
+                                inputIcon="fa fa-calendar" autocomplete="true" onclick="WdatePicker({dateFt:'yyyy-MM-dd'})" formatter="yyyy-MM-dd"/>
                             </div>
                         </div>
                     </div>
@@ -71,7 +70,7 @@
                                 <span class="required " aria-required="true">*</span> 密码
                             </label>
                             <div class="col-sm-8">
-                                <#input id="password" class="form-control required" underline="true" type="password"
+                                <#input id="password" class="form-control required" type="password"
                                 inputIcon="fa fa-key"/>
                             </div>
                         </div>

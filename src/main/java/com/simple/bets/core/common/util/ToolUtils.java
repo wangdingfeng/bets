@@ -7,10 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @ProjectName: better
@@ -197,6 +194,16 @@ public class ToolUtils {
         } else {
             return String.format("%d B", size);
         }
+    }
+
+    /**
+     * 日期格式化 beetl使用
+     * @param date
+     * @param dateFormatType
+     * @return
+     */
+    public static String dateFormat(Date date, String dateFormatType){
+        return DateUtil.date2Str(date,dateFormatType);
     }
 
 }

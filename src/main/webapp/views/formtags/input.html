@@ -6,14 +6,19 @@
         value:value!"",
         class:class!"form-control",
         inputIcon:inputIcon!"",//图标
+        formatter:formatter!"",//格式化日期
         readonly:readonly!"",
         style:style!"",//控件自定义样式
         autocomplete:autocomplete!"",//输入框缓存
-        maxlength:maxlength!"number",//规定文本区域的最大字符数
+        maxlength:maxlength!"10000",//规定文本区域的最大字符数
         hidden:hidden!"",//隐藏域
-        hiddenValue:hiddenValue!""//隐藏域值
+        hiddenValue:hiddenValue!"",//隐藏域值
+        onclick:onclick!""
     };
-
+    //格式化时间
+    if(isNotEmpty(formatter)){
+        p.value = tool.dateFormat(value,formatter);
+    }
 %>
 <%if(isNotEmpty(p.inputIcon)){%>
 <div class="input-group" readonly="readonly">
@@ -21,7 +26,7 @@
         <i class="${p.inputIcon}"></i>
     </div>
     <%}%>
-    <input type="${p.type}" class="${p.class}" id="${p.id}" name="${p.name}" value="${p.value}" ${p.readonly} style="${p.style}" autocomplete="${p.autocomplete}" maxlength="${p.maxlength}" >
+    <input type="${p.type}" class="${p.class}" id="${p.id}" name="${p.name}" value="${p.value}" ${p.readonly} style="${p.style}" autocomplete="${p.autocomplete}" maxlength="${p.maxlength}" onclick="${p.onclick}" >
     <%if(isNotEmpty(p.hidden)){%>
         <input class="form-control" type="hidden" id="${hidden}" value="${hiddenValue!}">
     <%}%>
