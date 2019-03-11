@@ -3,7 +3,7 @@
 <mapper namespace="com.simple.bets.modular.sys.dao.UserMapper">
     <resultMap id="BaseResultMap" type="com.simple.bets.modular.sys.model.UserModel">
         <id column="user_id" jdbcType="DECIMAL" property="userId"/>
-        <result column="username" jdbcType="VARCHAR" property="username"/>
+         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="dept_id" jdbcType="DECIMAL" property="deptId"/>
         <result column="dept_name" jdbcType="DECIMAL" property="deptName"/>
