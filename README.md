@@ -1,6 +1,6 @@
 # AdminBets 简称bets
 #### 项目介绍
-AdminBets是一个简单的脚手架权限管理系统。项目基础框架采用Spring Boot2.0.4，消除了繁杂的XML配置，使得二次开发更为简单；数据访问层采用Mybatis，同时引入了通用Mapper和PageHelper插件，可快速高效的对单表进行增删改查操作，消除了大量传统XML配置SQL的代码；安全框架采用时下流行的Apache Shiro，可实现对按钮级别的权限控制；前端页面使用基于Bootstrap的AdminLTE构建，响应式布局。框架主模块包含：系统管理、系统监控、任务调度。系统管理子模块--用户管理、部门管理、菜单管理、角色管理、字典管理、日志查询、连接池监视，实现权限精细控制。后期将会引入activiti工作流引擎、邮件模块、WebSocket通信。
+AdminBets是一个简单的脚手架权限管理系统。项目基础框架采用Spring Boot2.0.4，消除了繁杂的XML配置，使得二次开发更为简单；数据访问层采用Mybatis，同时引入了通用Mapper和PageHelper插件，可快速高效的对单表进行增删改查操作，消除了大量传统XML配置SQL的代码；安全框架采用时下流行的Apache Shiro，可实现对按钮级别的权限控制；前端页面使用基于Bootstrap的AdminLTE构建，响应式布局。框架主模块包含：系统管理、系统监控、任务调度。系统管理子模块--用户管理、部门管理、菜单管理、角色管理、字典管理、日志查询、连接池监视，实现权限精细控制。项目中还提供了接口限流、防xss攻击的功能，很适合新手学习。后期将会引入activiti工作流引擎、邮件模块、WebSocket通信。
 
 在线演示 http://39.107.110.75
 账号：AdminBets
@@ -15,7 +15,7 @@ AdminBets是一个简单的脚手架权限管理系统。项目基础框架采�
 #### 基础框架
 1. Spring Boot
 2. Apache Shiro
-3. Ehcache 2.6.11
+3. Redis
 #### 持久层
 1. Alibaba Druid
 2. Apache MyBatis
