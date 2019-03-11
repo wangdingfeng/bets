@@ -9,6 +9,7 @@
         readonly:readonly!"",
         style:style!"",//控件自定义样式
         autocomplete:autocomplete!"",//输入框缓存
+        maxlength:maxlength!"number",//规定文本区域的最大字符数
         hidden:hidden!"",//隐藏域
         hiddenValue:hiddenValue!""//隐藏域值
     };
@@ -20,7 +21,7 @@
         <i class="${p.inputIcon}"></i>
     </div>
     <%}%>
-    <input type="${p.type}" class="${p.class}" id="${p.id}" name="${p.name}" value="${p.value}" ${p.readonly} style="${p.style}" autocomplete="${p.autocomplete}" >
+    <input type="${p.type}" class="${p.class}" id="${p.id}" name="${p.name}" value="${p.value}" ${p.readonly} style="${p.style}" autocomplete="${p.autocomplete}" maxlength="${p.maxlength}" >
     <%if(isNotEmpty(p.hidden)){%>
         <input class="form-control" type="hidden" id="${hidden}" value="${hiddenValue!}">
     <%}%>
