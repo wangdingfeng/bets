@@ -3,18 +3,18 @@
     <div class="box box-main">
         <div class="box-body">
             <form id="searchForm" action="${ctxPath}/sys/role/roleUserListData" method="post" class="form-inline ">
-                <input name="roleId" type="hidden" value="${role.roleId}"/>
-                <input name="exist" type="hidden" value="false"/>
+                <#input id="roleId" type="hidden" value="${role.roleId}" />
+                <#input id="exist" type="hidden" value="false" />
                 <div class="form-group">
                     <label class="control-label">账号：</label>
                     <div class="control-inline">
-                        <input name="username" maxlength="100" class="form-control width-90" value="${user.username!}"/>
+                        <#input id="username" class="form-control width-90" value="${user.username!}" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label">用户名称：</label>
                     <div class="control-inline">
-                        <input name="name" maxlength="100" class="form-control width-90" value="${user.name!}"/>
+                        <#input id="name" class="form-control width-90" value="${user.name!}" />
                     </div>
                 </div>
                 <div class="form-group">

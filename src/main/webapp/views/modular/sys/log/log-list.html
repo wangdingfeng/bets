@@ -13,11 +13,11 @@
         </div>
         <div class="box-body">
             <form id="searchForm" action="${ctxPath}/sys/log/listData" method="post" class="form-inline hide">
-                <input id="pageSize" name="pageSize" type="hidden" value="50">
+                <#input id="pageSize" type="hidden" value="50" />
                 <div class="form-group">
-                    <label class="control-label col-sm-4">角色名称：</label>
-                    <div class="control-inline col-sm-8">
-                        <input class="form-control" type="text" name="name">
+                    <label class="control-label">操作用户：</label>
+                    <div class="control-inline">
+                        <#input id="username" type="text" value="${log.username!''}" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group">

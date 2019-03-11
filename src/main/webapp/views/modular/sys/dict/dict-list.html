@@ -11,12 +11,18 @@
             </div>
         </div>
         <div class="box-body">
-            <form style="margin: 10px" id="searchForm" action="${ctxPath}/sys/dict/listData" method="post" class="form-inline hide">
-                <input name="isParent" type="hidden" value="1">
+            <form id="searchForm" action="${ctxPath}/sys/dict/listData" method="post" class="form-inline hide">
+                <#input id="isParent" type="hidden" value="1" />
+                <div class="form-group">
+                    <label class="control-label">字典名称:</label>
+                    <div class="control-inline">
+                        <#input id="dictLabel" class="form-control width-90" />
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="control-label">字典类型：</label>
                     <div class="control-inline">
-                        <input class="form-control width-90" type="text" name="dictType">
+                        <#input id="dictType" class="form-control width-90" />
                     </div>
                 </div>
                 <div class="form-group">
