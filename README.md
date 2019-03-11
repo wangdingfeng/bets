@@ -15,7 +15,7 @@ AdminBets是一个简单的脚手架权限管理系统。项目基础框架采�
 #### 基础框架
 1. Spring Boot
 2. Apache Shiro
-3. Ehcache 2.6.11
+3. Redis
 #### 持久层
 1. Alibaba Druid
 2. Apache MyBatis
