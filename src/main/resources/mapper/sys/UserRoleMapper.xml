@@ -27,10 +27,22 @@
 
   <select id="findUsersByRole" resultMap="UserModel">
     SELECT u.* FROM sys_user u,sys_user_role ur WHERE u.user_id=ur.user_id AND ur.role_id=#{roleId}
+    <if test="username !='' and username != null">
+      AND u.username=#{username}
+    </if>
+    <if test="name !='' and name != null">
+      AND u.name=#{name}
+    </if>
   </select>
 
   <select id="findNotUsersByRole" resultMap="UserModel">
     SELECT u.* FROM sys_user u WHERE u.user_id not in (SELECT ur.user_id FROM sys_user_role ur WHERE ur.role_id =#{roleId})
+    <if test="username !='' and  username != null">
+      AND u.username=#{username}
+    </if>
+    <if test="name !='' and name != null">
+      AND u.name=#{name}
+    </if>
   </select>
 
 </mapper>
