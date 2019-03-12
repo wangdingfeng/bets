@@ -1,5 +1,6 @@
 package com.simple.bets.core.common.interceptor;
 
+import com.alibaba.druid.sql.SQLUtils;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -70,7 +71,7 @@ public class SqlStatementInterceptor implements Interceptor {
         String sql = showSql(configuration, boundSql);
         logger.info("【SQL语句Id】>>>> {}", sqlId);
         logger.info("【SQL语句耗时】>>>> {} ms", time);
-        logger.info("【SQL语句】>>>> {}", sql);
+        logger.info("【SQL语句】>>>>\n{}", SQLUtils.formatMySql(sql));
     }
 
     private static String getParameterValue(Object obj) {
