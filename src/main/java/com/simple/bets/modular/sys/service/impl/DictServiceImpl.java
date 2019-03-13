@@ -23,11 +23,9 @@ public class DictServiceImpl extends ServiceImpl<DictModel> implements DictServi
 	@Transactional
 	public void saveOrUpdate(DictModel dict) {
 		if(null == dict.getDictId()){
-			dict.setBaseData(true);
 			super.save(dict);
 		}else{
-			dict.setBaseData(false);
-			super.updateNotNull(dict);
+			super.update(dict);
 		}
 		//清除字典缓存
 		DictUtils.clearCacheDict();

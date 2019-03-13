@@ -71,12 +71,11 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeModel> implements Offic
                 office.setTreeLevel(newParent.getTreeLevel() + 1);
                 if (newParent.getIsTreeLeaf()) {
                     newParent.setTreeLeaf(OfficeModel.TREE_LEAF_YES);
-                    super.updateNotNull(newParent);
+                    super.update(newParent);
                 }
             }
             // 设置新的父节点串
             office.setParentIds(newParent == null ? "0" : (newParent.getParentIds() + "," + office.getParentId()));
-            office.setBaseData(true);
             super.save(office);
         } else {
 
@@ -96,9 +95,7 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeModel> implements Offic
                 //获取新的父类层级
                 office.setTreeLevel(newParent.getTreeLevel() + 1);
             }
-
-            office.setBaseData(false);
-            super.updateNotNull(office);
+            super.update(office);
 
             // 判断menu父节点是否发生了改变
             if (!oldParentId.equals(office.getParentId())) {
@@ -108,7 +105,7 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeModel> implements Offic
                     // 原来的父节点下没有子节点了，并且节点treeleaf属性不等于1
                     if (list1.size() <= 0 && !oldParent.getIsTreeLeaf()) {
                         oldParent.setTreeLeaf(OfficeModel.TREE_LEAF_NO);
-                        super.updateNotNull(oldParent);
+                        super.update(oldParent);
                     }
                 }
 
@@ -122,13 +119,13 @@ public class OfficeServiceImpl extends ServiceImpl<OfficeModel> implements Offic
                     e.setParentIds(e.getParentIds().replace(oldParentIds, office.getParentIds()));
                     // 更新menu子节点的treelevel值
                     e.setTreeLevel(e.getTreeLevel() + diffValue);
-                    this.updateNotNull(e);
+                    this.update(e);
                 }
 
                 // 第三步：新父节点如果treeLeaf==1，则需要更新treeLeaf==0
                 if (newParent.getIsTreeLeaf()) {
                     newParent.setTreeLeaf(OfficeModel.TREE_LEAF_YES);
-                    this.updateNotNull(newParent);
+                    this.update(newParent);
                 }
             }
         }

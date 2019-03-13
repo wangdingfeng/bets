@@ -1,11 +1,13 @@
 package com.simple.bets.core.base.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.simple.bets.modular.sys.model.UserModel;
-import org.apache.shiro.SecurityUtils;
+import com.simple.bets.modular.sys.utils.UserUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -47,6 +49,10 @@ public abstract class BaseModel implements Serializable {
 
     @Column(name = "status")
     protected String status;    //系统
+
+    @JsonIgnore
+    @Transient
+    protected Object example;
 
 
     public BaseModel() {
@@ -105,12 +111,20 @@ public abstract class BaseModel implements Serializable {
         this.status = status;
     }
 
+    public Object getExample() {
+        return example;
+    }
+
+    public void setExample(Object example) {
+        this.example = example;
+    }
+
     /**
      * 保存共有属性
      * @param isAdd 是否新增 true 新增 false 更新
      */
     public void setBaseData(boolean isAdd){
-       UserModel user = (UserModel) SecurityUtils.getSubject().getPrincipal();
+        UserModel user = UserUtils.getPrincipal();
         if(isAdd){
             this.setCreateTime(new Date());
             this.setCreator(null == user ? "system": user.getUsername());

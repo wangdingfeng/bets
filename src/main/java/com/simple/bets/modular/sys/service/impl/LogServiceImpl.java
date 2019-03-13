@@ -35,34 +35,8 @@ import java.util.*;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class LogServiceImpl extends ServiceImpl<LogModel> implements LogService {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     ObjectMapper objectMapper;
-
-    @Override
-    public List<LogModel> findAllLogs(LogModel log) {
-        try {
-            Example example = new Example(LogModel.class);
-            Criteria criteria = example.createCriteria();
-            if (StringUtils.isNotBlank(log.getUsername())) {
-                criteria.andCondition("username=", log.getUsername().toLowerCase());
-            }
-            if (StringUtils.isNotBlank(log.getOperation())) {
-                criteria.andCondition("operation like", "%" + log.getOperation() + "%");
-            }
-            if (StringUtils.isNotBlank(log.getTimeField())) {
-                String[] timeArr = log.getTimeField().split("~");
-                criteria.andCondition("date_format(CREATE_TIME,'%Y-%m-%d') >=", timeArr[0]);
-                criteria.andCondition("date_format(CREATE_TIME,'%Y-%m-%d') <=", timeArr[1]);
-            }
-            example.setOrderByClause("create_time desc");
-            return this.selectByExample(example);
-        } catch (Exception e) {
-            logger.error("获取系统日志失败", e);
-            return new ArrayList<>();
-        }
-    }
 
     @Override
     @Transactional

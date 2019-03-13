@@ -16,7 +16,7 @@
         onclick:onclick!""
     };
     //格式化时间
-    if(isNotEmpty(formatter)){
+    if(isNotEmpty(value) && isNotEmpty(formatter)){
         p.value = tool.dateFormat(value,formatter);
     }
 %>

@@ -19,7 +19,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuModel> implements R
 	public List<Long> findRoleMenu(Long roleId) {
 		RoleMenuModel roleMenuPrams = new RoleMenuModel();
 		roleMenuPrams.setRoleId(roleId);
-		List<RoleMenuModel> roleMenuList = super.queryObjectForList(roleMenuPrams);
+		List<RoleMenuModel> roleMenuList = super.finList(roleMenuPrams);
 		List<Long> menuIds = roleMenuList.stream().map(RoleMenuModel::getMenuId).collect(Collectors.toList());
 		return menuIds;
 	}

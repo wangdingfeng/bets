@@ -1,6 +1,6 @@
 package com.simple.bets.modular.sys.model;
 
-import com.simple.bets.core.annotation.ExportConfig;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,40 +20,36 @@ public class LogModel implements Serializable {
 	private Long id;
 
 	@Column(name = "username")
-	@ExportConfig(value = "操作用户")
 	private String username;
 
 	@Column(name = "operation")
-	@ExportConfig(value = "描述")
 	private String operation;
 
 	@Column(name = "time")
-	@ExportConfig(value = "耗时（毫秒）")
 	private Long time;
 
 	@Column(name = "method")
-	@ExportConfig(value = "操作方法")
 	private String method;
 
 	@Column(name = "params")
-	@ExportConfig(value = "参数")
 	private String params;
 
 	@Column(name = "ip")
-	@ExportConfig(value = "IP地址")
 	private String ip;
 
 	@Column(name = "create_time")
-	@ExportConfig(value = "操作时间")
 	private Date createTime;
 
 	@Column(name = "location")
-	@ExportConfig(value = "地点")
 	private String location;
-	
+
 	// 用于搜索条件中的时间字段
 	@Transient
 	private String timeField;
+
+	@JsonIgnore
+	@Transient
+	protected Object example;
 
 	/**
 	 * @return ID
@@ -182,6 +178,12 @@ public class LogModel implements Serializable {
 	public void setTimeField(String timeField) {
 		this.timeField = timeField;
 	}
-	
 
+	public Object getExample() {
+		return example;
+	}
+
+	public void setExample(Object example) {
+		this.example = example;
+	}
 }

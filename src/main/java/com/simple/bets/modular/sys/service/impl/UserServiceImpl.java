@@ -50,11 +50,9 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
     public UserModel saveOrUpdateUser(UserModel user) {
         if (null == user.getUserId()) {
             saveUser(user);
-            user.setBaseData(true);
             this.save(user);
         } else {
-            user.setBaseData(false);
-            this.updateNotNull(user);
+            this.update(user);
         }
         return user;
     }
@@ -122,13 +120,13 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
     public void updateUserProfile(UserModel user) {
         user.setUsername(null);
         user.setPassword(null);
-        this.updateNotNull(user);
+        this.update(user);
     }
 
     @Override
     @Transactional(readOnly = false)
     public void updateUserStatus(UserModel userModel) {
-        super.updateNotNull(userModel);
+        super.update(userModel);
     }
 
     @Override
@@ -139,7 +137,7 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
             stringRedisTemplate.delete(BetsConstant.SHIRO_IS_LOCK+userModel.getUsername());
         }
         userModel.setPassword(MD5Utils.encryptBasedDes(userModel.getUsername().toLowerCase() + BetsConstant.RESET_PASSWORD));
-        super.updateNotNull(userModel);
+        super.update(userModel);
     }
 
 }

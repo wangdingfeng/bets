@@ -56,15 +56,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleModel> implements RoleServi
     @Override
     public RoleModel saveOrUpdate(RoleModel role) {
         if(null != role.getRoleId() ){
-            role.setBaseData(false);
-            super.updateNotNull(role);
+            super.update(role);
             //删除已有菜单
             Example example = new Example(RoleMenuModel.class);
             example.createCriteria().andCondition("role_id=", role.getRoleId());
             this.roleMenuMapper.deleteByExample(example);
             setRoleMenus(role);
         }else{
-            role.setBaseData(true);
             super.save(role);
             setRoleMenus(role);
         }

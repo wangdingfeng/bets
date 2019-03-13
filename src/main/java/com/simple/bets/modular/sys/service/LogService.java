@@ -16,13 +16,6 @@ import java.util.List;
 public interface LogService extends IService<LogModel> {
 
 	/**
-	 * 查询所有的日志
-	 * @param log
-	 * @return
-	 */
-	List<LogModel> findAllLogs(LogModel log);
-
-	/**
 	 * 删除日志
 	 * @param logIds
 	 */

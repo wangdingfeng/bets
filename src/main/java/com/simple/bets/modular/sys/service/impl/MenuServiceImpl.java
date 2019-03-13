@@ -23,7 +23,10 @@ import tk.mybatis.mapper.entity.Example.Criteria;
 
 import java.util.*;
 
-@Service("menuService")
+/**
+ * 菜单service
+ */
+@Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class MenuServiceImpl extends ServiceImpl<MenuModel> implements MenuService {
 
@@ -156,13 +159,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuModel> implements MenuServi
                 menu.setTreeLevel(newParent.getTreeLevel() + 1);
                 if (newParent.getIsTreeLeaf()) {
                     newParent.setTreeLeaf(MenuModel.TREE_LEAF_YES);
-                    super.updateNotNull(newParent);
+                    super.update(newParent);
                 }
             }
 
             // 设置新的父节点串
             menu.setParentIds(newParent == null ? "0" : (newParent.getParentIds()+","+ menu.getParentId()));
-            menu.setBaseData(true);
             super.save(menu);
 
         }else{
@@ -182,8 +184,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuModel> implements MenuServi
                 //获取新的父类层级
                 menu.setTreeLevel(newParent.getTreeLevel()+1);
             }
-            menu.setBaseData(false);
-            super.updateNotNull(menu);
+            super.update(menu);
 
             // 判断menu父节点是否发生了改变
             if (!oldParentId.equals(menu.getParentId())) {
@@ -193,7 +194,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuModel> implements MenuServi
                     // 原来的父节点下没有子节点了，并且节点treeleaf属性不等于1
                     if (list1.size() <= 0 && !oldParent.getIsTreeLeaf()) {
                         oldParent.setTreeLeaf(MenuModel.TREE_LEAF_NO);
-                        super.updateNotNull(oldParent);
+                        super.update(oldParent);
                     }
                 }
 
@@ -207,13 +208,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuModel> implements MenuServi
                     e.setParentIds(e.getParentIds().replace(oldParentIds, menu.getParentIds()));
                     // 更新menu子节点的treelevel值
                     e.setTreeLevel(e.getTreeLevel() + diffValue);
-                    this.updateNotNull(e);
+                    this.update(e);
                 }
 
                 // 第三步：新父节点如果treeLeaf==1，则需要更新treeLeaf==0
                 if (newParent.getIsTreeLeaf()) {
                     newParent.setTreeLeaf(MenuModel.TREE_LEAF_YES);
-                    this.updateNotNull(newParent);
+                    this.update(newParent);
                 }
             }
 
@@ -246,10 +247,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuModel> implements MenuServi
             //查询所有的子类
             MenuModel menuChild = new MenuModel();
             menuChild.setParentId(menu.getParentId());
-            List<MenuModel> list = super.queryObjectForList(menuChild);
+            List<MenuModel> list = super.finList(menuChild);
             if(list.size() == 1){
                 menuParent.setTreeLeaf(MenuModel.TREE_LEAF_NO);
-                this.updateNotNull(menuParent);
+                this.update(menuParent);
             }
         }
         this.delete(id);

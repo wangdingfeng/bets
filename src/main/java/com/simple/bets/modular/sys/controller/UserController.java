@@ -278,7 +278,7 @@ public class UserController extends BaseController {
             String realImgName = img[img.length - 1];
             UserModel user = getCurrentUser();
             user.setAvatar(realImgName);
-            this.userService.updateNotNull(user);
+            this.userService.update(user);
             return ResponseResult.ok("更新头像成功！");
         } catch (Exception e) {
             logger.error("更换头像失败", e);

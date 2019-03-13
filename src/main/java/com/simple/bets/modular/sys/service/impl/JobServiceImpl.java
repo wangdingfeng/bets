@@ -75,14 +75,12 @@ public class JobServiceImpl extends ServiceImpl<JobModel> implements JobService 
     @Transactional
     public void saveOrUpdate(JobModel jobModel) {
         if(null == jobModel.getJobId()){
-            jobModel.setBaseData(true);
             jobModel.setJobStatus(JobModel.ScheduleStatus.NORMAL.getValue());
             super.save(jobModel);
             ScheduleUtils.createScheduleJob(scheduler, jobModel);
         }else{
-            jobModel.setBaseData(false);
             ScheduleUtils.updateScheduleJob(scheduler, jobModel);
-            super.updateNotNull(jobModel);
+            super.update(jobModel);
         }
     }
 

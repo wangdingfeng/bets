@@ -1,5 +1,6 @@
 package com.simple.bets.core.base.service;
 
+import com.github.pagehelper.PageInfo;
 import com.simple.bets.core.common.util.Page;
 
 import java.util.List;
@@ -31,10 +32,10 @@ public interface IService<T> {
     /**
      * 保存数据
      *
-     * @param entity
+     * @param query
      * @return
      */
-    int save(T entity);
+    int save(T query);
 
     /**
      * 通过主键删除
@@ -57,18 +58,18 @@ public interface IService<T> {
     /**
      * 更新所有的数据
      *
-     * @param entity
+     * @param query
      * @return
      */
-    int updateAll(T entity);
+    int updateAll(T query);
 
     /**
      * 更新非空数据
      *
-     * @param entity
+     * @param query
      * @return
      */
-    int updateNotNull(T entity);
+    int update(T query);
 
     /**
      * Example 查询
@@ -88,10 +89,10 @@ public interface IService<T> {
     /**
      * 查询单个对象：如果多条记录则会抛出异常
      *
-     * @param entity
+     * @param query
      * @return
      */
-    T findByObject(T entity);
+    T findByModel(T query);
 
     /**
      * 排序查询
@@ -103,16 +104,26 @@ public interface IService<T> {
 
     /**
      * 带条件查询所有数据
-     * @param entity 条件
+     * @param query 条件
      * @return
      */
-    List<T> queryObjectForList(T entity);
+    List<T> finList(T query);
 
     /**
      * 分页查询
      * @param page
-     * @param entity
+     * @param query
      * @return
      */
-    Page<T> queryPage(Page<T> page, T entity);
+    Page<T> queryPage(Page<T> page, T query);
+
+    /**
+     * 分页插件分页
+     * @param query 对象
+     * @param pageNum 当前页
+     * @param pageSize 数量
+     * @param orderField 排序字段
+     * @return
+     */
+    PageInfo<T> queryForPage(T query, int pageNum, int pageSize, String orderField);
 }
