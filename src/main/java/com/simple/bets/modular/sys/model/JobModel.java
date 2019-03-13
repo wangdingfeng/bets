@@ -1,6 +1,7 @@
 package com.simple.bets.modular.sys.model;
 
 import com.simple.bets.core.base.model.BaseModel;
+import com.simple.bets.modular.sys.utils.UserUtils;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -139,5 +140,10 @@ public class JobModel extends BaseModel {
 
     public void setJobStatus(String jobStatus) {
         this.jobStatus = jobStatus;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+        this.setCreatorName((UserUtils.getUserInfo(creator).getName()));
     }
 }

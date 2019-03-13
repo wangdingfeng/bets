@@ -49,6 +49,10 @@ public abstract class BaseModel implements Serializable {
 
     @Column(name = "status")
     protected String status;    //系统
+    @Transient
+    protected String creatorName;//创建人翻译
+    @Transient
+    protected String operatorName;//创建人翻译
 
     @JsonIgnore
     @Transient
@@ -117,6 +121,22 @@ public abstract class BaseModel implements Serializable {
 
     public void setExample(Object example) {
         this.example = example;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
+
+    public String getOperatorName() {
+        return creatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
     }
 
     /**

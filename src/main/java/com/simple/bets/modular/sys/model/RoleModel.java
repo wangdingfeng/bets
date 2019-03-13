@@ -2,6 +2,7 @@ package com.simple.bets.modular.sys.model;
 
 
 import com.simple.bets.core.base.model.BaseModel;
+import com.simple.bets.modular.sys.utils.UserUtils;
 
 import javax.persistence.*;
 import java.util.List;
@@ -97,5 +98,10 @@ public class RoleModel extends BaseModel {
 
     public void setUserIds(List<Long> userIds) {
         this.userIds = userIds;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+        this.setCreatorName((UserUtils.getUserInfo(creator).getName()));
     }
 }

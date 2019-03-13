@@ -1,6 +1,7 @@
 package com.simple.bets.modular.sys.service.impl;
 
 import com.simple.bets.core.common.exception.ServiceException;
+import com.simple.bets.core.common.lang.StringUtils;
 import com.simple.bets.core.common.util.BetsConstant;
 import com.simple.bets.core.common.util.IPUtils;
 import com.simple.bets.core.common.util.MD5Utils;
@@ -39,10 +40,9 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
 
     @Override
     public UserModel findByName(String userName) {
-        Example example = new Example(UserModel.class);
-        example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
-        List<UserModel> list = this.selectByExample(example);
-        return list.isEmpty() ? null : list.get(0);
+        UserModel query = new UserModel();
+        query.setUsername(userName);
+        return super.findByModel(query);
     }
 
     @Override

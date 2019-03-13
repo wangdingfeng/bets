@@ -1,6 +1,8 @@
 package com.simple.bets.modular.sys.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.simple.bets.core.common.lang.StringUtils;
+import com.simple.bets.modular.sys.utils.UserUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -51,6 +53,9 @@ public class LogModel implements Serializable {
 	@Transient
 	protected Object example;
 
+	@Transient
+	private String name;
+
 	/**
 	 * @return ID
 	 */
@@ -77,6 +82,7 @@ public class LogModel implements Serializable {
 	 */
 	public void setUsername(String username) {
 		this.username = username == null ? null : username.trim();
+		if(StringUtils.isNotBlank(username))this.setName((UserUtils.getUserInfo(username).getName()));
 	}
 
 	/**
@@ -186,4 +192,13 @@ public class LogModel implements Serializable {
 	public void setExample(Object example) {
 		this.example = example;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }

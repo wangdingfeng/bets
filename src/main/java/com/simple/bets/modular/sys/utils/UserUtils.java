@@ -54,7 +54,7 @@ public class UserUtils {
         if(null == userModel){
             userModel =  userService.findByName(userName);
             //保存1小时
-            JedisUtils.setObject("userName",userModel,3600);
+            JedisUtils.setObject(userName,userModel,3600);
         }
         return userModel;
     }
