@@ -117,7 +117,7 @@ pagehelper:
 
 # bets 配置
 bets:
-  #文件保存路径配置
+  #文件保存路径配置/app/bets/
   filePath: D:/bets/
   # 是否在控制台打印 sql语句
   showsql: true
