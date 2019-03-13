@@ -44,12 +44,13 @@
             {header: '方法名称', name: 'methodName', index: 'methodName', width: 100, align: "center"},
             {header: '参数', name: 'params', index: 'params', width: 100, align: "center"},
             {header: 'cron表达式', name: 'cronExpression', index: 'cronExpression', width: 100, align: "center"},
+            {header: '上次执行时间', name: 'lastTime', index: 'last_time', width: 100, align: "center"},
+            {header: '下次执行时间', name: 'nextTime', index: 'next_time', width: 100, align: "center"},
             {header: '状态', name: 'jobStatus', index: 'job_status', width: 100, align: "center",formatter: function(val, obj, row, act){
                     if (val === '1') return '<span style="color: red"><i class="fa fa-toggle-off text-info fa-2x"></i></span>';
                     if (val === '0') return '<span style="color: #00a65a"><i class="fa fa-toggle-on text-info fa-2x"></i></span>';
              }},
             {header: '创建人', name: 'creatorName', index: 'creator_name',sortable: false, width: 100, align: "center"},
-            {header: '创建时间', name: 'createTime', index: 'create_time', width: 100, align: "center"},
             {
                 header: '操作',
                 name: 'actions',
@@ -69,7 +70,7 @@
                         actions.push('<a href="${ctxPath}/sys/job/run?jobIds=' + row.jobId + '" class="btnList" title="执行一次任务" data-confirm="确认要执行一次任务吗？"><i class="fa fa-caret-square-o-right"></i></a>&nbsp;');
                     <%}%>
                     <%if(hasPermi('job:edit')){%>
-                        actions.push('<a href="/sys/job/form?jobId=' + row.jobId + '" class="btnList" title="编辑任务"><i class="fa fa-pencil"></i></a>&nbsp;');
+                        actions.push('<a href="/sys/job/form?jobId=' + row.jobId + '&jobStatus='+row.jobStatus+'" class="btnList" title="编辑任务"><i class="fa fa-pencil"></i></a>&nbsp;');
                     <%}%>
                     <%if(hasPermi('job:delete')){%>
                         actions.push('<a href="${ctxPath}/sys/job/delete?ids=' + row.jobId + '" class="btnList" title="删除任务" data-confirm="确认要删除任务信息吗？"><i class="fa fa-trash-o"></i></a>&nbsp;');

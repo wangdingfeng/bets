@@ -1,5 +1,6 @@
 package com.simple.bets.modular.sys.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.simple.bets.core.base.model.BaseModel;
 import com.simple.bets.modular.sys.utils.UserUtils;
 
@@ -7,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * @Author wangdingfeng
@@ -59,6 +61,12 @@ public class JobModel extends BaseModel {
 
     @Column(name = "cron_expression")
     private String cronExpression;
+
+    @Column(name = "last_time")
+    private Date lastTime;
+
+    @Column(name = "next_time")
+    private Date nextTime;
 
     @Column(name = "job_status")
     private String jobStatus;
@@ -140,6 +148,23 @@ public class JobModel extends BaseModel {
 
     public void setJobStatus(String jobStatus) {
         this.jobStatus = jobStatus;
+    }
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
+    public Date getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(Date lastTime) {
+        this.lastTime = lastTime;
+    }
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
+    public Date getNextTime() {
+        return nextTime;
+    }
+
+    public void setNextTime(Date nextTime) {
+        this.nextTime = nextTime;
     }
 
     public void setCreator(String creator) {

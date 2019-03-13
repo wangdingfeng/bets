@@ -62,14 +62,13 @@ public class ScheduleUtils {
             // 按新的cronExpression表达式构建一个新的trigger
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(scheduleJob.getJobId()))
                     .withSchedule(scheduleBuilder).build();
-
             // 放入参数，运行时的方法可以获取
             jobDetail.getJobDataMap().put(JobModel.JOB_PARAM_KEY, scheduleJob.getJobId());
 
             scheduler.scheduleJob(jobDetail, trigger);
 
             // 暂停任务
-            if (scheduleJob.getStatus().equals(JobModel.ScheduleStatus.PAUSE.getValue())) {
+            if (scheduleJob.getJobStatus().equals(JobModel.ScheduleStatus.PAUSE.getValue())) {
                 pauseJob(scheduler, scheduleJob.getJobId());
             }
         } catch (SchedulerException e) {
@@ -98,11 +97,13 @@ public class ScheduleUtils {
                 // 参数
                 trigger.getJobDataMap().put(JobModel.JOB_PARAM_KEY, scheduleJob.getJobId());
             }
+            //获取下次执行时间
+            scheduleJob.setNextTime(trigger.getStartTime());
 
             scheduler.rescheduleJob(triggerKey, trigger);
 
             // 暂停任务
-            if (scheduleJob.getStatus().equals(JobModel.ScheduleStatus.PAUSE.getValue())) {
+            if (scheduleJob.getJobStatus().equals(JobModel.ScheduleStatus.PAUSE.getValue())) {
                 pauseJob(scheduler, scheduleJob.getJobId());
             }
 

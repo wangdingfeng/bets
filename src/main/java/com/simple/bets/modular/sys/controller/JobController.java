@@ -9,7 +9,12 @@ import com.simple.bets.modular.sys.model.JobModel;
 import com.simple.bets.modular.sys.service.JobLogService;
 import com.simple.bets.modular.sys.service.JobService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.TriggerUtils;
 import org.quartz.CronExpression;
+import org.quartz.spi.OperableTrigger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -248,5 +254,27 @@ public class JobController extends BaseController {
             logger.error("删除调度日志失败", e);
             return ResponseResult.error("删除调度日志失败，请联系网站管理员！");
         }
+    }
+
+    /**
+     * 获取调度时间
+     * @param CronExpressionString
+     * @return
+     */
+    @RequestMapping("/getJobDateList")
+    @ResponseBody
+    public ResponseResult getJobDateList(String CronExpressionString){
+        CronTrigger trigger1 = null;
+        try {
+            CronExpression.isValidExpression(CronExpressionString);
+            //获取当前时间戳 5次执行时间
+            trigger1 = TriggerBuilder.newTrigger().withIdentity("TempTrigger1").withSchedule(
+                    CronScheduleBuilder.cronSchedule(CronExpressionString)).build();
+            OperableTrigger trig = (OperableTrigger)trigger1;
+            List<Date> dates = TriggerUtils.computeFireTimes(trig,null,5);
+            return ResponseResult.ok(dates);
+        } catch (Exception e) {
+        }
+        return ResponseResult.error("表达式错误");
     }
 }
