@@ -1,9 +1,14 @@
 package com.simple.bets.modular.sys.utils;
 
+import com.simple.bets.core.common.exception.ServiceException;
 import com.simple.bets.modular.sys.model.JobModel;
 import org.quartz.*;
+import org.quartz.spi.OperableTrigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 定时任务工具类
@@ -62,6 +67,10 @@ public class ScheduleUtils {
             // 按新的cronExpression表达式构建一个新的trigger
             CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(getTriggerKey(scheduleJob.getJobId()))
                     .withSchedule(scheduleBuilder).build();
+            //放入第一次执行时间
+            List<Date> dates = TriggerUtils.computeFireTimes((OperableTrigger)trigger,null,1);
+            scheduleJob.setNextTime(dates.get(0));
+
             // 放入参数，运行时的方法可以获取
             jobDetail.getJobDataMap().put(JobModel.JOB_PARAM_KEY, scheduleJob.getJobId());
 
@@ -73,6 +82,7 @@ public class ScheduleUtils {
             }
         } catch (SchedulerException e) {
             log.error("创建定时任务失败", e);
+            throw new ServiceException("创建定时任务失败");
         }
     }
 
@@ -96,10 +106,10 @@ public class ScheduleUtils {
                 trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
                 // 参数
                 trigger.getJobDataMap().put(JobModel.JOB_PARAM_KEY, scheduleJob.getJobId());
+                //放入第一次执行时间
+                List<Date> dates = TriggerUtils.computeFireTimes((OperableTrigger)trigger,null,5);
+                scheduleJob.setNextTime(dates.get(0));
             }
-            //获取下次执行时间
-            scheduleJob.setNextTime(trigger.getStartTime());
-
             scheduler.rescheduleJob(triggerKey, trigger);
 
             // 暂停任务
@@ -109,6 +119,7 @@ public class ScheduleUtils {
 
         } catch (SchedulerException e) {
             log.error("更新定时任务失败", e);
+            throw new ServiceException("更新定时任务失败");
         }
     }
 

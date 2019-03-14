@@ -12,7 +12,7 @@
         <form id="inputForm" class="form-horizontal">
             <div class="form-unit">定时任务基本信息</div>
             <div class="box-body no-padding">
-                <#input name="jobId" type="hidden" value="${job.jobId!}" />
+                <#input id="jobId" type="hidden" value="${job.jobId!}" />
                 <#input name="jobStatus" type="hidden" value="${job.jobStatus!}" />
                 <div class="row">
                     <div class="col-md-6">
@@ -588,7 +588,7 @@
                                                         表达式字段:
                                                     </td>
                                                     <td>
-                                                        <input type="text" name="v_second" class="col form-control" value="*"
+                                                        <input type="text" name="v_second" class="form-control" value="*"
                                                                readonly="readonly"/>
                                                     </td>
                                                     <td>
@@ -616,13 +616,13 @@
                                                                readonly="readonly"/>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <tr style="padding-top: 4px">
                                                     <td>Cron表达式:</td>
                                                     <td colspan="6">
                                                     <#input id="cron" name="cronExpression" class="form-control required" underline="true"
                                                     value="${job.cronExpression!}"/>
-                                                    <td><input type="button" class="btn btn-default" value="反解析到UI " id="btnFan"
-                                                               onclick="btnFan()"/></td>
+                                                    <td><button type="button" class="btn btn-default" id="btnFan"
+                                                                onclick="btnFan()">解析到UI</button></td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="8">最近5次运行时间:</td>
@@ -634,13 +634,6 @@
                                                 </tbody>
                                             </table>
                                         </fieldset>
-                                        <div style="text-align: center; margin-top: 5px;">
-                                            <script type="text/javascript">
-                                                /*killIe*/
-                                                // $.parser.parse($(".cron"));
-
-                                            </script>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -678,6 +671,10 @@
             });
         }
     });
-
+    //反解析到UI中
+    var jobId = $("#jobId").val();
+    if("" != jobId){
+        btnFan();
+    }
 
 </script>

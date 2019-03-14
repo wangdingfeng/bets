@@ -81,22 +81,6 @@ public class JobController extends BaseController {
     }
 
     /**
-     * 检验 时间戳
-     *
-     * @param cron
-     * @return
-     */
-    @RequestMapping("/checkCron")
-    @ResponseBody
-    public boolean checkCron(String cron) {
-        try {
-            return CronExpression.isValidExpression(cron);
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
      * 编辑任务
      *
      * @param job
@@ -108,6 +92,10 @@ public class JobController extends BaseController {
     @ResponseBody
     public ResponseResult saveOrUpdate(JobModel job) {
         try {
+            //检验时间戳
+            if(!CronExpression.isValidExpression(job.getCronExpression())){
+                return ResponseResult.error("保存任务失败，请检查时间戳");
+            }
             this.jobService.saveOrUpdate(job);
             return ResponseResult.ok("保存任务成功！");
         } catch (Exception e) {
@@ -266,7 +254,9 @@ public class JobController extends BaseController {
     public ResponseResult getJobDateList(String CronExpressionString){
         CronTrigger trigger1 = null;
         try {
-            CronExpression.isValidExpression(CronExpressionString);
+            if(!CronExpression.isValidExpression(CronExpressionString)){
+                return ResponseResult.error("请检查时间戳");
+            }
             //获取当前时间戳 5次执行时间
             trigger1 = TriggerBuilder.newTrigger().withIdentity("TempTrigger1").withSchedule(
                     CronScheduleBuilder.cronSchedule(CronExpressionString)).build();

@@ -10,8 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
 import org.reflections.Reflections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -78,6 +76,7 @@ public class JobServiceImpl extends ServiceImpl<JobModel> implements JobService 
             jobModel.setJobStatus(JobModel.ScheduleStatus.NORMAL.getValue());
             super.save(jobModel);
             ScheduleUtils.createScheduleJob(scheduler, jobModel);
+            super.merge(jobModel);
         }else{
             ScheduleUtils.updateScheduleJob(scheduler, jobModel);
             super.update(jobModel);
