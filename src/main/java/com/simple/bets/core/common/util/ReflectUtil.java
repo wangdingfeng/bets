@@ -4,6 +4,9 @@ import cn.hutool.core.exceptions.UtilException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+
 /**
  * @ProjectName: bets
  * @Package: com.simple.bets.core.common.util
@@ -29,5 +32,25 @@ public class ReflectUtil extends cn.hutool.core.util.ReflectUtil {
         } catch (UtilException e) {
             logger.error("调用"+methodName+"内部方式出错,请知晓");
         }
+    }
+
+    /**
+     * 获取被注解的属性值 不重复注解
+     * @param obj
+     * @param annotationClass
+     * @return
+     */
+    public static Object getAnnotationValue(Object obj,Class<? extends Annotation> annotationClass){
+        Object value = null;
+        Field[] field = getFields(obj.getClass());
+        for(Field file : field){
+            boolean fieldHasAnno =  file.isAnnotationPresent(annotationClass);
+            if(!fieldHasAnno){
+                continue;
+            }
+            value = getFieldValue(obj,file);
+            break;
+        }
+        return value;
     }
 }
