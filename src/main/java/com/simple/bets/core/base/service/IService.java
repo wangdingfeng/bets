@@ -72,6 +72,13 @@ public interface IService<T> {
     int update(T query);
 
     /**
+     * 保存更新实体
+     * @param query
+     * @return
+     */
+    int merge(T query);
+
+    /**
      * Example 查询
      *
      * @param example

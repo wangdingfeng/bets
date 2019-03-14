@@ -22,11 +22,7 @@ public class DictServiceImpl extends ServiceImpl<DictModel> implements DictServi
 	@Override
 	@Transactional
 	public void saveOrUpdate(DictModel dict) {
-		if(null == dict.getDictId()){
-			super.save(dict);
-		}else{
-			super.update(dict);
-		}
+		super.merge(dict);
 		//清除字典缓存
 		DictUtils.clearCacheDict();
 	}

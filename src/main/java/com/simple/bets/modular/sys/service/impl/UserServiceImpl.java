@@ -50,10 +50,8 @@ public class UserServiceImpl extends ServiceImpl<UserModel> implements UserServi
     public UserModel saveOrUpdateUser(UserModel user) {
         if (null == user.getUserId()) {
             saveUser(user);
-            this.save(user);
-        } else {
-            this.update(user);
         }
+        super.merge(user);
         return user;
     }
 

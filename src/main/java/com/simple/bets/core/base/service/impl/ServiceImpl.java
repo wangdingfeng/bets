@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.persistence.Id;
 import java.util.List;
 
 /**
@@ -94,6 +95,17 @@ public abstract class ServiceImpl<T> implements IService<T> {
         //保存公共字段信息
         ReflectUtil.invokeMethod(query, SET_BASE_DATA, false);
         return mapper.updateByPrimaryKeySelective(query);
+    }
+
+    @Override
+    @Transactional
+    public int merge(T query){
+        Object object = ReflectUtil.getAnnotationValue(query, Id.class);
+        if(null == object){
+            return this.save(query);
+        }else{
+            return this.update(query);
+        }
     }
 
     @Override
