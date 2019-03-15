@@ -51,7 +51,7 @@ public class ScheduleJob extends QuartzJobBean {
             long times = System.currentTimeMillis() - startTime;
             log.setTimes(times);
             // 任务状态 0：成功 1：失败
-            log.setStatus("0");
+            log.setStatus(JobLogModel.JOB_LOG_STATUS_SUCCESS);
             scheduleJob.setLastTime(context.getFireTime());
             scheduleJob.setNextTime(context.getNextFireTime());
             scheduleJobService.update(scheduleJob);
@@ -61,7 +61,7 @@ public class ScheduleJob extends QuartzJobBean {
             long times = System.currentTimeMillis() - startTime;
             log.setTimes(times);
             // 任务状态 0：成功 1：失败
-            log.setStatus("1");
+            log.setStatus(JobLogModel.JOB_LOG_STATUS_ERROR);
             log.setError(StringUtils.substring(e.toString(), 0, 2000));
         } finally {
             scheduleJobLogService.saveJobLog(log);

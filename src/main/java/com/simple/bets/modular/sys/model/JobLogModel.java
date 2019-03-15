@@ -19,6 +19,10 @@ public class JobLogModel implements Serializable {
 
     private static final long serialVersionUID = -7114915445674333148L;
 
+    public static final String JOB_LOG_STATUS_SUCCESS = "0";//成功
+
+    public static final String JOB_LOG_STATUS_ERROR = "1";//失败
+
     @Id
     @GeneratedValue(generator = "JDBC")
     @Column(name = "log_id")
