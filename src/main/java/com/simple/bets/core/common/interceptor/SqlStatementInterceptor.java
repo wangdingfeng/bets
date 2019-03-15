@@ -14,6 +14,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 
 import java.text.DateFormat;
@@ -36,6 +37,9 @@ import java.util.regex.Matcher;
 public class SqlStatementInterceptor implements Interceptor {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Value("${bets.sqlFormat}")
+    private boolean sqlFormat;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -71,7 +75,11 @@ public class SqlStatementInterceptor implements Interceptor {
         String sql = showSql(configuration, boundSql);
         logger.info("【SQL语句Id】>>>> {}", sqlId);
         logger.info("【SQL语句耗时】>>>> {} ms", time);
-        logger.info("【SQL语句】>>>>\n{}", BasicFormatterImpl.format(sql));
+        if(sqlFormat){
+            logger.info("【SQL语句】>>>>\n{}", BasicFormatterImpl.format(sql));
+        }else{
+            logger.info("【SQL语句】>>>> {}", sql);
+        }
     }
 
     private static String getParameterValue(Object obj) {

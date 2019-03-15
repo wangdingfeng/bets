@@ -121,6 +121,8 @@ bets:
   filePath: D:/bets/
   # 是否在控制台打印 sql语句
   showsql: true
+  # 是否格式化sql语句
+  sqlFormat: false
   # 时间类型参数在前端页面的展示格式，默认格式为 yyyy-MM-dd HH:mm:ss
   timeFormat: yyyy-MM-dd HH:mm:ss
   # 是否开启 AOP 日志，默认开启
