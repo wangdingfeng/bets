@@ -1,0 +1,61 @@
+<%layout("/layout/body.html",{title:'日志详情'}){%>
+<div class="content">
+    <div class="box box-main">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-list-alt"></i> 日志详情</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body no-padding">
+            <div class="mailbox-read-info">
+                <table class="table table-bordered">
+                    <tr>
+                        <td>描述</td>
+                        <td>${log.operation!''}</td>
+                    </tr>
+                    <tr>
+                        <td>操作用户</td>
+                        <td>${log.name!''}</td>
+                    </tr>
+                    <tr>
+                        <td>操作时间</td>
+                        <td>${log.createTime,'yyyy-MM-dd HH:mm:ss'}</td>
+                    </tr>
+                    <tr>
+                        <td>IP地址</td>
+                        <td>${log.ip}</td>
+                    </tr>
+                    <tr>
+                        <td>地点</td>
+                        <td>${log.location}</td>
+                    </tr>
+                    <tr>
+                        <td>操作方法</td>
+                        <td>${log.method}</td>
+                    </tr>
+                    <tr>
+                        <td>耗时（毫秒）</td>
+                        <td>${log.time}</td>
+                    </tr>
+                    <tr>
+                        <td width="120px">参数</td>
+                        <td>${log.params}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-sm btn-default" onclick="bet.closeTab()"><i
+                            class="fa fa-reply-all"></i> 关 闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%}%>

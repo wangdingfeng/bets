@@ -53,11 +53,14 @@
         autoGridHeight: true, // 自动表格高度
         columnModel: [
             {header: '主键', name: 'id', index: 'id', hidden: true},
+            {header: '描述', name: 'operation', index: 'operation', width: 100, align: "center",formatter: function (val, obj, row, act){
+                    return  '<a href="${ctxPath}/sys/log/form?id='+row.id+'" class="btnList" data-title="查看日志信息">'+val+'</a>';
+                }
+            },
             {header: '操作用户', name: 'name', index: 'name', width: 100, align: "center"},
-            {header: '描述', name: 'operation', index: 'operation', width: 100, align: "center"},
             {header: '耗时（毫秒）', name: 'time', index: 'time', width: 100, align: "center"},
             {header: '操作方法', name: 'method', index: 'method', width: 100, align: "center"},
-            {header: '参数', name: 'params', index: 'params', width: 100, align: "center"},
+            // {header: '参数', name: 'params', index: 'params', width: 100, align: "center"},
             {header: 'IP地址', name: 'ip', index: 'ip', width: 100, align: "center"},
             {header: '地点', name: 'location', index: 'location', width: 100, align: "center"},
             {header: '操作时间', name: 'createTime', index: 'create_time', width: 100, align: "center"},
