@@ -19,6 +19,8 @@ import java.util.Date;
 @Table(name = "sys_job")
 public class JobModel extends BaseModel {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * 任务调度参数key
      */

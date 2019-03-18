@@ -267,4 +267,17 @@ public class JobController extends BaseController {
         }
         return ResponseResult.error("表达式错误");
     }
+
+    /**
+     * 获取工作日志
+     * @param jobLogModel
+     * @param model
+     * @return
+     */
+    @RequestMapping("/logForm")
+    public String logForm(JobLogModel jobLogModel, Model model){
+        jobLogModel = jobLogService.findById(jobLogModel.getLogId());
+        model.addAttribute("log",jobLogModel);
+        return PAGE_SUFFIX+"/job-log-form";
+    }
 }

@@ -1,8 +1,6 @@
 package com.simple.bets.modular.sys.controller;
 
-import cn.hutool.core.date.DateUtil;
 import com.simple.bets.core.annotation.Log;
-import com.simple.bets.core.common.util.FileUtil;
 import com.simple.bets.core.common.util.Page;
 import com.simple.bets.core.base.controller.BaseController;
 import com.simple.bets.core.base.model.ResponseResult;
@@ -14,15 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping("/sys/log")
@@ -83,7 +79,7 @@ public class LogController extends BaseController {
     @RequiresPermissions("log:delete")
     @RequestMapping("/delete")
     @ResponseBody
-    public ResponseResult deleteLogss(String ids) {
+    public ResponseResult deleteLogs(String ids) {
         try {
             this.logService.deleteLogs(ids);
             return ResponseResult.ok("删除日志成功！");
@@ -91,5 +87,17 @@ public class LogController extends BaseController {
             logger.error("删除日志失败", e);
             return ResponseResult.error("删除日志失败，请联系网站管理员！");
         }
+    }
+
+    /**
+     * 查看日志详情
+     * @param logModel
+     * @return
+     */
+    @RequestMapping("/form")
+    public String form(LogModel logModel, Model model){
+        logModel = logService.findById(logModel.getId());
+        model.addAttribute("log",logModel);
+        return PAGE_SUFFIX+"/log-form";
     }
 }

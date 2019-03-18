@@ -12,8 +12,8 @@
         <form style="margin: 10px" id="inputForm" class="form-horizontal">
             <div class="form-unit">字典基本信息</div>
             <div class="box-body no-padding">
-                <input type="hidden" value="${dict.dictId!}" name="dictId">
-                <input type="hidden" value="${dict.isParent!}" name="isParent">
+                <#input type="hidden" value="${dict.dictId!}" name="dictId"/>
+                <#input type="hidden" value="${dict.isParent!}" name="isParent"/>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -36,6 +36,7 @@
                                 </div>
                             </div>
                         <%}else{%>
+                            <#input type="hidden" value="${dict.dictType!}" name="dictType"/>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">
                                     <span class="required " aria-required="true">*</span> 字典值：

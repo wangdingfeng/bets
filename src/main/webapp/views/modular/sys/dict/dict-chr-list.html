@@ -5,7 +5,7 @@
             <h3 class="box-title">字典管理</h3>
             <div class="box-tools pull-right">
                 <%if(hasPermi('dict:edit')){%>
-                    <a href="/sys/dict/form?isParent=0" class="btn btn-default btnTool btn-sm" title="新增字典"><i class="fa fa-plus"></i> 新增</a>
+                    <a href="/sys/dict/form?isParent=0&dictType=${dict.dictType}" class="btn btn-default btnTool btn-sm" title="新增字典"><i class="fa fa-plus"></i> 新增</a>
                 <%}%>
             </div>
         </div>
