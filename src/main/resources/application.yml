@@ -93,6 +93,18 @@ spring:
   cache:
     type:
       redis
+  mail:
+    host: smtp.qq.com
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          tarttls:
+            required: true
 jasypt:
   encryptor:
     password: bets
