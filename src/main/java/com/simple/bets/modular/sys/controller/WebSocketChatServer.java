@@ -1,25 +1,13 @@
 package com.simple.bets.modular.sys.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.simple.bets.config.WebSocketConfig;
 import com.simple.bets.modular.sys.model.UserModel;
-import com.simple.bets.modular.sys.utils.SessionUtil;
 import com.simple.bets.modular.sys.utils.SocketMessageUtil;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.tomcat.websocket.WsSession;
-import org.aspectj.bridge.MessageUtil;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.websocket.*;
-import javax.websocket.server.HandshakeRequest;
 import javax.websocket.server.ServerEndpoint;
-import javax.websocket.server.ServerEndpointConfig;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
