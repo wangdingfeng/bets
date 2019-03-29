@@ -1,7 +1,7 @@
 package com.simple.bets.core.common.handler;
 
-import com.simple.bets.core.common.exception.LimitAccessException;
 import com.simple.bets.core.base.model.ResponseResult;
+import com.simple.bets.core.common.exception.LimitAccessException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.session.ExpiredSessionException;
 import org.slf4j.Logger;
@@ -48,12 +48,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({ RuntimeException.class })
     @ResponseStatus(HttpStatus.OK)
-    public ModelAndView processException(RuntimeException exception) {
+    public Object processException(RuntimeException exception,HttpServletRequest request) {
         logger.error("500异常,请查看报错信息",exception);
-        ModelAndView m = new ModelAndView();
-        m.addObject("exception", exception);
-        m.setViewName("error/500");
-        return m;
+        return getExceptionData(exception,request);
 
     }
 
@@ -64,13 +61,27 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({ Exception.class })
     @ResponseStatus(HttpStatus.OK)
-    public ModelAndView processException(Exception exception) {
+    public Object processException(Exception exception,HttpServletRequest request) {
         logger.error("500异常,请查看报错信息",exception);
-        ModelAndView m = new ModelAndView();
-        m.addObject("exception", exception.getMessage());
-        m.setViewName("error/500");
-        return m;
+        return getExceptionData(exception,request);
 
+    }
+
+    /**
+     * 获取错误信息
+     * @param exception
+     * @param request
+     * @return
+     */
+    private Object getExceptionData(Exception exception,HttpServletRequest request){
+        if (isAjaxRequest(request)) {
+            return ResponseResult.error("500异常,请联系管理员");
+        }else{
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("exception", exception);
+            modelAndView.setViewName("error/500");
+            return modelAndView;
+        }
     }
 
     /**
